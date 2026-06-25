@@ -1,0 +1,4738 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Yachdav 2.0 Future Lab — מנכ״ל עמותת יחדיו</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&display=swap');
+
+:root {
+  --bg:          #0d0f14;
+  --bg2:         #131720;
+  --surface:     #1a1f2e;
+  --surface2:    #222840;
+  --surface3:    #2a3150;
+  --border:      rgba(255,255,255,0.07);
+  --border2:     rgba(255,255,255,0.13);
+  --gold:        #d4a843;
+  --gold2:       #f0c76a;
+  --gold3:       #a07820;
+  --gold-glow:   rgba(212,168,67,0.15);
+  --blue:        #4a7fff;
+  --blue-dim:    rgba(74,127,255,0.11);
+  --green:       #34c47a;
+  --green-dim:   rgba(52,196,122,0.11);
+  --red:         #f05252;
+  --red-dim:     rgba(240,82,82,0.11);
+  --orange:      #f09640;
+  --orange-dim:  rgba(240,150,64,0.11);
+  --text:        #e8ecf4;
+  --text2:       #e8ecf4;
+  --text3:       #c0c8db;
+  --radius:      16px;
+  --radius-sm:   10px;
+  --shadow:      0 8px 32px rgba(0,0,0,0.55);
+  --shadow-gold: 0 0 40px rgba(212,168,67,0.10);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Heebo', 'Segoe UI', Arial, sans-serif;
+  min-height: 100vh;
+  font-size: 19px;
+  line-height: 1.7;
+  direction: rtl;
+}
+
+/* ═══════════ HEADER ═══════════ */
+header {
+  position: relative;
+  overflow: hidden;
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border2);
+}
+
+.header-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 70% 130% at 90% 50%, rgba(74,127,255,0.07) 0%, transparent 60%),
+    radial-gradient(ellipse 55% 110% at 15% 20%, rgba(212,168,67,0.06) 0%, transparent 55%);
+  pointer-events: none;
+}
+
+.header-inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+  padding: 22px 36px;
+  max-width: 1600px;
+  margin: 0 auto;
+  flex-wrap: wrap;
+}
+
+.header-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.header-icon {
+  width: 90px; height: 90px;
+  background: linear-gradient(135deg, #1a3a8f 0%, #2d5bdb 55%, var(--gold3) 100%);
+  border-radius: 20px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 42px;
+  flex-shrink: 0;
+  box-shadow: 0 0 0 1px var(--border2), 0 8px 28px rgba(74,127,255,0.28);
+  animation: iconPulse 4.5s ease-in-out infinite;
+}
+
+@keyframes iconPulse {
+  0%, 100% { box-shadow: 0 0 0 1px var(--border2), 0 8px 28px rgba(74,127,255,0.28), 0 0 0 0 rgba(212,168,67,0); }
+  50%       { box-shadow: 0 0 0 1px rgba(212,168,67,0.35), 0 8px 36px rgba(74,127,255,0.38), 0 0 55px rgba(212,168,67,0.15); }
+}
+
+.header-text h1 {
+  font-size: 28px;
+  font-weight: 500;
+  color: var(--text);
+  letter-spacing: -0.3px;
+  line-height: 1.15;
+  margin-bottom: 5px;
+}
+
+.header-text h1 .gold { color: var(--gold); }
+
+.header-text p {
+  font-size: 17px;
+  color: #ffffff;
+  max-width: 700px;
+  line-height: 1.55;
+}
+
+.header-meta {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+}
+
+.meta-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 16px;
+  border-radius: 999px;
+  font-size: 13.5px;
+  font-weight: 400;
+  letter-spacing: 0.2px;
+  white-space: nowrap;
+  color: #ffffff;
+}
+
+.meta-badge.gold {
+  background: rgba(212,168,67,0.10);
+  border: 1px solid rgba(212,168,67,0.28);
+}
+
+.meta-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 16px;
+  border-radius: 999px;
+  font-size: 13.5px;
+  font-weight: 400;
+  letter-spacing: 0.2px;
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all .18s;
+  color: #ffffff;
+}
+
+.meta-link.claude {
+  background: rgba(212,168,67,0.10);
+  border: 1px solid rgba(212,168,67,0.28);
+}
+
+.meta-link.claude:hover {
+  background: rgba(212,168,67,0.22);
+  color: var(--gold2);
+}
+
+.meta-link.chatgpt {
+  background: rgba(16,163,127,0.10);
+  border: 1px solid rgba(16,163,127,0.30);
+}
+
+.meta-link.chatgpt:hover {
+  background: rgba(16,163,127,0.22);
+  color: #19c99a;
+}
+
+.header-line {
+  height: 2px;
+  background: linear-gradient(270deg, transparent 0%, var(--gold3) 20%, var(--gold) 50%, var(--gold3) 80%, transparent 100%);
+  opacity: 0.55;
+}
+
+/* ═══════════ TOOLBAR ═══════════ */
+.toolbar {
+  display: flex;
+  gap: 7px;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: 11px 24px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 30;
+}
+
+.toolbar input,
+.toolbar select {
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-sm);
+  padding: 9px 13px;
+  font-size: 15px;
+  background: var(--surface2);
+  color: var(--text);
+  font-family: inherit;
+  outline: none;
+  transition: border-color .2s, box-shadow .2s;
+  direction: rtl;
+}
+
+.toolbar input:focus,
+.toolbar select:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px var(--gold-glow);
+}
+
+.toolbar input { flex: 0 0 300px; min-width: 300px; max-width: 300px; }
+.toolbar input::placeholder { color: var(--text3); }
+.toolbar select option { background: var(--surface); }
+
+/* ═══════════ BUTTONS ═══════════ */
+button {
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 9px 14px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 400;
+  cursor: pointer;
+  transition: all .17s ease;
+  white-space: nowrap;
+  outline: none;
+  direction: rtl;
+}
+
+button:active { transform: scale(0.97); }
+
+button:not([class]),
+button[class=""] {
+  background: linear-gradient(135deg, var(--gold3), var(--gold));
+  color: #1a1200;
+}
+
+button:not([class]):hover,
+button[class=""]:hover {
+  background: linear-gradient(135deg, var(--gold), var(--gold2));
+  box-shadow: 0 4px 18px var(--gold-glow);
+}
+
+button.sec {
+  background: var(--surface2);
+  color: var(--text2);
+  border: 1px solid var(--border2);
+}
+
+button.sec:hover {
+  background: var(--surface3);
+  color: var(--text);
+}
+
+button.gold {
+  background: linear-gradient(135deg, var(--gold3), var(--gold));
+  color: #1a1200;
+}
+
+button.gold:hover {
+  background: linear-gradient(135deg, var(--gold), var(--gold2));
+  box-shadow: 0 4px 18px var(--gold-glow);
+}
+
+button.danger {
+  background: var(--red-dim);
+  color: var(--red);
+  border: 1px solid rgba(240,82,82,0.22);
+}
+
+button.danger:hover { background: rgba(240,82,82,0.18); }
+
+button.sm { padding: 9px 14px; font-size: 14px; }
+
+/* ═══════════ LAYOUT ═══════════ */
+.layout {
+  display: grid;
+  grid-template-columns: 370px 1fr;
+  gap: 0;
+  min-height: calc(100vh - 185px);
+}
+
+/* ═══════════ SIDEBAR ═══════════ */
+.sidebar {
+  background: var(--bg2);
+  border-left: 1px solid var(--border);
+  padding: 14px 10px;
+  height: calc(100vh - 185px);
+  overflow-y: auto;
+  position: sticky;
+  top: 56px;
+  width: 370px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--surface3) transparent;
+}
+
+.sidebar::-webkit-scrollbar { width: 4px; }
+.sidebar::-webkit-scrollbar-thumb { background: var(--surface3); border-radius: 4px; }
+
+.side-label {
+  font-size: 10.5px;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 1.4px;
+  color: #ffffff;
+  padding: 4px 8px 10px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sec-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  background: transparent;
+  color: var(--text3);
+  text-align: right;
+  padding: 6px 6px;
+  margin-bottom: 1px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 400;
+  transition: all .15s ease;
+  direction: rtl;
+}
+
+.sec-btn:hover {
+  background: var(--surface);
+  color: var(--text);
+  border-color: var(--border);
+}
+
+.sec-btn.active {
+  background: linear-gradient(135deg, rgba(212,168,67,0.09), rgba(74,127,255,0.07));
+  color: var(--gold2);
+  border-color: rgba(212,168,67,0.22);
+}
+
+.sec-btn .ico { font-size: 19px; flex-shrink: 0; }
+
+.sec-btn .label {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.3;
+  text-align: right;
+  color: var(--gold);
+}
+
+.sec-btn small {
+  display: block;
+  font-size: 12.5px;
+  font-weight: 400;
+  color: #ffffff;
+  font-weight: 400;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sec-btn.active small { color: #ffffff; font-weight: 400; }
+
+.sec-btn .count {
+  background: var(--surface2);
+  border-radius: 999px;
+  padding: 2px 8px;
+  font-size: 11px;
+  color: var(--text3);
+  flex-shrink: 0;
+}
+
+.sec-btn.active .count {
+  background: rgba(212,168,67,0.14);
+  color: var(--gold);
+}
+
+/* ═══════════ MAIN CONTENT ═══════════ */
+#content {
+  padding: 20px 24px;
+  overflow-y: auto;
+  background: var(--bg);
+}
+
+/* ═══════════ PANEL ═══════════ */
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius);
+  padding: 20px 22px;
+  margin-bottom: 14px;
+  position: relative;
+  overflow: hidden;
+}
+
+.panel::before {
+  content: '';
+  position: absolute;
+  top: 0; right: 0; left: 0;
+  height: 2px;
+  background: linear-gradient(270deg, var(--gold3), var(--gold), transparent);
+  opacity: 0.65;
+}
+
+.panel-title {
+  font-size: 22px;
+  font-weight: 500;
+  margin-bottom: 6px;
+  color: var(--text);
+}
+
+.panel-desc { color: #ffffff; font-size: 16.5px; line-height: 1.55; }
+
+/* ═══════════ CARD ═══════════ */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  margin-bottom: 11px;
+  transition: border-color .18s, box-shadow .18s;
+  animation: fadeUp .28s ease both;
+}
+
+.card:hover {
+  border-color: rgba(212,168,67,0.28);
+  box-shadow: 0 4px 22px rgba(0,0,0,0.32);
+}
+
+@keyframes fadeUp {
+  from { opacity:0; transform: translateY(10px); }
+  to   { opacity:1; transform: translateY(0); }
+}
+
+.card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.card-title {
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 1.35;
+  color: var(--text);
+}
+
+.card-title .star { color: var(--gold); margin-left: 4px; }
+
+.tags { display: flex; gap: 5px; flex-wrap: wrap; margin: 6px 0 10px; }
+
+.tag {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 3px 10px;
+  font-size: 13px;
+  color: #ffffff;
+  font-weight: 500;
+}
+
+.tag.used {
+  color: var(--blue);
+  border-color: rgba(74,127,255,0.25);
+  background: var(--blue-dim);
+}
+
+.card-actions { display: flex; gap: 6px; flex-shrink: 0; }
+
+/* ═══════════ TEXTAREA ═══════════ */
+textarea {
+  width: 100%;
+  min-height: 200px;
+  background: var(--bg);
+  border: 1px solid var(--border2);
+  border-radius: 11px;
+  color: var(--text2);
+  padding: 13px 14px;
+  font-size: 17px;
+  line-height: 1.75;
+  font-family: inherit;
+  resize: vertical;
+  outline: none;
+  direction: rtl;
+  transition: border-color .2s, box-shadow .2s;
+}
+
+textarea:focus {
+  border-color: rgba(212,168,67,0.38);
+  box-shadow: 0 0 0 3px var(--gold-glow);
+  color: var(--text);
+}
+
+.status {
+  height: 17px;
+  font-size: 12px;
+  color: var(--green);
+  margin-top: 5px;
+  font-weight: 400;
+}
+
+.print-text { display: none; white-space: pre-wrap; line-height: 1.65; font-size: 13.5px; }
+
+/* ═══════════ GUIDE ═══════════ */
+.guide-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 11px; }
+
+.guide-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  padding: 16px;
+  transition: border-color .18s, transform .18s;
+  animation: fadeUp .28s ease both;
+}
+
+.guide-card:hover {
+  border-color: rgba(212,168,67,0.28);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 24px rgba(0,0,0,0.32);
+}
+
+.guide-card h4 {
+  font-size: 16px;
+  font-weight: 400;
+  margin-bottom: 6px;
+  color: var(--gold);
+}
+
+.guide-card p { font-size: 15.5px; color: #ffffff; line-height: 1.5; }
+.guide-card strong { color: var(--text2); }
+
+/* ═══════════ MODAL ═══════════ */
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.70);
+  backdrop-filter: blur(7px);
+  z-index: 50;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.modal.open { display: flex; }
+
+.modal-box {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 20px;
+  box-shadow: var(--shadow), var(--shadow-gold);
+  width: min(780px, 100%);
+  max-height: 90vh;
+  overflow: auto;
+  padding: 22px;
+  direction: rtl;
+}
+
+.modal-box h3 { font-size: 18px; font-weight: 500; margin-bottom: 14px; color: var(--text); }
+
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 11px; }
+
+.form-grid label {
+  display: block;
+  font-size: 13px;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #ffffff;
+  margin-bottom: 5px;
+}
+
+.form-grid input,
+.form-grid select,
+.form-grid textarea {
+  width: 100%;
+  background: var(--bg);
+  border: 1px solid var(--border2);
+  border-radius: 9px;
+  color: var(--text);
+  padding: 10px 12px;
+  font-family: inherit;
+  font-size: 16px;
+  outline: none;
+  direction: rtl;
+  transition: border-color .2s;
+  resize: none;
+  overflow: hidden;
+  min-height: 42px;
+  line-height: 1.6;
+  box-sizing: border-box;
+}
+
+.form-grid input:focus,
+.form-grid select:focus,
+.form-grid textarea:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px var(--gold-glow);
+}
+
+.form-grid select option { background: var(--surface); }
+.full { grid-column: 1 / -1; }
+
+.modal-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-start;
+  margin-top: 14px;
+}
+
+.notice {
+  background: rgba(212,168,67,0.07);
+  border: 1px solid rgba(212,168,67,0.20);
+  color: #ffffff;
+  border-radius: 9px;
+  padding: 10px 13px;
+  font-size: 12.5px;
+  margin: 10px 0;
+  line-height: 1.5;
+}
+
+.empty { text-align: center; color: #ffffff; padding: 32px; font-size: 16px; }
+
+/* ═══════════ PRIORITY DOTS ═══════════ */
+.priority {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 5px;
+}
+.p-high { background: var(--red); box-shadow: 0 0 6px var(--red); }
+.p-med  { background: var(--gold); box-shadow: 0 0 6px var(--gold); }
+.p-low  { background: var(--green); }
+
+/* ═══════════ SCROLLBARS ═══════════ */
+#content::-webkit-scrollbar { width: 5px; }
+#content::-webkit-scrollbar-thumb { background: var(--surface3); border-radius: 5px; }
+
+/* ═══════════ RESPONSIVE ═══════════ */
+@media (max-width: 800px) {
+
+  /* ── ШАПКА: компактная однострочная ── */
+  .header-inner {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    padding: 10px 12px;
+    gap: 10px;
+    align-items: center;
+  }
+  .header-icon { width: 44px !important; height: 44px !important; flex-shrink: 0; }
+  .header-icon img { width: 44px !important; height: 44px !important; }
+  .header-text h1 { font-size: 14px !important; line-height: 1.2; margin-bottom: 2px; }
+  .header-text p { display: none; }
+  .header-meta { display: none; }
+  .header-line { display: none; }
+
+  /* ── ТУЛБАР: две строки ── */
+  .toolbar {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    padding: 6px 8px;
+    gap: 5px;
+    flex-wrap: wrap;
+  }
+  .toolbar input {
+    flex: 1 1 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    font-size: 14px !important;
+    padding: 8px 10px !important;
+    order: -1;
+  }
+  .toolbar select { flex: 1; min-width: 100px; font-size: 12px !important; padding: 6px 8px !important; }
+  button { padding: 6px 10px !important; font-size: 12px !important; }
+  button.sm { padding: 5px 8px !important; font-size: 11px !important; }
+
+  /* ── LAYOUT: одна колонка, сайдбар сверху ── */
+  .layout {
+    display: flex !important;
+    flex-direction: column !important;
+    grid-template-columns: unset !important;
+    gap: 0 !important;
+  }
+
+  /* ── САЙДБАР: горизонтальная прокрутка ── */
+  .sidebar {
+    order: 1 !important;
+    width: 100% !important;
+    height: auto !important;
+    position: static !important;
+    border-left: none;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    gap: 5px;
+    padding: 8px 10px;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .sidebar::-webkit-scrollbar { display: none; }
+
+  .side-label { display: none; }
+
+  .sec-btn {
+    width: auto !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    flex-shrink: 0;
+    min-width: 64px;
+    max-width: 80px;
+    padding: 7px 8px !important;
+    border: 1px solid var(--border2) !important;
+    border-radius: 10px !important;
+    gap: 4px !important;
+    text-align: center !important;
+  }
+  .sec-btn .ico { font-size: 18px !important; }
+  .sec-btn .label {
+    font-size: 10px !important;
+    text-align: center !important;
+    white-space: normal !important;
+    word-break: break-word !important;
+    line-height: 1.2 !important;
+    color: var(--gold) !important;
+  }
+  .sec-btn small { display: none !important; }
+  .sec-btn .count {
+    display: inline-flex !important;
+    font-size: 9px !important;
+    min-width: 16px;
+    height: 16px;
+    padding: 0 4px;
+  }
+
+  /* ── КОНТЕНТ ── */
+  #content {
+    padding: 10px 8px;
+    order: 2 !important;
+  }
+
+  /* ── ПАНЕЛИ ── */
+  .panel {
+    padding: 12px 10px;
+    margin-bottom: 10px;
+  }
+  .panel-title { font-size: 16px !important; }
+  .panel-desc { font-size: 13px !important; }
+
+  /* ── КАРТОЧКИ ── */
+  .card {
+    padding: 12px 10px;
+    margin-bottom: 10px;
+  }
+  .card-head {
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-start;
+  }
+  .card-title { font-size: 15px !important; }
+  .card-actions {
+    display: flex;
+    flex-direction: row;
+    gap: 6px;
+    flex-wrap: nowrap;
+  }
+  .card-actions button {
+    padding: 7px 10px !important;
+    font-size: 14px !important;
+  }
+
+  /* ── TEXTAREA: читабельная на весь экран ── */
+  textarea {
+    width: 100% !important;
+    min-height: 220px !important;
+    font-size: 14px !important;
+    line-height: 1.65 !important;
+    padding: 12px !important;
+    border-radius: 10px !important;
+  }
+
+  /* ── ГИД ── */
+  .guide-grid { grid-template-columns: 1fr; gap: 8px; }
+  .guide-card { padding: 12px; }
+  .guide-card h4 { font-size: 14px !important; }
+  .guide-card p { font-size: 13px !important; }
+
+  /* ── МОДАЛКИ ── */
+  .modal { padding: 10px; align-items: flex-end; }
+  .modal-box {
+    width: 100% !important;
+    max-height: 88vh;
+    border-radius: 16px 16px 0 0;
+    padding: 16px 14px;
+  }
+  .form-grid { grid-template-columns: 1fr; }
+
+  /* ── ТЕГИ ── */
+  .tags { gap: 4px; margin: 6px 0 8px; }
+  .tag { font-size: 11px !important; padding: 2px 8px !important; }
+}
+
+/* ── Очень маленькие: 375px и меньше ── */
+@media (max-width: 420px) {
+  .header-text h1 { font-size: 12px !important; }
+  .sec-btn { min-width: 56px; max-width: 68px; }
+  .sec-btn .label { font-size: 9px !important; }
+  .sec-btn .ico { font-size: 16px !important; }
+  textarea { font-size: 13px !important; }
+  .panel-title { font-size: 15px !important; }
+  .card-title { font-size: 14px !important; }
+}
+
+/* ═══════════ PRINT ═══════════ */
+@media print {
+  .toolbar, .sidebar, .card-actions, .modal, .no-print { display: none !important; }
+  body { background: white; color: #000; }
+  header { background: white; border-bottom: 1px solid #bbb; padding: 10mm; }
+  .header-bg { display: none; }
+  .panel, .card { background: white; border: 1px solid #bbb; box-shadow: none; break-inside: avoid; }
+  textarea { display: none; }
+  .print-text { display: block; }
+}
+
+/* ══ MOBILE FORCE OVERRIDES ══ */
+@media screen and (max-width: 800px) {
+  html, body { overflow-x: hidden !important; width: 100% !important; }
+
+  .layout {
+    display: block !important;
+    width: 100% !important;
+  }
+
+  aside.sidebar {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 110px !important;
+    min-height: unset !important;
+    max-height: 110px !important;
+    position: static !important;
+    top: unset !important;
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    overflow-x: scroll !important;
+    overflow-y: hidden !important;
+    padding: 8px 10px !important;
+    gap: 8px !important;
+    border-right: none !important;
+    border-left: none !important;
+    border-bottom: 2px solid var(--border2) !important;
+    background: var(--bg2) !important;
+    box-sizing: border-box !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+
+  aside.sidebar::-webkit-scrollbar { display: none !important; }
+
+  aside.sidebar .side-label { display: none !important; }
+
+  aside.sidebar button.sec-btn {
+    display: inline-flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
+    flex-grow: 0 !important;
+    width: 72px !important;
+    min-width: 72px !important;
+    max-width: 72px !important;
+    height: 90px !important;
+    padding: 8px 4px !important;
+    gap: 4px !important;
+    text-align: center !important;
+    border: 1px solid var(--border2) !important;
+    border-radius: 10px !important;
+    background: var(--surface) !important;
+  }
+
+  aside.sidebar button.sec-btn.active {
+    border-color: var(--gold) !important;
+    background: rgba(212,168,67,0.1) !important;
+  }
+
+  aside.sidebar button.sec-btn .ico {
+    font-size: 22px !important;
+    display: block !important;
+  }
+
+  aside.sidebar button.sec-btn .label {
+    font-size: 10px !important;
+    white-space: normal !important;
+    word-break: break-word !important;
+    text-align: center !important;
+    line-height: 1.2 !important;
+    color: var(--gold) !important;
+    display: block !important;
+  }
+
+  aside.sidebar button.sec-btn small { display: none !important; }
+
+  aside.sidebar button.sec-btn .count {
+    font-size: 9px !important;
+    min-width: 16px !important;
+    height: 16px !important;
+    display: inline-flex !important;
+    background: var(--surface3) !important;
+  }
+
+  #content {
+    width: 100% !important;
+    padding: 8px !important;
+    display: block !important;
+  }
+
+  .card-head {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+  }
+
+  .card-actions {
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    gap: 5px !important;
+    margin-top: 6px !important;
+  }
+
+  textarea {
+    width: 100% !important;
+    min-height: 200px !important;
+    font-size: 14px !important;
+    box-sizing: border-box !important;
+  }
+
+  .header-text p { display: none !important; }
+  .header-meta { display: none !important; }
+  .header-inner { padding: 10px 12px !important; gap: 10px !important; flex-wrap: nowrap !important; }
+  .header-text h1 { font-size: 15px !important; }
+  .header-icon { width: 42px !important; height: 42px !important; }
+  .header-icon img { width: 42px !important; height: 42px !important; }
+}
+
+/* ══ MOBILE 3-SCREEN NAV ══ */
+@media screen and (max-width: 800px) {
+
+  /* Hide desktop layout entirely on mobile */
+  .layout { display: none !important; }
+  .toolbar { display: none !important; }
+  header { display: none !important; }
+
+  /* Mobile app container */
+  #mobileApp {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+    background: var(--bg);
+  }
+
+  /* Mobile header */
+  .mob-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border2);
+    flex-shrink: 0;
+  }
+
+  .mob-header-icon {
+    width: 36px; height: 36px;
+    border-radius: 10px;
+    overflow: hidden;
+    flex-shrink: 0;
+    background: linear-gradient(135deg,#1a3a8f,#2d5bdb);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+  }
+
+  .mob-header-icon img {
+    width: 36px; height: 36px;
+    object-fit: cover; border-radius: 10px;
+  }
+
+  .mob-header-title {
+    flex: 1;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1.2;
+  }
+
+  .mob-header-title span { color: var(--gold); }
+
+  .mob-back {
+    background: var(--surface2);
+    border: 1px solid var(--border2);
+    border-radius: 8px;
+    color: var(--text);
+    padding: 6px 12px;
+    font-size: 13px;
+    cursor: pointer;
+    font-family: inherit;
+    flex-shrink: 0;
+  }
+
+  /* Mobile search bar */
+  .mob-search-bar {
+    padding: 8px 12px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+
+  .mob-search-bar input {
+    flex: 1;
+    background: var(--surface2);
+    border: 1px solid var(--border2);
+    border-radius: 10px;
+    padding: 9px 12px;
+    font-size: 14px;
+    color: var(--text);
+    font-family: inherit;
+    outline: none;
+    direction: rtl;
+  }
+
+  .mob-search-bar input:focus {
+    border-color: var(--gold);
+  }
+
+  .mob-add-btn {
+    background: linear-gradient(135deg, var(--gold3), var(--gold));
+    border: none;
+    border-radius: 10px;
+    color: #1a1200;
+    padding: 9px 13px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    white-space: nowrap;
+  }
+
+  /* Screens */
+  .mob-screen {
+    flex: 1;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Screen 1: sections grid */
+  .mob-sections-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    padding: 14px 12px;
+  }
+
+  .mob-section-tile {
+    background: var(--surface);
+    border: 1px solid var(--border2);
+    border-radius: 14px;
+    padding: 14px 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 7px;
+    cursor: pointer;
+    transition: all .15s;
+    text-align: center;
+  }
+
+  .mob-section-tile:active {
+    transform: scale(0.96);
+    border-color: var(--gold);
+  }
+
+  .mob-section-tile .tile-ico { font-size: 28px; }
+
+  .mob-section-tile .tile-name {
+    font-size: 11.5px;
+    color: var(--gold);
+    font-weight: 500;
+    line-height: 1.3;
+    word-break: break-word;
+  }
+
+  .mob-section-tile .tile-count {
+    font-size: 10px;
+    color: var(--text3);
+    background: var(--surface2);
+    border-radius: 999px;
+    padding: 2px 8px;
+  }
+
+  /* Screen 2: prompt list */
+  .mob-prompt-list { padding: 10px 12px; }
+
+  .mob-prompt-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: border-color .15s;
+  }
+
+  .mob-prompt-item:active { border-color: var(--gold); }
+
+  .mob-prompt-item .pi-title {
+    font-size: 15px;
+    color: var(--text);
+    font-weight: 500;
+    margin-bottom: 6px;
+  }
+
+  .mob-prompt-item .pi-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  .mob-prompt-item .pi-tag {
+    background: var(--surface2);
+    border-radius: 999px;
+    padding: 2px 8px;
+    font-size: 11px;
+    color: var(--text3);
+  }
+
+  /* Screen 3: single prompt */
+  .mob-prompt-view { padding: 12px; }
+
+  .mob-prompt-view .pv-title {
+    font-size: 17px;
+    color: var(--gold);
+    font-weight: 500;
+    margin-bottom: 10px;
+    line-height: 1.3;
+  }
+
+  .mob-prompt-view textarea {
+    width: 100% !important;
+    min-height: 300px !important;
+    font-size: 14px !important;
+    line-height: 1.7 !important;
+    padding: 14px !important;
+    background: var(--bg2) !important;
+    border: 1px solid var(--border2) !important;
+    border-radius: 12px !important;
+    color: var(--text) !important;
+    resize: vertical !important;
+    direction: rtl !important;
+    box-sizing: border-box !important;
+  }
+
+  .mob-copy-btn {
+    width: 100%;
+    margin-top: 12px;
+    background: linear-gradient(135deg, var(--gold3), var(--gold));
+    border: none;
+    border-radius: 12px;
+    color: #1a1200;
+    padding: 14px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+  }
+
+  .mob-copy-btn:active { transform: scale(0.98); }
+
+  .mob-action-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+  }
+
+  .mob-action-row button {
+    flex: 1;
+    padding: 10px !important;
+    font-size: 13px !important;
+    border-radius: 10px !important;
+    border: 1px solid var(--border2) !important;
+    background: var(--surface) !important;
+    color: var(--text) !important;
+    cursor: pointer;
+  }
+
+  .mob-copied-msg {
+    text-align: center;
+    color: var(--green);
+    font-size: 14px;
+    font-weight: 600;
+    margin-top: 8px;
+    height: 20px;
+  }
+
+  /* Search results on screen 1 */
+  .mob-search-results { padding: 10px 12px; }
+}
+
+/* Desktop: hide mobile app */
+@media screen and (min-width: 801px) {
+  #mobileApp { display: none !important; }
+}
+
+/* Profile bar in toolbar */
+.profile-btn {
+  background: rgba(212,168,67,0.10) !important;
+  border: 1px solid rgba(212,168,67,0.28) !important;
+  color: var(--gold) !important;
+  font-size: 13px !important;
+  padding: 9px 14px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+}
+
+.profile-btn:hover {
+  background: rgba(212,168,67,0.20) !important;
+}
+
+/* Profile modal */
+#profileModal .modal-box { max-width: 600px; }
+
+@media (max-width: 800px) {
+}
+
+/* ═══════════ NOTES ═══════════ */
+.note-toggle {
+  background: transparent !important;
+  border: 1px solid var(--border2) !important;
+  color: var(--text3) !important;
+  font-size: 13px !important;
+  padding: 6px 10px !important;
+  border-radius: 8px !important;
+  transition: all .15s !important;
+}
+.note-toggle:hover { border-color: var(--gold) !important; color: var(--gold) !important; }
+.note-toggle.has-note { border-color: rgba(212,168,67,0.4) !important; color: var(--gold) !important; background: rgba(212,168,67,0.07) !important; }
+
+.note-area {
+  margin-top: 10px;
+  display: none;
+  flex-direction: column;
+  gap: 7px;
+}
+.note-area.open { display: flex; }
+
+.note-area textarea {
+  min-height: 70px !important;
+  font-size: 15px !important;
+  background: rgba(212,168,67,0.04) !important;
+  border-color: rgba(212,168,67,0.25) !important;
+  color: var(--text) !important;
+  resize: none;
+  overflow: hidden;
+}
+.note-area textarea:focus { border-color: var(--gold) !important; }
+
+.note-actions { display: flex; gap: 7px; align-items: center; }
+
+.note-save-btn {
+  background: rgba(212,168,67,0.12) !important;
+  border: 1px solid rgba(212,168,67,0.3) !important;
+  color: var(--gold) !important;
+  font-size: 13px !important;
+  padding: 6px 14px !important;
+  border-radius: 8px !important;
+}
+.note-save-btn:hover { background: rgba(212,168,67,0.22) !important; }
+
+.note-del-btn {
+  background: transparent !important;
+  border: 1px solid var(--border2) !important;
+  color: var(--text3) !important;
+  font-size: 13px !important;
+  padding: 6px 10px !important;
+  border-radius: 8px !important;
+}
+.note-del-btn:hover { border-color: var(--red) !important; color: var(--red) !important; }
+
+.note-status { font-size: 12px; color: var(--green); height: 16px; }
+
+.note-preview {
+  font-size: 13px;
+  color: var(--gold);
+  background: rgba(212,168,67,0.06);
+  border: 1px solid rgba(212,168,67,0.18);
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin-top: 8px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  cursor: pointer;
+}
+.note-preview::before { content: '💬 '; }
+
+/* Notes panel in sidebar / content */
+.notes-panel-item {
+  background: var(--surface);
+  border: 1px solid rgba(212,168,67,0.2);
+  border-radius: 12px;
+  padding: 14px 16px;
+  margin-bottom: 10px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  transition: border-color .15s;
+}
+.notes-panel-item.selected {
+  border-color: rgba(240,82,82,0.4);
+  background: rgba(240,82,82,0.04);
+}
+.npi-checkbox {
+  width: 18px; height: 18px;
+  border: 2px solid var(--border2);
+  border-radius: 5px;
+  flex-shrink: 0;
+  margin-top: 2px;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  background: var(--bg);
+  transition: all .15s;
+  position: relative;
+}
+.npi-checkbox:checked {
+  background: var(--red);
+  border-color: var(--red);
+}
+.npi-checkbox:checked::after {
+  content: '✓';
+  position: absolute;
+  top: -1px; left: 2px;
+  font-size: 12px;
+  color: #fff;
+  font-weight: 700;
+}
+.npi-body { flex: 1; min-width: 0; }
+.notes-panel-item .npi-section { font-size: 11px; color: var(--text3); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.8px; }
+.notes-panel-item .npi-title { font-size: 15px; font-weight: 600; color: var(--gold); margin-bottom: 8px; }
+.notes-panel-item .npi-text { font-size: 14px; color: var(--text); line-height: 1.6; white-space: pre-wrap; }
+.notes-panel-item .npi-del { font-size: 12px; color: var(--text3); cursor: pointer; margin-top: 8px; display: inline-block; }
+.notes-panel-item .npi-del:hover { color: var(--red); }
+
+.notes-del-bar {
+  display: none;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: rgba(240,82,82,0.08);
+  border: 1px solid rgba(240,82,82,0.25);
+  border-radius: 10px;
+  margin-bottom: 12px;
+}
+.notes-del-bar.visible { display: flex; }
+.notes-del-count { font-size: 14px; color: var(--red); flex: 1; }
+.notes-del-btn {
+  background: var(--red) !important;
+  color: #fff !important;
+  border: none !important;
+  border-radius: 8px !important;
+  padding: 7px 16px !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+}
+.notes-del-btn:hover { opacity: 0.85 !important; }
+.notes-cancel-btn {
+  background: transparent !important;
+  border: 1px solid var(--border2) !important;
+  color: var(--text3) !important;
+  border-radius: 8px !important;
+  padding: 7px 12px !important;
+  font-size: 13px !important;
+  cursor: pointer !important;
+}
+
+.notes-copy-all {
+  background: linear-gradient(135deg, var(--gold3), var(--gold)) !important;
+  color: #1a1200 !important;
+  width: 100%;
+  margin-bottom: 14px;
+  font-size: 14px !important;
+  padding: 11px !important;
+  border-radius: 10px !important;
+}
+
+.btn-claude {
+  background: linear-gradient(135deg,#1a3a8f,#2d5bdb) !important;
+  border: 1px solid rgba(74,127,255,0.4) !important;
+  color: #fff !important;
+  font-size: 13px !important;
+  padding: 6px 13px !important;
+  border-radius: 8px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 5px !important;
+  cursor: pointer !important;
+  transition: all .18s !important;
+  white-space: nowrap !important;
+}
+.btn-claude:hover {
+  background: linear-gradient(135deg,#2d5bdb,#4a7fff) !important;
+  box-shadow: 0 4px 16px rgba(74,127,255,0.3) !important;
+  transform: translateY(-1px) !important;
+}
+
+/* ══ MOBILE FULL SCREEN ══ */
+@media (max-width: 800px) {
+
+  /* Hide desktop entirely */
+  header { display: none !important; }
+  .toolbar { display: none !important; }
+  .layout { display: none !important; }
+
+  /* Mobile app container */
+  #mobApp {
+    display: flex !important;
+    flex-direction: column;
+    height: 100vh;
+    height: 100dvh;
+    background: var(--bg);
+    overflow: hidden;
+  }
+
+  /* Mobile header */
+  .mob-hdr {
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border2);
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+  }
+  .mob-hdr-title {
+    flex: 1;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    direction: rtl;
+  }
+  .mob-hdr-title span { color: var(--gold); }
+  .mob-hdr-back {
+    background: var(--surface2);
+    border: 1px solid var(--border2);
+    border-radius: 8px;
+    color: var(--text);
+    padding: 6px 12px;
+    font-size: 13px;
+    font-family: inherit;
+    cursor: pointer;
+    display: none;
+  }
+  .mob-hdr-profile {
+    font-size: 11px;
+    color: var(--gold);
+    background: rgba(212,168,67,0.1);
+    border: 1px solid rgba(212,168,67,0.25);
+    border-radius: 20px;
+    padding: 4px 10px;
+    cursor: pointer;
+    white-space: nowrap;
+    max-width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* Search bar */
+  .mob-search {
+    padding: 8px 12px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+  .mob-search input {
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border2);
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 15px;
+    color: var(--text);
+    font-family: inherit;
+    outline: none;
+    direction: rtl;
+    box-sizing: border-box;
+  }
+  .mob-search input:focus { border-color: var(--gold); }
+
+  /* Screen */
+  .mob-screen {
+    flex: 1;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Screen 1: sections grid */
+  .mob-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    padding: 14px 12px;
+  }
+  .mob-tile {
+    background: var(--surface);
+    border: 1px solid var(--border2);
+    border-radius: 16px;
+    padding: 20px 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: all .15s;
+    text-align: center;
+    active-scale: 0.96;
+  }
+  .mob-tile:active { transform: scale(0.96); border-color: var(--gold); }
+  .mob-tile .t-ico { font-size: 32px; }
+  .mob-tile .t-name { font-size: 13px; color: var(--gold); font-weight: 600; line-height: 1.3; }
+  .mob-tile .t-count { font-size: 11px; color: var(--text3); background: var(--surface2); border-radius: 20px; padding: 2px 10px; }
+
+  /* Screen 2: prompt list */
+  .mob-list { padding: 10px 12px; }
+  .mob-prompt-row {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: border-color .15s;
+  }
+  .mob-prompt-row:active { border-color: var(--gold); }
+  .mob-prompt-title { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+  .mob-prompt-tags { display: flex; flex-wrap: wrap; gap: 4px; }
+  .mob-prompt-tag { background: var(--surface2); border-radius: 20px; padding: 2px 8px; font-size: 11px; color: var(--text3); }
+
+  /* Screen 3: single prompt */
+  .mob-prompt-view { padding: 12px; }
+  .mob-pv-title { font-size: 18px; font-weight: 700; color: var(--gold); margin-bottom: 12px; line-height: 1.3; direction: rtl; }
+  .mob-pv-text {
+    background: var(--bg);
+    border: 1px solid var(--border2);
+    border-radius: 12px;
+    padding: 14px;
+    font-size: 14px;
+    color: var(--text2);
+    line-height: 1.75;
+    direction: rtl;
+    white-space: pre-wrap;
+    margin-bottom: 12px;
+  }
+  .mob-pv-actions { display: flex; gap: 10px; margin-bottom: 10px; }
+  .mob-btn-claude {
+    flex: 1 !important;
+    background: linear-gradient(135deg,#1a3a8f,#2d5bdb) !important;
+    border: none !important;
+    border-radius: 12px !important;
+    color: #fff !important;
+    padding: 15px !important;
+    font-size: 16px !important;
+    font-weight: 700 !important;
+    font-family: inherit !important;
+    cursor: pointer !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    box-shadow: 0 4px 16px rgba(74,127,255,0.4) !important;
+  }
+  .mob-btn-copy {
+    background: var(--surface2) !important;
+    border: 1px solid var(--border2) !important;
+    border-radius: 12px !important;
+    color: var(--text2) !important;
+    padding: 15px 18px !important;
+    font-size: 18px !important;
+    font-family: inherit !important;
+    cursor: pointer !important;
+  }
+  .mob-note-section {
+    background: rgba(212,168,67,0.05);
+    border: 1px solid rgba(212,168,67,0.2);
+    border-radius: 12px;
+    padding: 12px;
+    margin-top: 8px;
+  }
+  .mob-note-label { font-size: 12px; color: var(--gold); font-weight: 600; margin-bottom: 8px; }
+  .mob-note-ta {
+    width: 100%;
+    background: var(--bg);
+    border: 1px solid rgba(212,168,67,0.25);
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 14px;
+    color: var(--text);
+    font-family: inherit;
+    min-height: 80px;
+    direction: rtl;
+    resize: none;
+    box-sizing: border-box;
+  }
+  .mob-note-save {
+    margin-top: 8px;
+    background: rgba(212,168,67,0.12);
+    border: 1px solid rgba(212,168,67,0.3);
+    color: var(--gold);
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-size: 13px;
+    font-family: inherit;
+    cursor: pointer;
+    font-weight: 600;
+  }
+  .mob-copied { text-align: center; color: var(--green); font-size: 14px; margin-top: 8px; font-weight: 600; min-height: 20px; }
+
+  /* Bottom add button */
+  .mob-add-prompt {
+    position: fixed;
+    bottom: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, var(--gold3), var(--gold));
+    color: #1a1200;
+    border: none;
+    border-radius: 30px;
+    padding: 12px 28px;
+    font-size: 15px;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(212,168,67,0.4);
+    z-index: 100;
+  }
+}
+
+@media (min-width: 801px) {
+  #mobApp { display: none !important; }
+}
+
+</style>
+<body>
+
+<!-- ══ MOBILE APP ══ -->
+<div id="mobApp" style="display:none">
+  <div class="mob-hdr">
+    <button class="mob-hdr-back" id="mobBack" onclick="mobGoBack()">← חזרה</button>
+    <div class="mob-hdr-title" id="mobTitle">AI לאסטרטגיה — <span>מנכ״ל יחדיו</span></div>
+    <div class="mob-hdr-profile" id="mobProfileChip" onclick="openProfileModal()">👨‍💼 פרופיל</div>
+  </div>
+  <div class="mob-search" id="mobSearchBar">
+    <input id="mobSearchInput" placeholder="🔍 חיפוש פרומפטים..." oninput="mobSearch(this.value)" dir="rtl">
+  </div>
+  <div class="mob-screen" id="mobScreen"></div>
+  <button class="mob-add-prompt no-print" id="mobAddBtn" onclick="openModal('promptModal')">＋ פרומפט חדש</button>
+</div>
+<div class="modal" id="profileModal">
+  <div class="modal-box">
+    <h3>✏️ עריכת פרופיל הארגון</h3>
+    <div class="form-grid">
+      <div><label>שם המנכ״ל</label><input type="text" id="pm-ceo-name" style="width:100%;background:var(--bg);border:1px solid var(--border2);border-radius:9px;color:var(--text);padding:10px 12px;font-family:inherit;font-size:16px;outline:none;direction:rtl;box-sizing:border-box;"></div>
+      <div><label>תקציב שנתי</label><textarea id="pm-budget" class="auto-resize" rows="1"></textarea></div>
+      <div><label>מספר עובדים</label><textarea id="pm-employees" class="auto-resize" rows="1"></textarea></div>
+      <div><label>מספר נהנים</label><textarea id="pm-clients" class="auto-resize" rows="1"></textarea></div>
+      <div class="full"><label>אזורי פעילות</label><textarea id="pm-region" class="auto-resize" rows="1"></textarea></div>
+      <div class="full"><label>תחומי פעילות</label><textarea id="pm-domains" class="auto-resize" rows="2"></textarea></div>
+    </div>
+    <div class="modal-actions">
+      <button class="sec" data-action="close" data-modal="profileModal">ביטול</button>
+      <button onclick="saveProfile()">שמור פרופיל</button>
+    </div>
+  </div>
+</div>
+
+<header>
+  <div class="header-bg"></div>
+  <div class="header-inner">
+    <div class="header-icon">
+      <img src="https://img.magnific.com/premium-vector/sphere-grid-wave-with-binary-code-ai-artificial-intelligence-logo-hands-machine-learning-concept_127544-856.jpg" onerror="this.style.display='none';this.parentElement.innerHTML='🤖';" style="width:90px;height:90px;object-fit:cover;border-radius:20px;" alt="AI">
+    </div>
+    <div class="header-text">
+      <h1>Yachdav 2.0 — <span class="gold">Future Lab למנכ״ל יחדיו</span></h1>
+      <p>מערכת חשיבה אסטרטגית ליחדיו 2.0: חדשנות, יזמות, צמיחה, מימון עתידי וקבלת החלטות ברמת מנכ״ל.</p>
+    </div>
+    <div class="header-meta">
+      <span class="meta-badge gold">✦ כלי אישי של המנכ"ל</span>
+    </div>
+  </div>
+  <div class="header-line"></div>
+</header>
+
+<div class="toolbar no-print">
+  <input id="searchInput" placeholder="🔍  חיפוש בפרומפטים, נושאים ותגיות...">
+  <select id="tagFilter"><option value="">כל התגיות</option></select>
+  <button class="sec" data-action="new-section">＋ נושא</button>
+  <button class="sec" data-action="new-prompt">＋ פרומפט</button>
+  <button class="gold" data-action="export">⬇ ייצוא</button>
+  <button class="sec" data-action="import-modal">⬆ ייבוא</button>
+  <button class="sec" data-action="print" title="הדפסה" style="padding:9px 14px;display:flex;align-items:center;gap:6px;color:#ffffff"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg></button>
+  <button class="danger sm" data-action="reset">↺</button>
+  <button class="profile-btn" onclick="openProfileModal()" title="פרופיל הארגון" id="profileBtnToolbar">👨‍💼 הזן נתוני ארגון</button>
+  <div id="profileStatusBar" style="display:none;align-items:center;gap:0;cursor:pointer;flex-shrink:0" onclick="openProfileModal()"></div>
+</div>
+
+<div class="layout">
+  <aside class="sidebar no-print">
+    <div class="side-label">
+      <span>נושאים</span>
+      <div style="display:flex;gap:5px;align-items:center">
+        <button onclick="startTour()" style="font-size:12px;padding:4px 14px;background:linear-gradient(135deg,#7a5a10,#d4a843);border:none;color:#1a1200;border-radius:7px;font-family:inherit;cursor:pointer;white-space:nowrap;font-weight:700;letter-spacing:0.3px;box-shadow:0 2px 10px rgba(212,168,67,0.45),0 1px 0 rgba(255,255,255,0.15) inset;transition:all .18s" onmouseover="this.style.boxShadow='0 4px 18px rgba(212,168,67,0.7),0 1px 0 rgba(255,255,255,0.15) inset';this.style.transform='translateY(-1px)'" onmouseout="this.style.boxShadow='0 2px 10px rgba(212,168,67,0.45),0 1px 0 rgba(255,255,255,0.15) inset';this.style.transform='translateY(0)'" title="סיור מודרך">🎬 סיור מודרך</button>
+        <button class="sec sm" style="font-size:11px;padding:3px 8px" data-action="archive-view">ארכיון</button>
+      </div>
+    </div>
+    <div id="sidebar"></div>
+  </aside>
+  <main id="content"></main>
+</div>
+
+<!-- MODALS -->
+<div class="modal" id="sectionModal">
+  <div class="modal-box">
+    <h3>נושא חדש</h3>
+    <div class="form-grid">
+      <div><label>שם הנושא</label><input id="newSecTitle"></div>
+      <div><label>אייקון</label><input id="newSecIcon" placeholder="🎯"></div>
+      <div class="full"><label>תיאור קצר</label><input id="newSecDesc"></div>
+    </div>
+    <div class="modal-actions">
+      <button class="sec" data-action="close" data-modal="sectionModal">ביטול</button>
+      <button data-action="add-section">צור נושא</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="promptModal">
+  <div class="modal-box">
+    <h3>פרומפט חדש</h3>
+    <div class="notice">טיוטת הפרומפט נשמרת אוטומטית: נושא, כותרת, תגיות וטקסט. לאחר הוספה מוצלחת — הטיוטה נמחקת.</div>
+    <div class="form-grid">
+      <div><label>נושא</label><select id="newPromptSection"></select></div>
+      <div><label>כותרת</label><input id="newPromptTitle"></div>
+      <div class="full"><label>תגיות (מופרדות בפסיקים)</label><input id="newPromptTags"></div>
+      <div class="full"><label>טקסט הפרומפט</label><textarea id="newPromptText" style="min-height:220px"></textarea></div>
+    </div>
+    <div class="modal-actions">
+      <button class="sec" data-action="close" data-modal="promptModal">ביטול</button>
+      <button data-action="add-prompt">הוסף פרומפט</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="importModal">
+  <div class="modal-box">
+    <h3>ייבוא</h3>
+    <p style="color:var(--text3);font-size:13px;margin-bottom:10px">הדבק JSON מקובץ ייצוא</p>
+    <textarea id="importText" style="min-height:260px"></textarea>
+    <div class="modal-actions">
+      <button class="sec" data-action="close" data-modal="importModal">ביטול</button>
+      <button data-action="import">ייבא</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+const KEY = 'yachdavCEOv2_future_lab';
+const DRAFT_KEY = 'yachdavCEONewPromptDraftV2';
+
+const DEFAULT = [
+  {
+    id:"guide", icon:"🧭", title:"מדריך", desc:"עזרה בבחירת הפרומפט הנכון", system:true, items:[]
+  },
+  {
+    id:"mynotes", icon:"💬", title:"ההערות שלי", desc:"הערות שרשמת על פרומפטים", system:true, items:[]
+  },
+{
+  "id": "yachdav2",
+  "icon": "🚀",
+  "title": "יחדיו 2.0",
+  "desc": "מעבדת עתיד לבניית הדור הבא של יחדיו",
+  "items": [
+    {
+      "id": "y2_01",
+      "title": "יחדיו 2035 — תמונת עתיד",
+      "tags": [
+        "יחדיו 2.0",
+        "עתיד",
+        "אסטרטגיה"
+      ],
+      "favorite": true,
+      "useCount": 0,
+      "text": "פעל כצוות חשיבה אסטרטגי הכולל מנכ״ל של ארגון חברתי ארצי, פרופסור ליזמות, מומחה למדיניות ציבורית, מומחה לבינה מלאכותית ונציג קרן בינלאומית.\n\nדמיין כי אנו נמצאים בשנת 2035.\n\nנתח:\n1. כיצד תיראה מדינת ישראל מבחינה חברתית, דמוגרפית וטכנולוגית?\n2. אילו צרכים חברתיים יהיו גדולים יותר מאשר היום?\n3. אילו שירותים חברתיים ייעלמו או יאבדו רלוונטיות?\n4. אילו שירותים יהפכו לקריטיים?\n5. כיצד AI, דאטה ופלטפורמות דיגיטליות ישנו את עולם הרווחה, השיקום, התעסוקה והקהילה?\n\nלאחר מכן תכנן כיצד צריכה להיראות יחדיו בשנת 2035 כדי להיות ארגון מוביל בישראל.\n\nהצג: חזון קצר, 5 מנועי צמיחה, 5 יכולות ארגוניות שחייבים לבנות, 5 סיכונים אם לא נפעל בזמן, וצעד ראשון ל-90 הימים הקרובים.\n\nהיה נועז, אך ריאלי."
+    },
+    {
+      "id": "y2_02",
+      "title": "אם היינו מקימים את יחדיו מחדש",
+      "tags": [
+        "יזמות",
+        "First Principles",
+        "מבנה ארגוני"
+      ],
+      "favorite": true,
+      "useCount": 0,
+      "text": "נניח כי יחדיו אינה קיימת היום.\n\nיש בידינו מוניטין, ידע מקצועי, קשרים עם משרדי ממשלה, ניסיון רב בשטח ויכולת גיוס משאבים — אך אין מבנה ארגוני קיים ואין מחויבות למודלים ישנים.\n\nתכנן את יחדיו מחדש מאפס.\n\nענה: אילו תחומי פעילות היית פותח, אילו לא היית פותח, כיצד היה נראה המבנה הארגוני, אילו תפקידים חדשים חייבים להיות בארגון מודרני, אילו טכנולוגיות היו מוטמעות מהיום הראשון, ומה יהיו 10 המדדים המרכזיים של המנכ״ל.\n\nבסיום הצג מודל ברור בשם: יחדיו 2.0."
+    },
+    {
+      "id": "y2_03",
+      "title": "20 בעיות שאף אחד עדיין לא פותר",
+      "tags": [
+        "חדשנות חברתית",
+        "צרכים עתידיים",
+        "ישראל"
+      ],
+      "favorite": true,
+      "useCount": 0,
+      "text": "פעל כחוקר מגמות חברתיות בישראל.\n\nזהה 20 בעיות חברתיות שצפויות להפוך למשמעותיות בעשור הקרוב אך עדיין אינן מקבלות מענה מספק.\n\nלכל בעיה הצג: אוכלוסייה מושפעת, חומרת הבעיה, מדוע המענה הקיים אינו מספק, איזה משרד ממשלתי / רשות / קרן עשויים לממן פתרון, וכיצד יחדיו יכולה להיות הגורם הראשון או המוביל בתחום.\n\nדרג כל רעיון לפי השפעה חברתית, פוטנציאל צמיחה, היתכנות כלכלית, התאמה לערכי יחדיו וסיכון ביצוע.\n\nבסיום בחר 5 הזדמנויות שכדאי לבדוק ראשונות."
+    },
+    {
+      "id": "y2_04",
+      "title": "מנועי הצמיחה של יחדיו",
+      "tags": [
+        "צמיחה",
+        "פיתוח עסקי",
+        "פורטפוליו"
+      ],
+      "favorite": true,
+      "useCount": 0,
+      "text": "עמותת יחדיו פועלת בתחומים רבים: שיקום, תעסוקה, מוגבלויות, צעירים ונוער, התמכרויות, אלימות במשפחה, בריאות הנפש, קהילה ושירותים חברתיים נוספים.\n\nזהה את מנועי הצמיחה המשמעותיים ביותר לעשור הקרוב.\n\nלכל תחום קיים ולכל תחום חדש שתציע, נתח: ביקוש עתידי, פוטנציאל מימון, פוטנציאל להפוך למודל ארצי, מורכבות הפעלה, צורך בכוח אדם מקצועי, רווח חברתי והתאמה ל-DNA של יחדיו.\n\nבסיום הצג 5 תחומים להשקעה מיידית, 5 תחומים לפיילוט ו-5 תחומים שלא כדאי לרדוף אחריהם כרגע. נמק באופן חד וברור."
+    },
+    {
+      "id": "y2_05",
+      "title": "יחדיו כסטארטאפ חברתי",
+      "tags": [
+        "סטארטאפ",
+        "יזמות",
+        "מודל עסקי"
+      ],
+      "favorite": false,
+      "useCount": 0,
+      "text": "נתח את יחדיו כאילו הייתה סטארטאפ חברתי גדול ולא עמותה ותיקה.\n\nפעל כמשקיע, יזם חברתי ומנכ״ל.\n\nענה: מה הבעיה הגדולה שהארגון פותר, מה ה-Product Market Fit של יחדיו, אילו שירותים הם מוצרי ליבה, אילו שירותים הם מוצרים משניים, מה ניתן להפוך לפלטפורמה ארצית, מה ניתן למכור או להציע לגופים אחרים כשירות מקצועי, ומהו היתרון התחרותי האמיתי של יחדיו.\n\nבסיום הצג Pitch קצר של יחדיו 2.0 למשקיע חברתי או לקרן בינלאומית."
+    },
+    {
+      "id": "y2_06",
+      "title": "החלטה אסטרטגית לפי Three Horizons",
+      "tags": [
+        "Three Horizons",
+        "אסטרטגיה",
+        "עתיד"
+      ],
+      "favorite": false,
+      "useCount": 0,
+      "text": "השתמש במודל Three Horizons כדי לנתח את עתיד יחדיו.\n\nחלק את הפעילות לשלושה אופקים:\n\nHorizon 1 — מה מחזיק את הארגון היום: שירותים קיימים, הכנסות קיימות, חוזקות שאסור לאבד.\n\nHorizon 2 — צמיחה ל-3 עד 5 שנים: הרחבת תחומים, שותפויות, מודלים חדשים.\n\nHorizon 3 — יחדיו 2.0 לעשור הבא: שירותים שעדיין לא קיימים, טכנולוגיות חדשות, צרכים עתידיים.\n\nעבור כל אופק הצג הזדמנויות, סיכונים, השקעות נדרשות, החלטות מנכ״ל ומדדי הצלחה.\n\nבסיום הצג מפת דרך מאוזנת: מה להגן, מה לפתח, ומה להמציא."
+    }
+  ]
+},
+{
+  "id": "thinktank",
+  "icon": "🧠",
+  "title": "Think Tank",
+  "desc": "חשיבה ביקורתית עם מועצת מומחים וירטואלית",
+  "items": [
+    {
+      "id": "tt_01",
+      "title": "מועצת העתיד של יחדיו",
+      "tags": [
+        "Think Tank",
+        "מומחים",
+        "חזון"
+      ],
+      "favorite": true,
+      "useCount": 0,
+      "text": "צור מועצת מומחים הכוללת: פרופסור ליזמות וניהול, מנכ״ל לשעבר של משרד ממשלתי, מנכ״ל עמותה ארצית גדולה, מומחה לבינה מלאכותית, מנהל קרן פילנתרופית בינלאומית, יזם חברתי ומומחה למדידת אימפקט.\n\nכל מומחה יענה בנפרד: מה צריכה יחדיו לעשות כדי להפוך לארגון החברתי החדשני והמוביל בישראל בעשור הקרוב?\n\nלאחר מכן בצע דיון בין המומחים.\n\nבסיום הצג 5 הסכמות מרכזיות, 5 מחלוקות, 10 המלצות מעשיות למנכ״ל ו-3 החלטות שלא כדאי לדחות."
+    },
+    {
+      "id": "tt_02",
+      "title": "Red Team — איפה אנחנו טועים",
+      "tags": [
+        "Red Team",
+        "ביקורת",
+        "סיכון"
+      ],
+      "favorite": true,
+      "useCount": 0,
+      "text": "פעל כצוות ביקורת חיצוני. מטרתך אינה להחמיא אלא למצוא חולשות.\n\nנתח את הארגון כאילו אתה בודק אותו לפני השקעה גדולה או לפני הרחבה ארצית.\n\nמצא הנחות יסוד שעלולות להיות שגויות, תחומים שבהם הארגון עלול להיות שבוי בעבר, סיכונים פיננסיים, ניהוליים, כוח אדם, מוניטין ותלות יתר בגורמים חיצוניים.\n\nלכל סיכון הצג חומרה, הסתברות, סימני אזהרה מוקדמים, דרך מניעה והחלטה נדרשת מהמנכ״ל.\n\nהיה ישיר. אל תרכך."
+    },
+    {
+      "id": "tt_03",
+      "title": "שאלות שהמנכ״ל חייב לשאול",
+      "tags": [
+        "מנהיגות",
+        "שאלות",
+        "ניהול"
+      ],
+      "favorite": false,
+      "useCount": 0,
+      "text": "צור רשימה של 50 שאלות שמנכ״ל יחדיו צריך לשאול את עצמו ואת ההנהלה הבכירה כדי לבנות את יחדיו 2.0.\n\nחלק את השאלות לפי נושאים: אסטרטגיה, כסף ומימון, כוח אדם, טכנולוגיה ו-AI, איכות השירות, צמיחה ארצית, סיכונים, שותפויות, אימפקט חברתי ותרבות ארגונית.\n\nלאחר מכן בחר את 10 השאלות החשובות ביותר והסבר מדוע הן קריטיות."
+    },
+    {
+      "id": "tt_04",
+      "title": "הדיון שלא מתקיים בהנהלה",
+      "tags": [
+        "הנהלה",
+        "שינוי",
+        "עיוורון ארגוני"
+      ],
+      "favorite": false,
+      "useCount": 0,
+      "text": "פעל כיועץ ארגוני בכיר.\n\nזהה אילו שיחות אסטרטגיות כנראה לא מתקיימות מספיק בהנהלה של ארגון חברתי גדול וצומח.\n\nהצג: מה הנושא שלא מדברים עליו מספיק, למה נמנעים ממנו, מה המחיר של ההימנעות, איך לפתוח את הדיון בלי ליצור התנגדות, ואילו החלטות יכולות לצאת ממנו.\n\nבסיום הצע סדר יום לישיבת הנהלה של 90 דקות בנושא יחדיו 2.0."
+    },
+    {
+      "id": "tt_05",
+      "title": "היועצים הקשוחים",
+      "tags": [
+        "ייעוץ",
+        "McKinsey",
+        "ביקורת"
+      ],
+      "favorite": false,
+      "useCount": 0,
+      "text": "דמיין שצוות יועצים בכיר בוחן את יחדיו לקראת תוכנית צמיחה ל-10 שנים.\n\nהם אינם מחויבים לפוליטיקה פנימית ואינם חוששים לומר אמת.\n\nבקש מהם לענות: מה הארגון עושה טוב מאוד, מה הוא עושה כי התרגל לכך, איפה יש בזבוז ניהולי או כספי, אילו יכולות חסרות כדי לגדול פי 2, ואילו החלטות קשות צריך לקבל.\n\nבסיום הצג דוח הנהלה של עמוד אחד."
+    },
+    {
+      "id": "tt_06",
+      "title": "הזווית של משרד ממשלתי",
+      "tags": [
+        "משרדי ממשלה",
+        "רגולציה",
+        "מדיניות"
+      ],
+      "favorite": false,
+      "useCount": 0,
+      "text": "נתח את יחדיו מנקודת מבט של מנכ״ל משרד ממשלתי או חשב משרד.\n\nמה הם היו שואלים לפני הרחבת התקשרות, תקצוב או אישור מודל חדש?\n\nהצג שאלות על תוצאות, עלויות, בקרה, שקיפות, סיכונים והרחבה ארצית.\n\nלאחר מכן הכן את התשובות שיחדיו צריכה להכין מראש כדי להיראות כארגון מקצועי, אמין ומוכן לצמיחה."
+    }
+  ]
+},
+{
+  "id": "venture",
+  "icon": "💡",
+  "title": "Venture Studio",
+  "desc": "חממת רעיונות למיזמים חברתיים חדשים",
+  "items": [
+    {
+      "id": "vs_01",
+      "title": "רעיון של 100 מיליון ש״ח",
+      "tags": [
+        "מיזם",
+        "100 מיליון",
+        "צמיחה"
+      ],
+      "favorite": true,
+      "useCount": 0,
+      "text": "חשוב כיזם חברתי, משקיע ומנכ״ל של ארגון ארצי.\n\nהמטרה: להציע כיוון פעילות חדש אשר בתוך 10 שנים יכול להגיע להיקף פעילות של מעל 100 מיליון ש״ח בשנה.\n\nהצע 10 כיוונים אפשריים.\n\nלכל כיוון הצג: הבעיה החברתית, הפתרון, קהל היעד, מודל ההפעלה, מקורות מימון, שותפים אסטרטגיים, דרך צמיחה ארצית, סיכונים וצעד ראשון.\n\nבסיום בחר את 3 הכיוונים החזקים ביותר והצג תוכנית עבודה ל-36 חודשים."
+    },
+    {
+      "id": "vs_02",
+      "title": "חממת מיזמים חברתיים",
+      "tags": [
+        "חממה",
+        "יזמות",
+        "פיילוט"
+      ],
+      "favorite": true,
+      "useCount": 0,
+      "text": "תכנן חממת מיזמים חברתיים בתוך יחדיו.\n\nמטרת החממה: לאתר, לפתח ולבדוק רעיונות חדשים שיכולים להפוך לתוכניות ארציות.\n\nהצג מבנה החממה, מי משתתף, איך מגישים רעיון, איך בוחרים רעיונות, תקציב פיילוט מומלץ, מדדי הצלחה, מתי הורגים רעיון ומתי מרחיבים רעיון.\n\nהכן תהליך עבודה של 6 חודשים מרעיון עד החלטת הנהלה."
+    },
+    {
+      "id": "vs_03",
+      "title": "פיילוט לפני תוכנית גדולה",
+      "tags": [
+        "Lean Startup",
+        "פיילוט",
+        "MVP"
+      ],
+      "favorite": false,
+      "useCount": 0,
+      "text": "יש לנו רעיון לתוכנית חדשה:\n[תאר את הרעיון]\n\nפעל לפי גישת Lean Startup.\n\nבנה פיילוט קטן, זול ומהיר שיאפשר לבדוק את ההנחות המרכזיות לפני השקעה גדולה.\n\nהצג ההנחות שחייבים לבדוק, MVP של השירות, אוכלוסיית יעד לפיילוט, משך הפיילוט, עלות מינימלית, מדדי הצלחה, סימני כישלון והחלטה בסוף הפיילוט: להרחיב / לשנות / לעצור.\n\nאל תתאהב ברעיון. בדוק אותו."
+    },
+    {
+      "id": "vs_04",
+      "title": "מפת רעיונות לפי אימפקט והיתכנות",
+      "tags": [
+        "רעיונות",
+        "אימפקט",
+        "תעדוף"
+      ],
+      "favorite": false,
+      "useCount": 0,
+      "text": "קבל רשימת רעיונות למיזמים חדשים:\n[הדבק רשימת רעיונות]\n\nדרג כל רעיון לפי אימפקט חברתי, פוטנציאל מימון, התאמה ליכולות יחדיו, מורכבות יישום, מהירות השקה, פוטנציאל ארצי וסיכון מוניטין.\n\nסווג למטריצה: להשיק פיילוט מיד, לבדוק לעומק, לשמור לעתיד, לא לקדם.\n\nבסיום הצג 3 רעיונות מומלצים ואת הצעד הראשון לכל אחד."
+    },
+    {
+      "id": "vs_05",
+      "title": "שותף אסטרטגי למיזם חדש",
+      "tags": [
+        "שותפויות",
+        "עסקים",
+        "קרנות"
+      ],
+      "favorite": false,
+      "useCount": 0,
+      "text": "עבור מיזם חדש של יחדיו:\n[תאר את המיזם]\n\nמצא סוגי שותפים אסטרטגיים שיכולים להפוך אותו למיזם משמעותי.\n\nבדוק משרדי ממשלה, רשויות מקומיות, חברות עסקיות, אוניברסיטאות, בתי חולים, קרנות, ארגונים בינלאומיים וגופים טכנולוגיים.\n\nלכל שותף פוטנציאלי הצג מה האינטרס שלו, מה יחדיו נותנת, מה יחדיו מקבלת, מודל שיתוף פעולה, סיכון ואיך לפנות אליו.\n\nבסיום כתוב נוסח קצר לפנייה ראשונית."
+    },
+    {
+      "id": "vs_06",
+      "title": "תיק מיזם להנהלה",
+      "tags": [
+        "תיק מיזם",
+        "הנהלה",
+        "החלטה"
+      ],
+      "favorite": false,
+      "useCount": 0,
+      "text": "הכן תיק החלטה להנהלה עבור מיזם חדש.\n\nשם המיזם:\n[שם]\n\nכתוב מסמך קצר ומדויק הכולל: הבעיה, הפתרון, קהל היעד, למה יחדיו מתאימה להוביל, מודל הפעלה, תקציב ראשוני, מקורות מימון, סיכונים, מדדי הצלחה והחלטה נדרשת מההנהלה.\n\nהמסמך צריך לאפשר למנכ״ל לקבל החלטה תוך 10 דקות."
+    }
+  ]
+},
+{
+  "id": "futurefund",
+  "icon": "💰",
+  "title": "מימון העתיד",
+  "desc": "בניית מודל הכנסות שאינו תלוי רק בתקציבים קיימים",
+  "items": [
+    {
+      "id": "ff_01",
+      "title": "הכסף של מחר",
+      "tags": [
+        "מימון",
+        "עתיד",
+        "הכנסות"
+      ],
+      "favorite": true,
+      "useCount": 0,
+      "text": "נתח את מקורות המימון העתידיים של ארגונים חברתיים בישראל בעשור הקרוב.\n\nחלק את הניתוח לפי: משרד הרווחה והביטחון החברתי, משרד הבריאות, משרד הביטחון, ביטוח לאומי, רשויות מקומיות, קרנות ישראליות, קרנות בינלאומיות, מגזר עסקי ומודלים של הכנסה עצמית.\n\nלכל מקור הצג מגמה צפויה, הזדמנויות, סיכונים, מה יחדיו צריכה להכין היום ומי בארגון צריך להוביל.\n\nבסיום הצג מפת דרכים לחיזוק עצמאות פיננסית במשך 5 שנים."
+    },
+    {
+      "id": "ff_02",
+      "title": "30% הכנסות לא ממשלתיות",
+      "tags": [
+        "עצמאות פיננסית",
+        "קרנות",
+        "עסקים"
+      ],
+      "favorite": true,
+      "useCount": 0,
+      "text": "נניח שמטרת יחדיו היא להגיע בתוך 7 שנים למצב שבו לפחות 30% מההכנסות אינן תלויות ישירות במשרדי הממשלה.\n\nבנה אסטרטגיה להשגת יעד זה.\n\nהצע מקורות הכנסה חדשים, שירותים שניתן למכור לגופים אחרים, שיתופי פעולה עסקיים, קרנות בינלאומיות, מודלים של Social Business ומרכזי ידע והכשרה.\n\nלכל מקור הצג פוטנציאל כספי, זמן להבשלה, השקעה נדרשת, סיכון וצעד ראשון.\n\nבסיום הצג תוכנית ל-12, 36 ו-84 חודשים."
+    },
+    {
+      "id": "ff_03",
+      "title": "מפת תלות במשרדי ממשלה",
+      "tags": [
+        "ממשלה",
+        "סיכון",
+        "תקציב"
+      ],
+      "favorite": false,
+      "useCount": 0,
+      "text": "קבל נתונים על הכנסות הארגון לפי מקורות מימון:\n[הדבק טבלה או הערכה]\n\nבצע ניתוח תלות.\n\nבדוק מה אחוז ההכנסות מכל משרד / רשות / קרן, איפה קיימת תלות גבוהה מדי, מה יקרה אם מקור אחד יקטן ב-20%, מה יקרה אם תשלום יתעכב ב-6 חודשים, ואילו פעילויות ייפגעו ראשונות.\n\nהצג מפת סיכונים, תרחישי פגיעה, פעולות מניעה, מקורות חלופיים והמלצה למנכ״ל."
+    },
+    {
+      "id": "ff_04",
+      "title": "הצעה לקרן בינלאומית",
+      "tags": [
+        "קרנות",
+        "פילנתרופיה",
+        "הצעה"
+      ],
+      "favorite": false,
+      "useCount": 0,
+      "text": "עזור לבנות הצעה אסטרטגית לקרן בינלאומית עבור מיזם של יחדיו.\n\nפרטי המיזם:\n[תאר]\n\nהכן מבנה הצעה הכולל: הבעיה החברתית בישראל, למה הבעיה דחופה עכשיו, הפתרון של יחדיו, למה יחדיו מסוגלת לבצע, מדדי אימפקט, תקציב ראשוני, מודל קיימות לאחר סיום המענק, סיכון והפחתת סיכון, ואפשרות להרחבה ארצית.\n\nכתוב בטון מקצועי, מדויק, לא מתחנן ולא שיווקי מדי."
+    },
+    {
+      "id": "ff_05",
+      "title": "שותפות עסקית שלא נראית כמו תרומה",
+      "tags": [
+        "CSR",
+        "עסקים",
+        "שותפות"
+      ],
+      "favorite": false,
+      "useCount": 0,
+      "text": "בנה מודל לשותפות עסקית בין יחדיו לבין חברה מסחרית.\n\nהמטרה: לא תרומה חד-פעמית, אלא שותפות שבה לשני הצדדים יש ערך אמיתי.\n\nתחום המיזם:\n[תאר]\n\nהצג אינטרס עסקי של החברה, אינטרס חברתי של יחדיו, ערך למקבלי השירות, מודל פעולה, מדדי הצלחה, תקציב, סיכון מוניטין וכיצד להציג זאת לחברה.\n\nבסיום כתוב Pitch של 2 דקות למנכ״ל החברה."
+    },
+    {
+      "id": "ff_06",
+      "title": "מודל Social Business",
+      "tags": [
+        "Social Business",
+        "הכנסה עצמית",
+        "יזמות"
+      ],
+      "favorite": false,
+      "useCount": 0,
+      "text": "זהה שירותים או מוצרים שיחדיו יכולה לפתח כ-Social Business.\n\nהכוונה: פעילות שמייצרת הכנסה עצמית וגם אימפקט חברתי.\n\nהצע 10 מודלים אפשריים.\n\nלכל מודל הצג מה השירות / המוצר, מי הלקוח המשלם, מי הנהנה החברתי, עלות הקמה, פוטנציאל הכנסה, סיכון מקצועי, סיכון ערכי ותנאים להצלחה.\n\nבסיום בחר 3 מודלים לפיילוט."
+    }
+  ]
+},
+{
+  "id": "portfolio",
+  "icon": "📈",
+  "title": "פורטפוליו מנכ״ל",
+  "desc": "ניהול מאות תוכניות, סניפים, עובדים ותקציבים",
+  "items": [
+    {
+      "id": "pf_01",
+      "title": "מפת תוכניות — מה לפתח ומה לעצור",
+      "tags": [
+        "פורטפוליו",
+        "תוכניות",
+        "תעדוף"
+      ],
+      "favorite": true,
+      "useCount": 0,
+      "text": "קבל רשימת תוכניות של הארגון:\n[הדבק רשימה: שם תוכנית, תחום, תקציב, מספר מקבלי שירות, מקור מימון, תוצאות ידועות]\n\nבצע ניתוח פורטפוליו מנכ״לי.\n\nסווג כל תוכנית: ליבה אסטרטגית — לשמור ולהשקיע; צמיחה — להרחיב; פיילוט — לבדוק לפני הרחבה; בעייתית — לתקן או לצמצם; מועמדת לסגירה.\n\nלכל תוכנית ציין תרומה חברתית, תרומה פיננסית, מורכבות הפעלה, סיכון והתאמה ליחדיו 2.0.\n\nבסיום הצג 10 החלטות שהמנכ״ל צריך לשקול."
+    },
+    {
+      "id": "pf_02",
+      "title": "לוח בקרה יומי למנכ״ל",
+      "tags": [
+        "Dashboard",
+        "KPI",
+        "ניהול"
+      ],
+      "favorite": true,
+      "useCount": 0,
+      "text": "בנה לוח בקרה למנכ״ל של ארגון חברתי גדול המנהל עשרות עד מאות תוכניות, אלפי עובדים ותקציב של מאות מיליוני שקלים.\n\nהצג 25 מדדים חיוניים לפי תחומים: פיננסים, כוח אדם, איכות שירות, תפוסה / מקבלי שירות, סיכונים, משרדי ממשלה, חדשנות וצמיחה ואימפקט חברתי.\n\nלכל מדד ציין איך מחשבים, תדירות בדיקה, יעד, צבע ירוק / צהוב / אדום ומה צריך לעשות כאשר המדד אדום.\n\nבסיום בחר את 7 המדדים שהמנכ״ל חייב לראות כל שבוע."
+    },
+    {
+      "id": "pf_03",
+      "title": "ניהול רשת סניפים",
+      "tags": [
+        "סניפים",
+        "רשת",
+        "בקרה"
+      ],
+      "favorite": false,
+      "useCount": 0,
+      "text": "הארגון מפעיל רשת גדולה של סניפים ותוכניות ברחבי הארץ.\n\nבנה מודל ניהולי שיאפשר לשלוט באיכות, תקציב וסיכונים בלי שהמנכ״ל ייכנס לכל פרט.\n\nהצג מדדי בקרה לסניף, מדדי איכות מקצועית, מדדי כוח אדם, מדדי תקציב, מנגנון התרעה מוקדמת, ביקורי שטח חכמים, דיווח חודשי אחיד ומתי סניף דורש התערבות הנהלה.\n\nבסיום הצג פורמט קצר לדוח סניף חודשי."
+    },
+    {
+      "id": "pf_04",
+      "title": "95% מהבדיקות ללא התערבות מנכ״ל",
+      "tags": [
+        "בקרה",
+        "רגולציה",
+        "איכות"
+      ],
+      "favorite": false,
+      "useCount": 0,
+      "text": "תכנן מערכת ארגונית שבה 95% מבדיקות משרד הבריאות, משרד הרווחה, משרד הביטחון ורשויות אחרות עוברות ללא צורך בהתערבות אישית של המנכ״ל.\n\nהצג סטנדרט אחיד לכל תוכנית, תיק בקרה דיגיטלי, אחריות מנהלים, צ׳ק ליסט קבוע, מדדי מוכנות, מנגנון התרעה, ביקורת פנימית מדגמית והכשרת מנהלים.\n\nבסיום הצג תוכנית הטמעה ל-12 חודשים."
+    },
+    {
+      "id": "pf_05",
+      "title": "איפה הסיכון הארגוני מסתתר",
+      "tags": [
+        "סיכון",
+        "Enterprise Risk",
+        "מנכ״ל"
+      ],
+      "favorite": false,
+      "useCount": 0,
+      "text": "פעל כמנהל סיכונים בארגון חברתי גדול.\n\nמצא סיכונים שאינם נראים בדוחות רגילים.\n\nבדוק תלות במנהל אחד, תלות במשרד ממשלתי אחד, תוכניות עם רווחיות נמוכה, שחיקת עובדים, בעיות איכות שלא מדווחות, סיכון משפטי, סיכון תקשורתי, סיכון טכנולוגי וסיכון בהתרחבות מהירה מדי.\n\nלכל סיכון הצג סימן אזהרה מוקדם, נזק אפשרי, דרך מדידה, פעולה מונעת ומי צריך להיות אחראי."
+    },
+    {
+      "id": "pf_06",
+      "title": "דוח מנכ״ל בעמוד אחד",
+      "tags": [
+        "דוח",
+        "מנכ״ל",
+        "תמצית"
+      ],
+      "favorite": true,
+      "useCount": 0,
+      "text": "הפוך נתונים רבים לדוח מנכ״ל בעמוד אחד.\n\nנתונים:\n[הדבק נתונים כספיים, תפעוליים, כוח אדם, תוכניות, סיכונים, הישגים]\n\nבנה דוח בפורמט: תמונת מצב כללית, שלושת הדברים הטובים ביותר, שלושת הסיכונים המרכזיים, החלטות נדרשות, מה דורש טיפול ב-30 יום, מה דורש חשיבה אסטרטגית והמלצה ברורה למנכ״ל.\n\nהדוח חייב להיות קצר, חד, מנהיגותי ומבוסס נתונים."
+    }
+  ]
+},
+{
+  "id": "ceoroom",
+  "icon": "🏛️",
+  "title": "CEO Decision Room",
+  "desc": "חדר החלטות למנכ״ל — ממשלה, ועד, כסף וסיכונים",
+  "items": [
+    {
+      "id": "cr_01",
+      "title": "החלטה דרך 6 כובעים ניהוליים",
+      "tags": [
+        "החלטה",
+        "מנכ״ל",
+        "ניתוח"
+      ],
+      "favorite": true,
+      "useCount": 0,
+      "text": "אני צריך לקבל החלטה חשובה.\n\nהמצב:\n[תאר את ההחלטה]\n\nנתח את ההחלטה דרך 6 נקודות מבט: מנכ״ל, סמנכ״ל כספים, יו״ר ועד מנהל, נציג משרד ממשלתי, מנהל שטח, מקבל שירות / משפחה.\n\nלכל נקודת מבט הצג מה חשוב לה, מה היא תרוויח, ממה היא תחשוש ואיזו שאלה היא תשאל.\n\nבסיום הצג המלצה אחת ברורה, תנאים לביצוע וסיכונים שיש לנהל."
+    },
+    {
+      "id": "cr_02",
+      "title": "הכנה לפגישה עם משרד ממשלתי",
+      "tags": [
+        "משרד ממשלתי",
+        "פגישה",
+        "משא ומתן"
+      ],
+      "favorite": true,
+      "useCount": 0,
+      "text": "הכן אותי לפגישה עם משרד ממשלתי.\n\nמשרד / גורם:\n[משרד הבריאות / משרד הרווחה והביטחון החברתי / משרד הביטחון / ביטוח לאומי / רשות מקומית]\n\nמטרת הפגישה:\n[תאר]\n\nבנה הכנה הכוללת האינטרסים של הצד השני, מה הם ירצו לראות, מה הם עלולים לחשוש ממנו, מה העמדה הטובה ביותר שלנו, מה אסור לומר, אילו נתונים להביא, אילו שאלות לשאול ומה לבקש בסוף הפגישה.\n\nבסיום כתוב תסריט פתיחה של 2 דקות למנכ״ל."
+    },
+    {
+      "id": "cr_03",
+      "title": "הכנה לדיון ועד מנהל על יחדיו 2.0",
+      "tags": [
+        "ועד מנהל",
+        "יחדיו 2.0",
+        "מצגת"
+      ],
+      "favorite": false,
+      "useCount": 0,
+      "text": "הכן דיון לוועד המנהל בנושא יחדיו 2.0.\n\nמטרת הדיון: לקבל גיבוי אסטרטגי לפיתוח כיוונים חדשים, חדשנות, יזמות ומודלים פיננסיים עתידיים.\n\nבנה פתיחה אסטרטגית, למה עכשיו, מה הסיכון אם לא נפעל, 3 אפשרויות פעולה, יתרונות וחסרונות לכל אפשרות, החלטות נדרשות מהוועד, שאלות שהוועד צפוי לשאול ותשובות מומלצות.\n\nבסיום הצג מבנה מצגת של 10 שקפים."
+    },
+    {
+      "id": "cr_04",
+      "title": "המסמך שהמנכ״ל שולח לפני החלטה",
+      "tags": [
+        "מסמך החלטה",
+        "הנהלה",
+        "ועד"
+      ],
+      "favorite": false,
+      "useCount": 0,
+      "text": "כתוב מסמך החלטה קצר למנכ״ל לפני דיון הנהלה / ועד.\n\nנושא ההחלטה:\n[תאר]\n\nהמסמך יכלול רקע קצר, הבעיה, חלופות, ניתוח כל חלופה, עלות, סיכונים, השפעה על מקבלי השירות, השפעה על עובדים, המלצת הנהלה והחלטה נדרשת.\n\nהמסמך צריך להיות מספיק חד כדי לאפשר החלטה, ולא ארוך מדי כדי לא לאבד את הקורא."
+    },
+    {
+      "id": "cr_05",
+      "title": "מה יאיר צריך לדעת לפני שאומר כן",
+      "tags": [
+        "מנכ״ל",
+        "בדיקת החלטה",
+        "סיכון"
+      ],
+      "favorite": false,
+      "useCount": 0,
+      "text": "לפני שהמנכ״ל אומר כן להצעה חדשה, בדוק אותה לעומק.\n\nהצעה:\n[הדבק או תאר]\n\nשאל: מה ההזדמנות האמיתית, מה מסתירים או לא רואים, מה המחויבות הכספית האמיתית, מי יצטרך לבצע בפועל, מה יקרה אם זה יצליח מדי, מה יקרה אם זה ייכשל, איך יוצאים מזה אם צריך, והאם זה מתאים ליחדיו 2.0.\n\nבסיום תן המלצה: לאשר / לאשר בתנאים / לדחות."
+    },
+    {
+      "id": "cr_06",
+      "title": "נאום מנכ״ל על יחדיו 2.0",
+      "tags": [
+        "נאום",
+        "מנהיגות",
+        "שינוי"
+      ],
+      "favorite": false,
+      "useCount": 0,
+      "text": "כתוב נאום מנכ״ל של 5 דקות בנושא יחדיו 2.0.\n\nקהל:\n[עובדים / מנהלים / ועד מנהל / שותפים / משרדי ממשלה]\n\nהמסר המרכזי: יחדיו לא רק מנהלת שירותים קיימים — היא בונה את הדור הבא של השירותים החברתיים בישראל.\n\nהנאום צריך לכלול פתיחה חזקה, למה צריך שינוי, מה אסור לאבד מהעבר, מה צריך לבנות לעתיד, תפקיד העובדים והמנהלים וקריאה לפעולה.\n\nסגנון: מנהיגותי, מקצועי, לא קלישאתי, מתאים למנכ״ל עמותה גדולה."
+    }
+  ]
+},
+  {
+    id:"strategy", icon:"🎯", title:"אסטרטגיה ועתיד", desc:"חשיבה על כיוון העמותה ב-3–10 שנים קדימה",
+    items:[
+      {
+        id:"s1", title:"סקירת האסטרטגיה הארגונית", tags:["אסטרטגיה","חזון","ניהול"], favorite:true, useCount:0,
+        text:`אני מנכ"ל עמותה ותיקה המפעילה מגוון רחב של תוכניות: ילדים ונוער בסיכון, התמכרויות, מוגבלויות, אלימות, תעסוקה ורווחה קהילתית.
+
+פעל כיועץ אסטרטגי בכיר עם ניסיון בארגוני third sector.
+
+נתח את המצב הנוכחי:
+[תאר: תחומי פעילות עיקריים, גודל ארגון, מיקוד גיאוגרפי, מקורות מימון עיקריים]
+
+הצג:
+1. מה הם הנכסים האסטרטגיים שלנו שאנחנו לא מנצלים מספיק?
+2. איפה הסיכון הגדול ביותר לעמותה ב-3 שנים הקרובות?
+3. איפה יש הזדמנות מערכתית שאנחנו מחמיצים?
+4. מה לבטל, מה להגביר, מה להמציא?
+
+היה ישיר. אם משהו לא עובד — אמור זאת. אל תרשים אותי.`
+      },
+      {
+        id:"s2", title:"תרחישים לעשור הבא", tags:["חזון","תרחישים","סיכון"], favorite:false, useCount:0,
+        text:`בנה 3 תרחישים עתידיים עבור עמותה חברתית גדולה בישראל לטווח של 10 שנים.
+
+הקשר:
+[תאר: תחומי פעילות, תלות ממשלתית, מספר עובדים, גיאוגרפיה]
+
+תרחיש א׳ — "הכול ממשיך כרגיל": מה קורה אם לא נשנה דבר?
+תרחיש ב׳ — "שינוי מדיניות ממשלתית": מה קורה אם תקציבי הרווחה יקוצצו ב-20%?
+תרחיש ג׳ — "קפיצת מדרגה": מה קורה אם נשכיל לנצל AI, שותפויות עסקיות ומקורות מימון חדשים?
+
+לכל תרחיש:
+- השלכות על הכנסות
+- השלכות על כוח אדם
+- השלכות על מקבלי השירות
+- מה צריך להתחיל לבנות היום כדי להיות מוכן`
+      },
+      {
+        id:"s3", title:"מה העמותה צריכה להפסיק לעשות", tags:["התייעלות","קדימות","ניהול"], favorite:false, useCount:0,
+        text:`אני מנהל עמותה גדולה עם מגוון רחב של תוכניות ושירותים.
+
+פעל כיועץ שמגיע לבדוק את הארגון מבחוץ, ללא חסדים.
+
+קרא את רשימת התוכניות שלנו:
+[הדבק רשימת תוכניות פעילות]
+
+שאל בכל תוכנית:
+- האם היא מביאה ערך ייחודי שאף אחד אחר לא יכול לספק?
+- האם יש לה מימון בר-קיימא?
+- האם התוצאות שלה מוכחות?
+- האם היא מחזקת את שאר הפעילות?
+
+הצג רשימה מסודרת:
+✅ להמשיך ולהשקיע
+⚠️ לבחון מחדש
+❌ לשקול סיום
+
+לכל המלצה — נמק בנתונים, לא בתחושות.`
+      }
+    ]
+  },
+  {
+    id:"money", icon:"💰", title:"כסף ומימון", desc:"גיוס כספים, מקורות חדשים, יעילות פיננסית",
+    items:[
+      {
+        id:"m1", title:"מיפוי מקורות מימון חדשים", tags:["מימון","גיוס","קרנות"], favorite:true, useCount:0,
+        text:`אני מנכ"ל עמותה ותיקה הפועלת בדרום ישראל בתחומים: ילדים בסיכון, התמכרויות, מוגבלויות, אלימות, תעסוקה ורווחה קהילתית.
+
+מצא מקורות מימון שלא ניצלנו עד כה.
+
+הקשר:
+[מקורות מימון קיימים: משרד הרווחה, משרד הבריאות, רשויות מקומיות, ...]
+
+חפש:
+1. קרנות ישראליות רלוונטיות לתחומי פעילותנו
+2. קרנות בינלאומיות (EU, USAID, UJA וכו')
+3. שותפויות עסקיות — מי מרוויח מלשתף פעולה איתנו?
+4. מכרזים ממשלתיים שאנחנו לא מגישים
+5. מודלים של הכנסה עצמית רלוונטיים לעמותה חברתית
+
+לכל מקור ציין:
+- סכום פוטנציאלי
+- מורכבות הגשה
+- מה צריך להכין
+- מי האחראי בעמותה להוביל`
+      },
+      {
+        id:"m2", title:"בדיקת כדאיות פיננסית של פרויקט חדש", tags:["פרויקט","פיננסים","כדאיות"], favorite:false, useCount:0,
+        text:`בדוק את הכדאיות הפיננסית של פרויקט חדש.
+
+פרויקט:
+[תאר את הפרויקט]
+
+הערכה:
+- עלויות הקמה חד-פעמיות
+- עלויות שנתיות קבועות ומשתנות
+- כמה כוח אדם נדרש ובאיזה עלות
+- מהי נקודת האיזון?
+- מה מקורות המימון הריאליים?
+- מה קורה אם המימון מגיע באיחור של 6 חודשים?
+- מהו ה-ROI החברתי (עלות לנהנה)?
+
+אם אין מספיק נתונים — ציין מה חסר לפני שניתן לקבל החלטה.`
+      },
+      {
+        id:"m3", title:"איפה אנחנו מפסידים כסף", tags:["יעילות","עלויות","ניתוח"], favorite:false, useCount:0,
+        text:`אני רוצה לבצע ביקורת פנימית על יעילות פיננסית.
+
+תאר את הארגון:
+[מספר עובדים, מספר תוכניות, נפח תקציב שנתי]
+
+מצא:
+- תהליכים כפולים בין תוכניות
+- עלויות תפעול שניתן להוריד
+- זמן עובדים שמתבזבז על דיווח ובירוקרטיה
+- תוכניות שעולות יותר ממה שהן מניבות
+
+עבור כל ממצא:
+- כמה כסף/שעות מדובר?
+- מה יקרה אם נשנה את זה?
+- כמה קשה ליישם?
+- מי צריך לקחת אחריות?`
+      }
+      ,{
+        id:"m4", title:"דוח כספי תקופתי — שפה פשוטה", tags:["דוח","תקציב","הוצאות","מימון"], favorite:true, useCount:0,
+        text:`אתה אנליסט פיננסי המתמחה בעמותות ומגזר שלישי בישראל.
+
+הכן דוח כספי תקופתי לגורם שאינו איש כספים — מנהל תוכנית, מדריך בכיר או חבר ועד.
+
+תוכנית / יחידה: [לדוגמה: מפעל מוגן / תוכנית ילדים / שיקום נפשי]
+תקופה: [לדוגמה: רבעון 2 / ינואר–יוני 2025 / שנת 2024]
+גורם המימון העיקרי: [משרד הבריאות / משרד הרווחה / רשות מקומית / קרן פרטית]
+
+נתוני התקופה:
+[הדבק: הכנסות לפי מקור, הוצאות לפי סעיף (שכר, הפעלה, ציוד, הדרכה), תקציב מאושר מול ביצוע בפועל]
+
+כתוב דוח בשפה פשוטה וברורה. מבנה:
+
+1. התוצאה המרכזית
+   - האם הכנסות כיסו את ההוצאות?
+   - עודף או גירעון — כמה ובמה?
+   - הסבר פשוט: "כמו ארנק של רבעון — הכנסנו X, הוצאנו Y, נשאר / חסר Z"
+
+2. ניתוח הוצאות
+   - על מה הלכה רוב התקציב?
+   - היכן יש חריגה מהתקציב המאושר?
+   - היכן יש חיסכון — והאם הוא מכוון או בעייתי?
+
+3. עמידה ביעדי המימון
+   - האם עמדנו בתנאי המימון של גורם המממן?
+   - האם מספר מקבלי השירות / ימי הטיפול / היעדים הכמותיים הושגו?
+   - מה הסיכון אם לא עמדנו — ביחס לחידוש התקציב?
+
+4. עלות למקבל שירות
+   - חשב: סך ההוצאות חלקי מספר מקבלי השירות
+   - האם זה עלה / ירד לעומת התקופה הקודמת?
+   - מה המשמעות של השינוי?
+
+5. מסקנות למנהל
+   1–2 תצפיות חשובות שמנהל התוכנית צריך לדעת עכשיו.
+   לדוגמה: "הוצאות השכר גדלו ב-8% אך כיסינו 15% יותר מקבלי שירות — זו יעילות."
+   או: "יש חריגה בסעיף הציוד — כדאי לבחון לפני תום השנה."
+
+סגנון: מסביר, ברור, ללא ז'רגון פיננסי. השתמש באנלוגיות פשוטות אם צריך.`
+      }
+    ]
+  },
+  {
+    id:"ai_section", icon:"🤖", title:"בינה מלאכותית", desc:"AI כמנוע צמיחה, יעילות וחדשנות בעמותה",
+    items:[
+      {
+        id:"ai1", title:"איפה AI ייתן לנו את הערך המקסימלי", tags:["AI","אוטומציה","יעילות"], favorite:true, useCount:0,
+        text:`אני מנכ"ל עמותה גדולה הפועלת בתחומי רווחה, שיקום, ילדים, תעסוקה ואלימות.
+
+פעל כיועץ AI לארגוני Third Sector.
+
+הקשר:
+[תאר: כמה עובדים, כמה תוכניות, סוגי דיווח, מערכות IT קיימות]
+
+צא מנקודת הנחה שרוב העובדים לא טכנולוגיים.
+
+מצא 10 תהליכים בארגון שבהם AI יכול:
+א. לחסוך הכי הרבה שעות עובד
+ב. לשפר את איכות הטיפול
+ג. לשפר את איכות הדיווח למשרדי ממשלה
+
+לכל תהליך:
+- כלי AI רלוונטי (ספציפי, לא כללי)
+- עלות משוערת
+- זמן הטמעה
+- מי מיישם
+- איך מודדים הצלחה`
+      },
+      {
+        id:"ai2", title:"תוכנית AI ל-12 חודשים", tags:["AI","תוכנית","יישום"], favorite:false, useCount:0,
+        text:`בנה תוכנית יישום AI בעמותה ל-12 חודשים הקרובים.
+
+ארגוני Third Sector, עשרות עובדים, מגוון תוכניות, רוב המנהלים ותיקים.
+
+חלק ל-4 רבעונים.
+
+לכל רבעון ציין:
+- מטרה ספציפית ומדידה
+- פעולות קונקרטיות
+- מי אחראי
+- תקציב משוער
+- איך תדע שזה עבד
+
+עיקרון: קצב שלא ישבור את הארגון.
+עיקרון: כל שלב חייב להניב תוצאה מדידה לפני שממשיכים לשלב הבא.`
+      },
+      {
+        id:"ai3", title:"AI לדיווח ומדידת תוצאות", tags:["AI","דיווח","מדידה"], favorite:false, useCount:0,
+        text:`אחד האתגרים הגדולים בעמותות הוא דיווח למשרדי ממשלה וקרנות.
+
+פעל כמומחה Data ו-AI לארגוני Third Sector.
+
+הקשר:
+[תאר: לאילו גופים מדווחים, כמה דוחות בשנה, מי כותב אותם, כמה זמן לוקח]
+
+הצע פתרון AI שיאפשר:
+1. איסוף נתונים אוטומטי מהעובדים בשטח
+2. בניית דוחות מובנים
+3. מדידת תוצאות לפי KPIs שאנחנו קובעים
+
+ציין כלים ספציפיים, עלויות, ומי מיישם.
+המלצות צריכות להיות ריאליות לארגון שאין בו צוות IT פנימי.`
+      }
+    ]
+  },
+  {
+    id:"growth", icon:"🚀", title:"צמיחה ופרויקטים", desc:"פרויקטים חדשים, שותפויות, הרחבת פעילות",
+    items:[
+      {
+        id:"g1", title:"גנרטור פרויקטים חדשים — יחדיו", tags:["פרויקטים","חדשנות","פריפריה"], favorite:true, useCount:0,
+        text:`הצע 15 פרויקטים חדשים לעמותה חברתית הפועלת בפריפריה הגיאוגרפית והחברתית בישראל.
+
+תחומי פעילות קיימים: ילדים ונוער בסיכון, התמכרויות, מוגבלויות, אלימות, תעסוקה, רווחה קהילתית.
+
+כל פרויקט צריך:
+- להיות רלוונטי לאחד מתחומי הפעילות הקיימים או לשלב ביניהם
+- לנצל נכס קיים בעמותה (כוח אדם, מקום, קשרים, ידע)
+- לאפשר גיוס מימון ממשלתי, קרנות או מגזר עסקי
+
+לכל פרויקט:
+- שם ותיאור
+- קהל יעד
+- עלות הקמה משוערת
+- מקור מימון אפשרי
+- מה הרווח החברתי המדיד?
+- ציון ריאליות מ-1 עד 10`
+      },
+      {
+        id:"g2", title:"שותפויות עסקיות אסטרטגיות", tags:["שותפויות","עסקי","WIN-WIN"], favorite:false, useCount:0,
+        text:`מצא 10 שותפויות עסקיות פוטנציאליות לעמותה חברתית.
+
+עמותה הפועלת בתחומי: ילדים, נוער, מוגבלויות, התמכרויות, תעסוקה, בדרום ישראל.
+
+לכל שותפות:
+- מי החברה / הגוף?
+- מה האינטרס שלהם (מדוע כדאי להם)?
+- מה אנחנו מרוויחים?
+- באיזה מודל (CSR, פרויקט משותף, מכירת שירות, תעסוקה)?
+- כמה שווה השותפות?
+
+תקבע קריטריונים ברורים לשותפות טובה.
+אל תציע דברים שנשמעים טוב אבל לא יוצאים לפועל בעמותות.`
+      },
+      {
+        id:"g3", title:"ניסיון בינלאומי — מה העולם עשה שאנחנו לא", tags:["בינלאומי","חדשנות","מחקר"], favorite:false, useCount:0,
+        text:`מצא 5 מודלים מהעולם שהצליחו בתחום:
+[בחר: ילדים בסיכון / התמכרויות / שיקום נפשי / תעסוקת אנשים עם מוגבלויות]
+
+לכל מודל:
+- איפה הוא פועל
+- מה הוא עושה בדיוק
+- למה הוא הצליח
+- מה מקורות המימון
+- מה התוצאות המדידות
+- האם ניתן להעתיק לישראל?
+- מה יהיה קשה להתאים?
+
+השווה את 5 המודלים ובחר את 2 המתאימים ביותר ליחדיו.`
+      }
+      ,{
+        id:"g4", title:"דוח היתכנות לפרויקט חדש", tags:["פרויקט","היתכנות","SWOT","מימון"], favorite:true, useCount:0,
+        text:`אתה אנליסט שוק המתמחה בארגוני Third Sector ועמותות חברתיות בישראל.
+
+הכן דוח היתכנות לפרויקט / תוכנית חדשה של עמותת יחדיו.
+
+שם הפרויקט: [שם הפרויקט]
+תחום: [לדוגמה: שיקום נפשי / תעסוקה / ילדים בסיכון / התמכרויות]
+קהל יעד מוצע: [לדוגמה: צעירים עם מוגבלות נפשית / קשישים / משפחות בסיכון]
+אזור גיאוגרפי: [דרום ישראל / ארצי]
+
+חומרים מצורפים: [הדבק מחקרים, נתונים, קישורים, מאמרים רלוונטיים — אם יש]
+
+נתח את החומרים וערוך דוח עם המבנה הבא:
+
+1. תמצית מנהלים (Executive Summary)
+   3–4 משפטים עם המסקנה המרכזית: האם הפרויקט כדאי?
+
+2. גודל השוק וביקוש
+   - כמה אנשים בישראל / בדרום זקוקים לשירות הזה?
+   - האם הביקוש גדל או פוחת?
+   - האם יש מחסור בשירותים קיימים?
+
+3. מגמות מרכזיות
+   3–5 מגמות רלוונטיות:
+   - רגולטורית (שינויים במדיניות משרד הבריאות / הרווחה)
+   - חברתית (מגמות אוכלוסייה, צרכים משתנים)
+   - טכנולוגית (AI, כלים דיגיטליים לשיקום)
+   - מימונית (קרנות חדשות, מכרזים פתוחים)
+
+4. ניתוח עמותות ומתחרים
+   2–3 ארגונים שעושים דבר דומה:
+   - מה הם עושים טוב?
+   - מה חסר אצלם?
+   - איפה יחדיו יכולה להיות טובה יותר?
+
+5. קהל היעד
+   - פרופיל המופנה האופייני
+   - מי מפנה אותם (עו"ס, בית חולים, משפחה)?
+   - מה הצרכים שלא מקבלים מענה כיום?
+
+6. מקורות מימון פוטנציאליים
+   - האם יש מכרז ממשלתי רלוונטי?
+   - קרנות ישראליות / בינלאומיות מתאימות?
+   - האם ניתן לשלב מימון ממגזר עסקי (CSR)?
+   - עלות הקמה משוערת מול מימון אפשרי
+
+7. ניתוח SWOT
+   - חוזקות: מה יחדיו מביאה שאחרים לא יכולים
+   - חולשות: מה עלול לעכב את היישום
+   - הזדמנויות: מה הרוח הגבית בשוק
+   - איומים: מה יכול לסכן את הפרויקט
+
+8. מסקנה והמלצה
+   - האם לצאת לדרך? כן / לא / בתנאים
+   - אם כן — איזה מודל יישום מומלץ?
+   - מה צעד ראשון קונקרטי שיחדיו יכולה לעשות עכשיו?`
+      }
+    ]
+  },
+  {
+    id:"gov", icon:"🏛️", title:"ממשל ומשרדים", desc:"עבודה עם משרדי ממשלה, רשויות וגופים ציבוריים",
+    items:[
+      {
+        id:"gov1", title:"ניהול משא ומתן מול משרד ממשלתי", tags:["ממשלה","מו\"מ","הסכמים"], favorite:true, useCount:0,
+        text:`אני מנכ"ל עמותה שנמצאת במשא ומתן מול משרד ממשלתי.
+
+הקשר:
+[תאר: עם איזה משרד, על מה המשא ומתן, מה עמדתנו, מה עמדתם]
+
+פעל כיועץ שמכיר את הסביבה הממשלתית בישראל.
+
+נתח:
+1. מה האינטרסים האמיתיים של הצד שכנגד (לא המיוצגים)?
+2. מה הקלפים שלנו?
+3. מה הקלפים שלהם?
+4. מה ה-BATNA שלנו?
+5. מה ה-BATNA שלהם?
+6. איפה יש מרחב לויתורים מבלי לפגוע בליבת האינטרסים שלנו?
+
+הצג אסטרטגיית משא ומתן ב-3 שלבים: הכנה, פגישה, סגירה.`
+      },
+      {
+        id:"gov2", title:"כתיבת תגובה למכרז ממשלתי", tags:["מכרז","מימון","כתיבה"], favorite:false, useCount:0,
+        text:`עזור לי לבנות הצעה מנצחת למכרז ממשלתי.
+
+פרטי המכרז:
+[הדבק את עיקרי המכרז]
+
+נתוני העמותה הרלוונטיים:
+[תאר: ניסיון קיים, תוצאות מוכחות, כוח אדם, יכולות ייחודיות]
+
+בנה מסמך הצעה שיכלול:
+1. הצגת העמותה (ממוקדת בנושא המכרז)
+2. ניסיון מוכח עם נתונים
+3. מתודולוגיה מוצעת
+4. כוח אדם ייעודי
+5. תקציב ריאלי
+6. יתרונות ייחודיים לעומת המתחרים
+
+שים דגש: מה יבדל אותנו מהצעות אחרות?`
+      },
+      {
+        id:"gov3", title:"דיווח שנתי — הפוך נתונים לסיפור", tags:["דיווח","שנתי","אימפקט"], favorite:false, useCount:0,
+        text:`עזור לי להפוך נתונים יבשים לדוח שנתי שמשפיע.
+
+נתוני השנה:
+[הדבק נתונים: מספר נהנים, תוכניות, תוצאות, אירועים]
+
+צור מסמך שיכלול:
+1. כותרת שמעוררת עניין
+2. 3 מספרים שמספרים הכל (highlights)
+3. סיפור אחד אנושי שמייצג את הפעילות
+4. גרף השוואתי לשנה הקודמת
+5. הכרות עם גורמים שמימנו
+6. מסר לשנה הבאה
+
+טון: מקצועי, אך לא יבש. עם גאווה, ללא התנשאות.`
+      }
+    ]
+  },
+  {
+    id:"people", icon:"👥", title:"אנשים וארגון", desc:"כוח אדם, מנהלים, מבנה ותרבות ארגונית",
+    items:[
+      {
+        id:"p1", title:"ניתוח מבנה ניהולי", tags:["ניהול","מבנה","יעילות"], favorite:false, useCount:0,
+        text:`נתח את המבנה הניהולי של הארגון.
+
+נתונים:
+[תאר: כמה מנהלים, כמה שכבות ניהול, מי כפוף למי, כמה עובדים בכל יחידה]
+
+חפש:
+- נקודות כשל שהמנכ"ל לא רואה
+- מנהלים שמנהלים יותר מדי אנשים
+- מנהלים שמנהלים פחות מדי
+- תפקידים שמיותרים או חסרים
+- תהליכי החלטה שאיטיים מדי
+- תלות יתרה ב"כוכבים" בודדים
+
+המלץ על שינויים.
+ציין: מה יגרום לעמידה פנים-מנהלים, ואיך להתמודד עם זה.`
+      },
+      {
+        id:"p2", title:"בניית תרבות ארגונית של תוצאות", tags:["תרבות","תוצאות","ניהול"], favorite:false, useCount:0,
+        text:`אני רוצה לבנות ארגון שמוכוון תוצאות, לא תהליכים.
+
+הקשר:
+[תאר את התרבות הנוכחית: מה עובד, מה לא, מה עמדת העובדים]
+
+פעל כיועץ ארגוני בכיר.
+
+הצע:
+1. 5 שינויים תרבותיים ספציפיים ומדידים
+2. מערכת KPIs לכל רמת ניהול
+3. מנגנון שבועי/חודשי לבקרת תוצאות
+4. איך מתגמלים הצלחה (לא רק בכסף)
+5. איך מטפלים בכישלון (לא רק בביקורת)
+
+שים לב: עמותות חברתיות — עובדים רגישים לשפת "עסקים". איך עושים את זה בלי לשבור את המחויבות החברתית?`
+      }
+    ]
+  },
+  {
+    id:"decisions", icon:"⚖️", title:"החלטות ומשברים", desc:"ניתוח החלטות קשות, ניהול סיכונים, משברים",
+    items:[
+      {
+        id:"d1", title:"ניתוח החלטה אסטרטגית", tags:["החלטה","סיכון","ניתוח"], favorite:true, useCount:0,
+        text:`עמוד בפניי החלטה אסטרטגית חשובה.
+
+ההחלטה:
+[תאר את ההחלטה]
+
+אפשרויות:
+1. [אפשרות א]
+2. [אפשרות ב]
+3. [לא לעשות כלום]
+
+לכל אפשרות נתח:
+- מה הרווח?
+- מה הסיכון?
+- מה קורה ב-12 חודשים, 3 שנים, 10 שנים?
+- כמה עולה?
+- מה צריך שיקרה כדי שזה יצליח?
+- מה יכול לשבור את זה?
+
+בסוף — תן המלצה ברורה ונמק אותה.
+אל תחשוש לאמר לי דברים שאני לא רוצה לשמוע.`
+      },
+      {
+        id:"d2", title:"ניהול משבר ארגוני", tags:["משבר","מוניטין","ניהול"], favorite:false, useCount:0,
+        text:`אני בתוך משבר ארגוני.
+
+מה קרה:
+[תאר את המשבר: מה, מתי, מי מעורב, מה הנזק הפוטנציאלי]
+
+מי מושפע:
+[מקבלי שירות / עובדים / גורמי מימון / ציבור / מדיה]
+
+פעל כיועץ לניהול משברים עם ניסיון בארגוני Third Sector.
+
+תן לי:
+1. ניתוח המצב הנוכחי — כמה רע זה?
+2. 48 שעות הקרובות — מה עושים קודם?
+3. מסר ממוקד לכל קהל יעד
+4. מה לא לעשות בשום פנים
+5. מה יגרום להסלמה?
+6. מה מקנה שליטה בנרטיב?`
+      },
+      {
+        id:"d3", title:"מטריצת עדיפויות — מה לפני מה", tags:["עדיפויות","תכנון","ניהול זמן"], favorite:false, useCount:0,
+        text:`יש לי יותר מדי דברים על השולחן.
+
+רשימת נושאים / פרויקטים / משימות:
+[הכנס רשימה]
+
+דרג כל פריט לפי:
+- דחיפות (1-5)
+- חשיבות אסטרטגית (1-5)
+- השפעה פיננסית (1-5)
+- השפעה חברתית (1-5)
+- מורכבות יישום (1-5)
+
+סווג ל-4 קבוצות:
+🔴 מיידי — לטפל השבוע
+🟡 לתכנן — לחודש הקרוב
+🔵 לאצול — לא חייב להיות אני
+⚫ לוותר — כנה איתי
+
+הסבר את ההיגיון.`
+      }
+    ]
+  },
+  {
+    id:"board", icon:"🏢", title:"ועד וממשל תאגידי", desc:"עבודה עם הוועד המנהל, שקיפות ודיווח",
+    items:[
+      {
+        id:"b1", title:"הכנת חומרים לישיבת ועד", tags:["ועד","דיווח","ניהול"], favorite:true, useCount:0,
+        text:`הכן חומרי רקע לישיבת ועד מנהל.
+
+נושאי הישיבה:
+[פרט]
+
+עבור כל נושא:
+- תמצית מנהלים (3 שורות מקסימום)
+- מה הועד צריך לדעת
+- מה הועד צריך להחליט
+- אפשרויות להחלטה
+- המלצת הנהלה
+- סיכון אם לא מחליטים
+
+פורמט: קצר, ממוקד, ללא מליצות.
+הועד רוצה לקרוא 2 דקות ולהחליט — לא להתרשם.`
+      },
+      {
+        id:"b2", title:"בניית KPIs לדיווח ועד", tags:["KPI","מדידה","ועד"], favorite:false, useCount:0,
+        text:`בנה מערכת מדדים (KPIs) לדיווח חודשי/רבעוני לוועד המנהל.
+
+ארגון:
+[תחומי פעילות, גודל תקציב, מספר נהנים]
+
+צור לוח מחוונים שיכלול:
+1. מדדים פיננסיים (5 מדדים)
+2. מדדים תפעוליים (5 מדדים)
+3. מדדי איכות שירות (5 מדדים)
+4. מדדי כוח אדם (3 מדדים)
+
+לכל מדד:
+- שם ברור
+- כיצד מחשבים
+- מה היעד
+- מה מדאיג (threshold להתראה)
+
+פורמט: ניתן ליישום מיידי, לא תיאורטי.`
+      }
+    ]
+  },
+  {
+    id:"presentation", icon:"📊", title:"מצגות ודיבורים", desc:"הצגת רעיונות, שכנוע, תקשורת מנהיגותית",
+    items:[
+      {
+        id:"pr1", title:"מצגת לועד / משרד ממשלתי", tags:["מצגת","שכנוע","מנהיגות"], favorite:true, useCount:0,
+        text:`הכן מבנה מצגת לצורך:
+[תאר: מה המטרה — לשכנע, לדווח, לבקש תקציב, להציג פרויקט]
+
+קהל:
+[ועד / משרד ממשלתי / קרן / שותף עסקי]
+
+מבנה:
+1. פתיחה שמשפיעה (לא "ברוכים הבאים")
+2. הבעיה שאנחנו פותרים — בנתונים
+3. הפתרון שלנו — מוכח
+4. למה אנחנו — לא אחר
+5. מה אנחנו מבקשים בדיוק
+6. מה יקרה אם כן / לא
+
+לכל שקופית: כותרת + 3 נקודות + מה לומר בעל פה`
+      },
+      {
+        id:"pr2", title:"נאום של 5 דקות", tags:["נאום","השראה","תקשורת"], favorite:false, useCount:0,
+        text:`כתוב נאום של 5 דקות.
+
+נושא:
+[תאר]
+
+קהל:
+[עובדים / ועד / ועידה / אירוע]
+
+מטרה:
+[לעורר מוטיבציה / להכריז על שינוי / לבקש משהו / לחגוג הצלחה]
+
+סגנון:
+ישיר, מנהיגותי, ללא קלישאות.
+
+מבנה:
+- פתיחה שמפתיעה
+- 3 מסרים מרכזיים עם דוגמאות
+- רגע אנושי אחד
+- סיכום שנזכרים ממנו`
+      }
+    ]
+  }
+  ,{
+    id:"market", icon:"📊", title:"ניתוח שוק ותחרות", desc:"מיפוי מתחרים, הזדמנויות ופוזיציונינג",
+    items:[
+      {
+        id:"mk1", title:"ניתוח תחרותי מעמיק", tags:["שוק","מתחרים","פוזיציונינג"], favorite:true, useCount:0,
+        text:`אתה אנליסט שיווקי ומומחה לשוק שירותי הרווחה, שיקום ובריאות הנפש בישראל.
+
+בצע ניתוח תחרותי מעמיק בדרום ישראל / ארצי.
+
+הארגון שלנו: עמותת יחדיו — מפעל מוגן שיקומי לבריאות הנפש, באר שבע.
+תחומי פעילות: שיקום נפשי, תעסוקה מוגנת, ילדים ונוער בסיכון, התמכרויות, מוגבלויות, אלימות, רווחה קהילתית.
+אתר (אם קיים): [הכנס URL]
+מתחרים ישירים ידועים (אם יש): [url1, url2, url3]
+
+אם המתחרים לא צוינו — מצא 5–7 גורמים מרכזיים בתחום בעצמך.
+
+עבור כל מתחרה סכם בטבלה:
+1. קישור לאתר
+2. שם הארגון / החברה
+3. הצעת הערך המרכזית
+4. יתרונות ייחודיים / USP
+5. פעולת היעד (טופס, טלפון, וואטסאפ)
+6. מגוון שירותים
+7. אופן העבודה מול לקוחות / מופנים
+8. עלויות (אם ידועות)
+9. נקודות חוזק
+10. נקודות חולשה וחסרונות
+
+בנוסף:
+- סמן כלים בולטים למעורבות (שאלונים, מחשבונים, צ'אטבוטים)
+- מפת פוזיציונינג (מחיר / איכות שירות)
+- הזדמנויות דיפרנציאציה — במה יחדיו יכולה להתבלט
+
+לסיום:
+- מסקנות כלליות על השוק
+- 3–5 המלצות ספציפיות לפוזיציונינג של עמותת יחדיו`
+      }
+,{
+        id:"mk2", title:"אודיט אתר — עמותת יחדיו", tags:["אתר","דיגיטל","אמינות"], favorite:true, useCount:0,
+        text:`אתה אנליסט דיגיטלי עם 10+ שנות ניסיון בארגוני Third Sector ועמותות חברתיות בישראל.
+
+בצע אודיט מקיף לאתר עמותת יחדיו.
+כתובת האתר: [הכנס URL]
+נתוני אנליטיקה מצורפים: [אם יש — הדבק או ציין אין]
+
+המטרות של האתר אינן מכירה — אלא:
+- יצירת אמון מול משרד הבריאות, מנקל"י וגורמי מימון
+- מידע ברור למופנים ולמשפחותיהם
+- הצגת הפעילות לשותפים פוטנציאליים ולתורמים
+
+1. דף הבית — מעל הקפל
+   - האם ברור תוך 5 שניות מי אנחנו ומה אנחנו עושים?
+   - האם יש פנייה ברורה למופנה / למשפחה / לגורם מפנה?
+   - האם הוויזואל מעביר מקצועיות ואמון?
+   - האם יש ייחודיות לעומת עמותות אחרות?
+
+2. מבנה האתר
+   - האם קל למצוא מידע על תוכניות ושירותים?
+   - האם יש מידע ברור לכל קהל יעד (מופנה / עו"ס מפנה / תורם / משרד ממשלתי)?
+   - מה מיותר / מה חסר?
+
+3. אמינות ואסמכתאות
+   - האם יש עדויות ממופנים או משפחות?
+   - האם יש נתונים מוכחים על תוצאות?
+   - האם יש אזכור של הסמכות, רישיונות, שיתופי פעולה עם משרדי ממשלה?
+   - האם מוזכר ניסיון שנים ומספר מקבלי שירות?
+
+4. שפה ותוכן
+   - האם השפה מתאימה לכל קהלי היעד?
+   - האם יש מידע מעשי ברור (איך להפנות, מה התהליך, מה כלול)?
+   - האם הכותרות מנחות את הקורא?
+
+5. טכני ונגישות
+   - נגישות לאנשים עם מוגבלויות (חוק הנגישות הישראלי)
+   - התאמה למובייל
+   - מהירות טעינה
+   - טפסי יצירת קשר — פשוטים וברורים?
+
+6. ניתוח נתונים (אם צורפו)
+   - מאיפה מגיע התנועה — ומי באמת מבקר?
+   - אילו דפים נצפים הכי הרבה / הכי פחות?
+   - מה אחוז הנטישה ומה מעיד?
+
+7. השוואה לעמותות מקבילות
+   - מצא 3–5 עמותות דומות בישראל
+   - השווה: מי מציג את עצמו טוב יותר ולמה?
+
+פורמט: טוב / בעייתי / המלצה
+בסיום — טופ 10 המלצות לפי עדיפות.
+כל המלצה: מה לעשות + מדוע זה ישפר את האמינות והנגישות של העמותה.`
+      }
+      ,{
+        id:"mk3", title:"דוח קמפיין שיווקי — יחדיו", tags:["קמפיין","שיווק","דיגיטל","KPI"], favorite:true, useCount:0,
+        text:`אתה אנליסט שיווקי המתמחה בארגוני Third Sector ועמותות חברתיות בישראל.
+
+הכן דוח מסכם לקמפיין שיווקי של עמותת יחדיו.
+
+שם הקמפיין: [שם הקמפיין]
+תאריכים: [תאריך התחלה] עד [תאריך סיום]
+מטרת הקמפיין: [לדוגמה: הגדלת מספר המופנים / העלאת מודעות / גיוס תרומות / חיזוק שיתופי פעולה]
+
+KPI מרכזיים:
+- עלות לפנייה (CPL): [יעד]
+- מספר פניות / הפניות: [יעד]
+- אחוז המרה: [יעד]
+- [KPI נוסף לפי הצורך]
+
+נתוני הקמפיין:
+[הדבק נתונים: הוצאות לפי ערוץ, חשיפות, קליקים, CTR, מספר פניות, CPL, המרות]
+
+נתח את הנתונים וערוך דוח מסכם:
+
+1. סיכום תוצאות
+   - האם ה-KPI הושגו?
+   - מסקנה קצרה על הצלחת הקמפיין
+
+2. ניתוח לפי ערוץ
+   ערוצים רלוונטיים לישראל: Google, Facebook/Instagram, LinkedIn, WhatsApp, דיוור ישיר לעו"סים / גורמים מפנים
+   - איזה ערוץ הביא את העלות הנמוכה ביותר לפנייה?
+   - איזה ערוץ הביא את קהל היעד האיכותי ביותר?
+   - איזה ערוץ לא עמד בציפיות ומדוע?
+
+3. ניתוח קריאייטיב
+   - אילו מסרים / תמונות / סרטונים עבדו הכי טוב?
+   - מה לא עבד — ומה ניתן ללמוד מכך?
+
+4. מסקנות והמלצות
+   - 3 מסקנות מרכזיות מהקמפיין
+   - 2–3 השערות לבדיקה בקמפיין הבא
+   - המלצה: אילו ערוצים להגדיל / לצמצם בתקציב הבא?
+
+הערה חשובה: עמותת יחדיו אינה "מוכרת" שירות בצורה מסחרית — היא מציעה שירות שיקומי מוסדר ומפוקח.
+הצלחת הקמפיין נמדדת לא רק במספרים אלא גם באיכות הפניות ובהתאמתן לקריטריוני הקבלה של המפעל.`
+      }
+    ]
+  }
+];
+
+let data = load();
+let active = localStorage.getItem('yachdavCEOActive') || 'guide';
+let showArchive = false;
+
+function clone(x){return JSON.parse(JSON.stringify(x));}
+function load(){try{const r=localStorage.getItem(KEY);return r?normalize(JSON.parse(r)):clone(DEFAULT)}catch(e){return clone(DEFAULT)}}
+function normalize(arr){if(!Array.isArray(arr))return clone(DEFAULT);return arr.map(s=>{s.id=s.id||uid('s');s.icon=s.icon||'📌';s.title=s.title||'ללא שם';s.desc=s.desc||'';s.items=Array.isArray(s.items)?s.items:[];s.items=s.items.map(i=>{i.id=i.id||uid('p');i.title=i.title||'ללא שם';i.tags=Array.isArray(i.tags)?i.tags:[];i.favorite=!!i.favorite;i.useCount=Number(i.useCount)||0;i.text=i.text||'';return i});return s})}
+function save(){localStorage.setItem(KEY,JSON.stringify(data));localStorage.setItem('yachdavCEOActive',active);refreshTags()}
+function uid(p){return p+'-'+Math.random().toString(36).slice(2,8)}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]))}
+function section(id){return data.find(s=>s.id===id)}
+function item(sid,iid){const s=section(sid);return s&&s.items.find(i=>i.id===iid)}
+function allTags(){const set={};data.forEach(s=>s.items.forEach(i=>(i.tags||[]).forEach(t=>set[t]=1)));return Object.keys(set).sort()}
+function refreshTags(){const el=document.getElementById('tagFilter'),old=el.value;el.innerHTML='<option value="">כל התגיות</option>'+allTags().map(t=>`<option value="${esc(t)}">${esc(t)}</option>`).join('');el.value=old;const sel=document.getElementById('newPromptSection');if(sel)sel.innerHTML=data.filter(s=>!s.system&&!s.archived).map(s=>`<option value="${esc(s.id)}">${s.icon} ${esc(s.title)}</option>`).join('')}
+function matches(i,s,q,tag){const txt=[i.title,i.text,(i.tags||[]).join(' '),s.title].join(' ').toLowerCase();return(!q||txt.includes(q))&&(!tag||(i.tags||[]).includes(tag))}
+
+function render(){
+  refreshTags();
+  renderSidebar();
+  const c=document.getElementById('content');
+  if(active==='guide'||active==='mynotes'){
+    if(active==='guide') c.innerHTML=guideHTML();
+    else c.innerHTML=notesHTML();
+    return;
+  }
+  const q=document.getElementById('searchInput').value.trim().toLowerCase();
+  const tag=document.getElementById('tagFilter').value;
+  let secs=data.filter(s=>!s.system&&(showArchive?!!s.archived:!s.archived));
+  if(!q&&!tag) secs=secs.filter(s=>s.id===active);
+  else secs=secs.filter(s=>s.items.some(i=>matches(i,s,q,tag)));
+  const backBtn=`<div class="no-print" style="margin-bottom:14px"><button class="sec sm" onclick="window._resetToGuide()">← חזרה למדריך</button></div>`;
+  c.innerHTML=backBtn+(secs.length?secs.map(s=>secHTML(s,q,tag)).join(''):'<div class="panel empty"><div style="font-size:32px;margin-bottom:12px">🔍</div><div>לא נמצאו פרומפטים.</div></div>');
+}
+
+function renderSidebar(){
+  const box=document.getElementById('sidebar');
+  const secs=data.filter(s=>s.system||(showArchive?!!s.archived:!s.archived));
+  box.innerHTML=secs.map(s=>{
+    const cnt = s.id==='mynotes' ? getNotesCount() : s.items.length;
+    const badge = s.id==='mynotes' && cnt>0 ? `<span class="count" style="background:rgba(212,168,67,0.18);color:var(--gold)">${cnt}</span>` : `<span class="count">${cnt}</span>`;
+    return `<button class="sec-btn ${s.id===active?'active':''}" data-action="section" data-id="${esc(s.id)}"><span class="ico">${esc(s.icon)}</span><span class="label">${esc(s.title)}<small>${esc(s.desc)}</small></span>${badge}</button>`;
+  }).join('');
+}
+
+function secHTML(s,q,tag){
+  let items=s.items.filter(i=>matches(i,s,q,tag));
+  if(!q&&!tag)items=s.items;
+  return `<section><div class="panel"><div class="panel-title">${esc(s.icon)} ${esc(s.title)}</div><div class="panel-desc">${esc(s.desc)}</div><div style="margin-top:10px"><button class="sec sm no-print" data-action="archive" data-sec="${esc(s.id)}">${s.archived?'↩ החזר':'📦 ארכיון'}</button></div></div>${items.map(i=>cardHTML(s,i)).join('')||'<div class="panel empty">אין פרומפטים בנושא זה עדיין.</div>'}</section>`;
+}
+
+function cardHTML(s,i){
+  const noteKey='note_'+i.id;
+  const existingNote=localStorage.getItem(noteKey)||'';
+  const hasNote=!!existingNote.trim();
+  return `<div class="card" data-sec="${esc(s.id)}" data-item="${esc(i.id)}">
+    <div class="card-head">
+      <div>
+        <div class="card-title">${i.favorite?'<span class="star">★</span>':''}${esc(i.title)}</div>
+        <div class="tags">${(i.tags||[]).map(t=>`<span class="tag">${esc(t)}</span>`).join('')}<span class="tag used">שימושים: ${i.useCount||0}</span></div>
+      </div>
+      <div class="card-actions no-print">
+        <button class="btn-claude" data-action="open-claude" title="שלח ל-Claude">🤖 Claude</button>
+        <button class="sec sm" data-action="copy" title="העתק">📋</button>
+        <button class="sec sm" data-action="save-prompt" title="שמור" style="color:#ffffff;font-size:22px">💾</button>
+        <button class="sec sm" data-action="favorite" title="מועדף">${i.favorite?'☆':'★'}</button>
+        <button class="note-toggle ${hasNote?'has-note':''}" data-action="toggle-note" title="הערה">💬${hasNote?' ✓':''}</button>
+        <button class="danger sm" data-action="delete" title="מחק">🗑</button>
+      </div>
+    </div>
+    <textarea>${esc(i.text)}</textarea>
+    <div class="print-text">${esc(i.text)}</div>
+    <div class="status"></div>
+    ${hasNote?`<div class="note-preview" onclick="toggleNoteArea(this.closest('.card'),'${esc(i.id)}')">${esc(existingNote)}</div>`:''}
+    <div class="note-area" id="note-area-${esc(i.id)}">
+      <textarea class="note-ta" placeholder="כתוב הערה על הפרומפט הזה..." onkeydown="if(event.key==='Escape')toggleNoteArea(this.closest('.card'),'${esc(i.id)}')">${esc(existingNote)}</textarea>
+      <div class="note-actions">
+        <button class="note-save-btn" onclick="saveNote('${esc(i.id)}','${esc(s.title)}','${esc(i.title)}',this.closest('.card'))">💾 שמור הערה</button>
+        ${hasNote?`<button class="note-del-btn" onclick="deleteNote('${esc(i.id)}',this.closest('.card'))">🗑 מחק</button>`:''}
+        <span class="note-status" id="note-status-${esc(i.id)}"></span>
+      </div>
+    </div>
+  </div>`;
+}
+
+function guideHTML(){
+  const p=getProfile();
+  const hasProfile=p.ceoName||p.budget||p.domains;
+
+  // Profile preview block
+  const profileBlock = hasProfile ? `
+  <div class="panel" style="border-color:rgba(212,168,67,0.3);margin-bottom:14px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+      <div class="panel-title" style="margin-bottom:0">👤 פרופיל הארגון שלך</div>
+      <button class="sec sm no-print" onclick="openProfileModal()">✏️ ערוך</button>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px 20px;font-size:14px">
+      ${p.ceoName   ?`<div><span style="color:var(--text3)">מנכ״ל: </span><span style="color:var(--gold);font-weight:600">${esc(p.ceoName)}</span></div>`:''}
+      ${p.budget    ?`<div><span style="color:var(--text3)">תקציב: </span><span style="color:var(--text)">${formatMoney(p.budget)}</span></div>`:''}
+      ${p.employees ?`<div><span style="color:var(--text3)">עובדים: </span><span style="color:var(--text)">${formatNum(p.employees)}</span></div>`:''}
+      ${p.clients   ?`<div><span style="color:var(--text3)">נהנים: </span><span style="color:var(--text)">${formatNum(p.clients)}</span></div>`:''}
+      ${p.region    ?`<div><span style="color:var(--text3)">אזור: </span><span style="color:var(--text)">${esc(p.region)}</span></div>`:''}
+      ${p.domains   ?`<div class="full" style="grid-column:1/-1"><span style="color:var(--text3)">תחומים: </span><span style="color:var(--text)">${esc(p.domains)}</span></div>`:''}
+    </div>
+    <div style="margin-top:12px;padding:10px 12px;background:rgba(212,168,67,0.06);border:1px solid rgba(212,168,67,0.18);border-radius:9px;font-size:13px;color:var(--text3);line-height:1.6">
+      💡 <strong style="color:var(--gold)">כך זה עובד:</strong> כשתעתיק פרומפט, הפרטים האלה יצורפו אוטומטית לתחילת הטקסט — כדי שה-AI יבין בדיוק עם מי הוא עובד.
+    </div>
+  </div>` : `
+  <div class="panel" style="border-color:rgba(240,82,82,0.3);margin-bottom:14px">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <div>
+        <div class="panel-title" style="margin-bottom:4px">👤 פרופיל הארגון — לא מולא</div>
+        <div style="font-size:14px;color:var(--text3)">מלא את הפרופיל כדי שה-AI יקבל הקשר מדויק על יחדיו בכל פרומפט</div>
+      </div>
+      <button class="gold no-print" onclick="openProfileModal()" style="flex-shrink:0;margin-right:12px">✏️ מלא עכשיו</button>
+    </div>
+  </div>`;
+
+  // Live example block
+  const exampleCtx = hasProfile ? buildProfileCtx() : '--- הקשר ארגוני ---\nארגון: עמותת יחדיו\nמנכ״ל: [שם המנכ״ל]\nתקציב שנתי: [תקציב]\n---\n\n';
+  const examplePrompt = exampleCtx + 'פעל כצוות ביקורת חיצוני. מטרתך אינה להחמיא אלא למצוא חולשות.\n\nמצא הנחות יסוד שעלולות להיות שגויות, סיכונים פיננסיים, ניהוליים, כוח אדם ותלות יתר בגורמים חיצוניים.\n\nלכל סיכון: חומרה, הסתברות, סימני אזהרה, דרך מניעה.\n\nהיה ישיר. אל תרכך.';
+
+  return `
+  ${profileBlock}
+
+  <div class="panel" style="margin-bottom:14px">
+    <div class="panel-title">🔴 דוגמה חיה — Red Team: איפה אנחנו טועים</div>
+    <div class="panel-desc" style="margin-bottom:12px">כך נראה פרומפט אחרי שהפרופיל שלך מצורף אוטומטית. לחץ 📋 כדי להעתיק ולהדביק ב-Claude או ChatGPT.</div>
+    <div style="background:var(--bg);border:1px solid rgba(212,168,67,0.2);border-radius:10px;padding:14px;font-size:13px;color:var(--text3);line-height:1.7;white-space:pre-wrap;max-height:220px;overflow-y:auto;direction:rtl">${esc(examplePrompt)}</div>
+    <div style="margin-top:10px;display:flex;gap:8px;align-items:center">
+      <button class="sec sm no-print" onclick="copyExamplePrompt()"  id="exampleCopyBtn">📋 העתק פרומפט</button>
+      <span id="exampleCopyStatus" style="font-size:12px;color:var(--green);height:16px"></span>
+      <span style="font-size:12px;color:var(--text3);margin-right:auto">הפרומפט המלא נמצא ב: Think Tank → Red Team</span>
+    </div>
+  </div>
+
+  <div class="panel"><div class="panel-title">🧭 בחר לפי מה שאתה צריך עכשיו</div></div>
+  <div class="guide-grid">
+    <div class="guide-card"><h4>יש לך רעיון חדש</h4><p>→ <strong>Venture Studio</strong> — פיילוטים ומיזמים חברתיים</p></div>
+    <div class="guide-card"><h4>צריך כסף / מימון</h4><p>→ <strong>מימון העתיד</strong> — מקורות חדשים ועצמאות פיננסית</p></div>
+    <div class="guide-card"><h4>ישיבת ועד בקרוב</h4><p>→ <strong>ועד וממשל</strong> — הכנת חומרים או KPIs לדיווח</p></div>
+    <div class="guide-card"><h4>משבר / החלטה קשה</h4><p>→ <strong>החלטות ומשברים</strong> — ניתוח או ניהול משבר</p></div>
+    <div class="guide-card"><h4>רוצה להכניס AI לארגון</h4><p>→ <strong>בינה מלאכותית</strong> — היכן AI יתן ערך מקסימלי</p></div>
+    <div class="guide-card"><h4>לבנות את יחדיו 2.0</h4><p>→ <strong>יחדיו 2.0</strong> — חזון 2035 ומנועי צמיחה</p></div>
+    <div class="guide-card"><h4>מצגת / נאום</h4><p>→ <strong>מצגות ודיבורים</strong> — מצגת לועד או נאום 5 דקות</p></div>
+    <div class="guide-card"><h4>לחשוב ביקורתית</h4><p>→ <strong>Think Tank</strong> — Red Team, מועצת מומחים, שאלות קשות</p></div>
+  </div>
+  <div class="notice" style="margin-top:14px">💡 <strong>טיפ:</strong> כל פרומפט מכיל שדות בסוגריים מרובעים [כך]. מלא אותם לפני שמעתיקים ל-AI.</div>`;
+}
+
+function loadPromptDraft(){
+  try{return JSON.parse(localStorage.getItem(DRAFT_KEY)||'{}')||{}}
+  catch(e){return {}}
+}
+function savePromptDraft(){
+  const sec=document.getElementById('newPromptSection');
+  const title=document.getElementById('newPromptTitle');
+  const tags=document.getElementById('newPromptTags');
+  const body=document.getElementById('newPromptText');
+  localStorage.setItem(DRAFT_KEY,JSON.stringify({sectionId:sec?sec.value:'',title:title?title.value:'',tags:tags?tags.value:'',text:body?body.value:''}));
+}
+
+function exportData(){
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json;charset=utf-8'});
+  const url=URL.createObjectURL(blob);const a=document.createElement('a');
+  a.href=url;a.download='yachdav_prompts_backup.json';
+  document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);
+}
+function openModal(id){
+  refreshTags();
+  if(id==='promptModal'){
+    const draft=loadPromptDraft();
+    const sec=document.getElementById('newPromptSection');
+    const title=document.getElementById('newPromptTitle');
+    const tags=document.getElementById('newPromptTags');
+    const body=document.getElementById('newPromptText');
+    if(sec&&draft.sectionId&&Array.from(sec.options).some(o=>o.value===draft.sectionId)){sec.value=draft.sectionId}
+    else if(sec&&active&&section(active)&&!section(active).system&&!section(active).archived){sec.value=active}
+    if(title)title.value=draft.title||'';
+    if(tags)tags.value=draft.tags||'';
+    if(body)body.value=draft.text||'';
+  }
+  if(id==='sectionModal'){
+    document.getElementById('newSecTitle').value='';
+    document.getElementById('newSecIcon').value='';
+    document.getElementById('newSecDesc').value='';
+  }
+  document.getElementById(id).classList.add('open')
+}
+function closeModal(id){document.getElementById(id).classList.remove('open')}
+
+document.addEventListener('input',e=>{if(e.target.id==='searchInput')render();if(['newPromptSection','newPromptTitle','newPromptTags','newPromptText'].includes(e.target.id))savePromptDraft()})
+document.addEventListener('change',e=>{if(e.target.id==='tagFilter')render();if(e.target.id==='newPromptSection')savePromptDraft()})
+
+document.addEventListener('click',e=>{
+  const b=e.target.closest('button');if(!b)return;
+  const a=b.dataset.action;
+  if(a==='section'){
+    const clickedSec = section(b.dataset.id);
+    active = b.dataset.id;
+    save();
+    render();
+  }
+  if(a==='archive-view'){showArchive=!showArchive;active='guide';render()}
+  if(a==='new-section')openModal('sectionModal');
+  if(a==='new-prompt')openModal('promptModal');
+  if(a==='import-modal')openModal('importModal');
+  if(a==='close')closeModal(b.dataset.modal);
+  if(a==='print')window.print();
+  if(a==='export')exportData();
+  if(a==='reset'&&confirm('לאפס את הספרייה לברירת המחדל?')){localStorage.removeItem(KEY);data=clone(DEFAULT);active='guide';render()}
+  if(a==='add-section'){
+    const title=document.getElementById('newSecTitle').value.trim();
+    if(!title){alert('שם הנושא חובה');return}
+    data.push({id:uid('s'),icon:document.getElementById('newSecIcon').value.trim()||'📌',title,desc:document.getElementById('newSecDesc').value.trim(),items:[]});
+    active=data[data.length-1].id;save();closeModal('sectionModal');render();
+  }
+  if(a==='add-prompt'){
+    const s=section(document.getElementById('newPromptSection').value);
+    const title=document.getElementById('newPromptTitle').value.trim();
+    if(!s||!title){alert('בחר נושא וכותרת');return}
+    s.items.push({id:uid('p'),title,tags:document.getElementById('newPromptTags').value.split(',').map(x=>x.trim()).filter(Boolean),favorite:false,useCount:0,text:document.getElementById('newPromptText').value});
+    localStorage.removeItem(DRAFT_KEY);active=s.id;save();closeModal('promptModal');render();
+  }
+  if(a==='import'){
+    try{const parsed=JSON.parse(document.getElementById('importText').value);
+    if(!Array.isArray(parsed))throw Error();
+    data=normalize(parsed);active='guide';save();closeModal('importModal');render();}
+    catch(err){alert('שגיאה בייבוא')}
+  }
+  if(a==='archive'){const s=section(b.dataset.sec);if(s){s.archived=!s.archived;save();render()}}
+  const card=b.closest('.card');
+  if(card){
+    const s=section(card.dataset.sec),i=item(card.dataset.sec,card.dataset.item);
+    if(!i)return;
+    if(a==='copy'){i.useCount=(i.useCount||0)+1;save();copyText(card.querySelector('textarea:not(.note-ta)').value,card).then(()=>setTimeout(render,800))}
+    if(a==='open-claude'){
+      i.useCount=(i.useCount||0)+1;save();
+      const txt=buildProfileCtx()+card.querySelector('textarea:not(.note-ta)').value;
+      const url='https://claude.ai/new?q='+encodeURIComponent(txt);
+      window.open(url,'_blank');
+    }
+    if(a==='save-prompt'){i.text=card.querySelector('textarea:not(.note-ta)').value;save();card.querySelector('.print-text').textContent=i.text;const st=card.querySelector('.status');st.textContent='✓ נשמר';setTimeout(()=>st.textContent='',1400)}
+    if(a==='favorite'){i.favorite=!i.favorite;save();render()}
+    if(a==='toggle-note'){toggleNoteArea(card,i.id)}
+    if(a==='delete'&&confirm('למחוק פרומפט זה?')){s.items=s.items.filter(x=>x.id!==i.id);save();render()}
+  }
+})
+document.addEventListener('click',e=>{if(e.target.classList&&e.target.classList.contains('modal'))e.target.classList.remove('open')})
+
+// ══ NOTES SYSTEM ══
+const NOTE_PREFIX = 'yachdav_note_';
+
+function toggleNoteArea(card, itemId){
+  const area = card.querySelector('.note-area');
+  if(!area) return;
+  const isOpen = area.classList.contains('open');
+  area.classList.toggle('open', !isOpen);
+  if(!isOpen){
+    const ta = area.querySelector('.note-ta');
+    if(ta){ ta.focus(); autoResize(ta); }
+  }
+}
+
+function saveNote(itemId, secTitle, itemTitle, card){
+  const area = card.querySelector('.note-area');
+  const ta = area.querySelector('.note-ta');
+  const text = ta.value.trim();
+  if(!text){ alert('כתוב הערה לפני השמירה'); return; }
+  localStorage.setItem(NOTE_PREFIX + itemId, text);
+  // update button
+  const btn = card.querySelector('.note-toggle');
+  if(btn){ btn.classList.add('has-note'); btn.innerHTML='💬 ✓'; }
+  // show/update preview
+  let preview = card.querySelector('.note-preview');
+  if(!preview){
+    preview = document.createElement('div');
+    preview.className='note-preview';
+    preview.onclick=()=>toggleNoteArea(card,itemId);
+    area.parentNode.insertBefore(preview,area);
+  }
+  preview.textContent=text;
+  // show status
+  const st = document.getElementById('note-status-'+itemId);
+  if(st){ st.textContent='✓ נשמר'; setTimeout(()=>st.textContent='',2000); }
+  // add delete button if not there
+  const actions = area.querySelector('.note-actions');
+  if(actions && !actions.querySelector('.note-del-btn')){
+    const delBtn = document.createElement('button');
+    delBtn.className='note-del-btn';
+    delBtn.textContent='🗑 מחק';
+    delBtn.onclick=()=>deleteNote(itemId,card);
+    actions.insertBefore(delBtn, st||actions.lastChild);
+  }
+}
+
+function deleteNote(itemId, card){
+  if(!confirm('למחוק את ההערה?')) return;
+  localStorage.removeItem(NOTE_PREFIX + itemId);
+  const btn = card.querySelector('.note-toggle');
+  if(btn){ btn.classList.remove('has-note'); btn.innerHTML='💬'; }
+  const preview = card.querySelector('.note-preview');
+  if(preview) preview.remove();
+  const ta = card.querySelector('.note-ta');
+  if(ta) ta.value='';
+  const delBtn = card.querySelector('.note-del-btn');
+  if(delBtn) delBtn.remove();
+}
+
+function getAllNotes(){
+  const notes=[];
+  data.forEach(s=>{
+    if(s.system) return;
+    (s.items||[]).forEach(i=>{
+      const txt=localStorage.getItem(NOTE_PREFIX+i.id);
+      if(txt&&txt.trim()) notes.push({secTitle:s.title,secIcon:s.icon,itemTitle:i.title,itemId:i.id,secId:s.id,text:txt.trim()});
+    });
+  });
+  return notes;
+}
+
+function notesHTML(){
+  const notes=getAllNotes();
+  if(!notes.length) return `<div class="panel"><div class="panel-title">💬 ההערות שלי</div><div class="panel-desc">עדיין אין הערות. לחץ על 💬 בכל פרומפט כדי להוסיף.</div></div>`;
+  return `
+  <div class="panel"><div class="panel-title">💬 ההערות שלי</div><div class="panel-desc">${notes.length} הערות שמורות</div></div>
+  <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap">
+    <button class="notes-copy-all no-print" onclick="copyAllNotes()" style="flex:1">📋 העתק את כל ההערות</button>
+    <button class="sec sm no-print" onclick="notesToggleSelectAll()" id="notesSelectAllBtn">☑ סמן הכל</button>
+  </div>
+  <div class="notes-del-bar no-print" id="notesDelBar">
+    <span class="notes-del-count" id="notesDelCount">0 נבחרו</span>
+    <button class="notes-cancel-btn" onclick="notesClearSelection()">ביטול</button>
+    <button class="notes-del-btn" onclick="notesDeleteSelected()">🗑 מחק נבחרות</button>
+  </div>
+  ${notes.map(n=>`<div class="notes-panel-item" id="npi-${esc(n.itemId)}">
+    <input type="checkbox" class="npi-checkbox no-print" id="npicb-${esc(n.itemId)}" onchange="notesCheckChange()">
+    <div class="npi-body">
+      <div class="npi-section">${esc(n.secIcon)} ${esc(n.secTitle)}</div>
+      <div class="npi-title">${esc(n.itemTitle)}</div>
+      <div class="npi-text">${esc(n.text)}</div>
+    </div>
+  </div>`).join('')}`;
+}
+
+async function copyAllNotes(){
+  const notes=getAllNotes();
+  const txt=notes.map(n=>`[${n.secIcon} ${n.secTitle} → ${n.itemTitle}]\n${n.text}`).join('\n\n---\n\n');
+  try{await navigator.clipboard.writeText(txt)}
+  catch(e){const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove()}
+  const btn=document.querySelector('.notes-copy-all');
+  if(btn){const orig=btn.textContent;btn.textContent='✓ הועתק!';setTimeout(()=>btn.textContent=orig,2000);}
+}
+
+function deleteNoteFromPanel(itemId){
+  if(!confirm('למחוק את ההערה?')) return;
+  localStorage.removeItem(NOTE_PREFIX+itemId);
+  render();
+}
+
+function notesCheckChange(){
+  const checked = document.querySelectorAll('.npi-checkbox:checked');
+  const bar = document.getElementById('notesDelBar');
+  const cnt = document.getElementById('notesDelCount');
+  const allItems = document.querySelectorAll('.notes-panel-item');
+  // update selected styling
+  allItems.forEach(item=>{
+    const cb = item.querySelector('.npi-checkbox');
+    if(cb) item.classList.toggle('selected', cb.checked);
+  });
+  if(checked.length > 0){
+    bar.classList.add('visible');
+    cnt.textContent = checked.length + ' נבחרו';
+  } else {
+    bar.classList.remove('visible');
+  }
+}
+
+function notesClearSelection(){
+  document.querySelectorAll('.npi-checkbox').forEach(cb=>{ cb.checked=false; });
+  document.querySelectorAll('.notes-panel-item').forEach(item=>item.classList.remove('selected'));
+  const bar = document.getElementById('notesDelBar');
+  if(bar) bar.classList.remove('visible');
+}
+
+function notesToggleSelectAll(){
+  const cbs = document.querySelectorAll('.npi-checkbox');
+  const allChecked = Array.from(cbs).every(cb=>cb.checked);
+  cbs.forEach(cb=>{ cb.checked = !allChecked; });
+  notesCheckChange();
+  const btn = document.getElementById('notesSelectAllBtn');
+  if(btn) btn.textContent = allChecked ? '☑ סמן הכל' : '☐ בטל הכל';
+}
+
+function notesDeleteSelected(){
+  const checked = document.querySelectorAll('.npi-checkbox:checked');
+  if(!checked.length) return;
+  if(!confirm('למחוק ' + checked.length + ' הערות?')) return;
+  checked.forEach(cb=>{
+    const itemId = cb.id.replace('npicb-','');
+    localStorage.removeItem(NOTE_PREFIX+itemId);
+  });
+  render();
+}
+
+function getNotesCount(){ return getAllNotes().length; }
+
+// ══ PROFILE SYSTEM ══
+const PROFILE_KEY = 'yachdavCEO_profile';
+
+function getProfile(){try{return JSON.parse(localStorage.getItem(PROFILE_KEY)||'{}')}catch(e){return {}}}
+
+function formatMoney(val){
+  const raw=String(val||'').replace(/[^\d]/g,'');
+  if(!raw)return '';
+  return '₪'+Number(raw).toLocaleString('en-US');
+}
+function formatNum(val){
+  const raw=String(val||'').replace(/[^\d]/g,'');
+  if(!raw)return '';
+  return Number(raw).toLocaleString('en-US');
+}
+function stripFormatting(val){return String(val||'').replace(/[₪,]/g,'').trim();}
+
+function buildProfileCtx(){
+  const p=getProfile();
+  if(!p.ceoName&&!p.budget&&!p.domains)return '';
+  const lines=['--- הקשר ארגוני ---','ארגון: עמותת יחדיו'];
+  if(p.ceoName)   lines.push('מנכ״ל: '+p.ceoName);
+  if(p.budget)    lines.push('תקציב שנתי: '+formatMoney(p.budget));
+  if(p.employees) lines.push('עובדים: '+formatNum(p.employees));
+  if(p.clients)   lines.push('מקבלי שירות: '+formatNum(p.clients));
+  if(p.region)    lines.push('אזור פעילות: '+p.region);
+  if(p.domains)   lines.push('תחומי פעילות: '+p.domains);
+  lines.push('---','','');
+  return lines.join('\n');
+}
+
+async function copyText(txt,card){
+  const ctx=buildProfileCtx();
+  const enriched=ctx?ctx+txt:txt;
+  try{await navigator.clipboard.writeText(enriched)}
+  catch(e){const ta=document.createElement('textarea');ta.value=enriched;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();}
+  if(card){const st=card.querySelector('.status');st.textContent=ctx?'✓ הועתק (כולל פרופיל)':'✓ הועתק';setTimeout(()=>st.textContent='',2000)}
+}
+
+function updateProfileBar(){
+  const p=getProfile();
+  const btn=document.getElementById('profileBtnToolbar');
+  const bar=document.getElementById('profileStatusBar');
+  if(!bar||!btn)return;
+  if(p.ceoName||p.budget||p.domains){
+    const chips=[];
+    if(p.ceoName)   chips.push({icon:'👨‍💼',label:p.ceoName,gold:true});
+    if(p.budget)    chips.push({icon:'₪',label:formatNum(p.budget),gold:false});
+    if(p.employees) chips.push({icon:'👥',label:formatNum(p.employees)+' עובדים',gold:false});
+    if(p.clients)   chips.push({icon:'🤝',label:formatNum(p.clients)+' נהנים',gold:false});
+    if(p.region)    chips.push({icon:'📍',label:p.region,gold:false});
+    bar.innerHTML = chips.map(c=>`
+      <div style="display:inline-flex;align-items:center;gap:4px;padding:5px 10px;background:${c.gold?'rgba(212,168,67,0.12)':'rgba(255,255,255,0.05)'};border:1px solid ${c.gold?'rgba(212,168,67,0.3)':'rgba(255,255,255,0.08)'};border-radius:20px;margin-left:5px;font-size:12.5px;color:${c.gold?'var(--gold)':'var(--text3)'};white-space:nowrap">
+        <span>${c.icon}</span><span>${esc(c.label)}</span>
+      </div>`).join('')+
+      `<div style="display:inline-flex;align-items:center;padding:5px 8px;font-size:11px;color:var(--text3);margin-right:2px">✏️</div>`;
+    bar.style.display='flex';
+    bar.style.flexWrap='wrap';
+    bar.style.alignItems='center';
+    btn.style.display='none';
+  } else {
+    bar.style.display='none';
+    btn.style.display='inline-flex';
+    btn.innerHTML='👨‍💼 הזן נתוני ארגון';
+    btn.style.background='rgba(212,168,67,0.12)';
+    btn.style.borderColor='rgba(212,168,67,0.35)';
+    btn.style.color='var(--gold)';
+    btn.style.fontWeight='500';
+  }
+}
+
+function saveProfile(){
+  const raw=id=>{const el=document.getElementById(id);return el?(el.value||''):''};
+  const p={
+    ceoName:   raw('pm-ceo-name').trim(),
+    budget:    stripFormatting(raw('pm-budget')),
+    employees: stripFormatting(raw('pm-employees')),
+    clients:   stripFormatting(raw('pm-clients')),
+    region:    raw('pm-region').trim(),
+    domains:   raw('pm-domains').trim(),
+  };
+  localStorage.setItem(PROFILE_KEY,JSON.stringify(p));
+  closeModal('profileModal');
+  updateProfileBar();
+  if(active==='guide') render();
+}
+
+function openProfileModal(){
+  openModal('profileModal');
+  // Fill fields AFTER modal is open in DOM
+  setTimeout(()=>{
+    const p=getProfile();
+    const setVal=(id,val)=>{
+      const el=document.getElementById(id);
+      if(!el) return;
+      el.value=val;
+      if(el.tagName==='TEXTAREA') { el.style.height='auto'; el.style.height=el.scrollHeight+'px'; }
+    };
+    setVal('pm-ceo-name',  p.ceoName||'');
+    setVal('pm-budget',    p.budget   ?formatMoney(p.budget)   :'');
+    setVal('pm-employees', p.employees?formatNum(p.employees)  :'');
+    setVal('pm-clients',   p.clients  ?formatNum(p.clients)    :'');
+    setVal('pm-region',    p.region||'');
+    setVal('pm-domains',   p.domains||'');
+    attachNumberFormatting();
+  }, 50);
+}
+
+function attachNumberFormatting(){
+  ['pm-budget'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(!el||el._fmtBound)return;
+    el._fmtBound=true;
+    el.addEventListener('blur',()=>{const r=stripFormatting(el.value);if(r)el.value=formatMoney(r);});
+    el.addEventListener('focus',()=>{el.value=stripFormatting(el.value);});
+  });
+  ['pm-employees','pm-clients'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(!el||el._fmtBound)return;
+    el._fmtBound=true;
+    el.addEventListener('blur',()=>{const r=stripFormatting(el.value);if(r)el.value=formatNum(r);});
+    el.addEventListener('focus',()=>{el.value=stripFormatting(el.value);});
+  });
+}
+
+window._resetToGuide=function(){active='guide';save();render();};
+
+window.copyExamplePrompt=async function(){
+  const p=getProfile();
+  const hasProfile=p.ceoName||p.budget||p.domains;
+  const ctx=hasProfile?buildProfileCtx():'--- הקשר ארגוני ---\nארגון: עמותת יחדיו\n---\n\n';
+  const txt=ctx+'פעל כצוות ביקורת חיצוני. מטרתך אינה להחמיא אלא למצוא חולשות.\n\nמצא הנחות יסוד שעלולות להיות שגויות, סיכונים פיננסיים, ניהוליים, כוח אדם ותלות יתר בגורמים חיצוניים.\n\nלכל סיכון: חומרה, הסתברות, סימני אזהרה, דרך מניעה.\n\nהיה ישיר. אל תרכך.';
+  try{await navigator.clipboard.writeText(txt)}
+  catch(e){const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();}
+  const btn=document.getElementById('exampleCopyBtn');
+  const st=document.getElementById('exampleCopyStatus');
+  if(btn)btn.textContent='✓ הועתק!';
+  if(st)st.textContent='מוכן להדבקה ב-Claude או ChatGPT';
+  setTimeout(()=>{if(btn)btn.textContent='📋 העתק פרומפט';if(st)st.textContent='';},2500);
+};
+
+// ── FIRST RUN: show profile modal if no data ──
+function checkOnboarding(){
+  const p = getProfile();
+  if(!p.ceoName && !p.budget && !p.domains){
+    setTimeout(()=>{ openProfileModal(); }, 300);
+  }
+}
+checkOnboarding();
+
+// ══ AUTO-RESIZE TEXTAREAS ══
+function autoResize(el){
+  el.style.height='auto';
+  el.style.height=(el.scrollHeight)+'px';
+}
+document.addEventListener('input',e=>{
+  if(e.target.tagName==='TEXTAREA') autoResize(e.target);
+});
+// run on open for profile modal textareas
+const _origOpenModal=openModal;
+window.openModal=function(id){
+  _origOpenModal(id);
+  setTimeout(()=>{
+    const box=document.getElementById(id);
+    if(box) box.querySelectorAll('textarea').forEach(autoResize);
+  },50);
+};
+render();
+updateProfileBar();
+
+// Expose globals for mobile nav
+window.data = data;
+window.section = section;
+window.item = item;
+window.save = save;
+window.openModal = openModal;
+window.saveProfile = saveProfile;
+window.openProfileModal = openProfileModal;
+window.copyAllNotes = copyAllNotes;
+window.deleteNoteFromPanel = deleteNoteFromPanel;
+window.notesCheckChange = notesCheckChange;
+window.notesClearSelection = notesClearSelection;
+window.notesToggleSelectAll = notesToggleSelectAll;
+window.notesDeleteSelected = notesDeleteSelected;
+window.toggleNoteArea = toggleNoteArea;
+window.saveNote = saveNote;
+window.deleteNote = deleteNote;
+window._resetToGuide = function(){ active='guide'; save(); render(); };
+
+window.copyExamplePrompt = async function(){
+  const p=getProfile();
+  const hasProfile=p.ceoName||p.budget||p.domains;
+  const ctx = hasProfile ? buildProfileCtx() : '--- הקשר ארגוני ---\nארגון: עמותת יחדיו\n---\n\n';
+  const txt = ctx+'פעל כצוות ביקורת חיצוני. מטרתך אינה להחמיא אלא למצוא חולשות.\n\nמצא הנחות יסוד שעלולות להיות שגויות, סיכונים פיננסיים, ניהוליים, כוח אדם ותלות יתר בגורמים חיצוניים.\n\nלכל סיכון: חומרה, הסתברות, סימני אזהרה, דרך מניעה.\n\nהיה ישיר. אל תרכך.';
+  try{await navigator.clipboard.writeText(txt)}
+  catch(e){const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();}
+  const btn=document.getElementById('exampleCopyBtn');
+  const st=document.getElementById('exampleCopyStatus');
+  if(btn)btn.textContent='✓ הועתק!';
+  if(st)st.textContent='מוכן להדבקה ב-Claude או ChatGPT';
+  setTimeout(()=>{if(btn)btn.textContent='📋 העתק פרומפט';if(st)st.textContent='';},2500);
+};
+
+})();
+</script>
+
+<!-- ══ MOBILE APP ══ -->
+<div id="mobileApp" style="display:none">
+
+  <!-- Header -->
+  <div class="mob-header">
+    <div class="mob-header-icon">
+      <img src="https://img.magnific.com/premium-vector/sphere-grid-wave-with-binary-code-ai-artificial-intelligence-logo-hands-machine-learning-concept_127544-856.jpg"
+           onerror="this.style.display='none';this.parentElement.innerHTML='🤖';" alt="AI">
+    </div>
+    <div class="mob-header-title" id="mobTitle">
+      AI לאסטרטגיה — <span>מנכ"ל יחדיו</span>
+    </div>
+    <button class="mob-back" id="mobBack" style="display:none" onclick="mobGoBack()">← חזרה</button>
+  </div>
+
+  <!-- Search + add buttons -->
+  <div class="mob-search-bar">
+    <input id="mobSearch" placeholder="🔍 חיפוש פרומפטים..." oninput="mobSearchChange(this.value)" dir="rtl">
+    <button class="mob-add-btn" onclick="openModal('sectionModal')">＋ נושא</button>
+    <button class="mob-add-btn" style="background:var(--surface2);border:1px solid var(--border2);color:var(--text)" onclick="openModal('promptModal')">＋ פרומפט</button>
+  </div>
+
+  <!-- Screen container -->
+  <div class="mob-screen" id="mobScreen"></div>
+</div>
+
+<script>
+// ══ MOBILE NAV ══
+var mobStack = []; // navigation stack
+
+function isMobile(){ return window.innerWidth <= 800; }
+
+function mobInit(){
+  if(!isMobile()) return;
+  var app = document.getElementById('mobileApp');
+  if(!app) return;
+  app.style.display = 'flex';
+  // make sure data is available (from main script)
+  if(typeof data === 'undefined' || !data || !data.length){
+    setTimeout(mobInit, 100);
+    return;
+  }
+  mobShowSections();
+}
+
+function mobShowSections(searchQ){
+  mobStack = [];
+  updateMobHeader('AI לאסטרטגיה — <span style="color:var(--gold)">מנכ\"ל יחדיו</span>', false);
+  var screen = document.getElementById('mobScreen');
+
+  if(searchQ && searchQ.trim()){
+    // show search results
+    var q = searchQ.trim().toLowerCase();
+    var results = [];
+    data.forEach(function(s){
+      if(s.system) return;
+      (s.items||[]).forEach(function(i){
+        var txt = [i.title, i.text, (i.tags||[]).join(' '), s.title].join(' ').toLowerCase();
+        if(txt.indexOf(q) > -1) results.push({s:s, i:i});
+      });
+    });
+    var html = '<div class="mob-search-results">';
+    if(!results.length){
+      html += '<div style="text-align:center;padding:30px;color:var(--text3)">לא נמצאו תוצאות</div>';
+    } else {
+      results.forEach(function(r){
+        html += '<div class="mob-prompt-item" onclick="mobShowPrompt(\''+r.s.id+'\',\''+r.i.id+'\')">'+
+          '<div class="pi-title">'+(r.i.favorite?'⭐ ':'')+escH(r.i.title)+'</div>'+
+          '<div style="font-size:11px;color:var(--text3);margin-bottom:5px">'+escH(r.s.icon)+' '+escH(r.s.title)+'</div>'+
+          '<div class="pi-tags">'+(r.i.tags||[]).map(function(t){return '<span class="pi-tag">'+escH(t)+'</span>';}).join('')+'</div>'+
+          '</div>';
+      });
+    }
+    html += '</div>';
+    screen.innerHTML = html;
+    return;
+  }
+
+  var html = '<div class="mob-sections-grid">';
+  data.forEach(function(s){
+    if(s.system || s.archived) return;
+    html += '<div class="mob-section-tile" onclick="mobShowPrompts(\''+s.id+'\')">'+
+      '<div class="tile-ico">'+escH(s.icon)+'</div>'+
+      '<div class="tile-name">'+escH(s.title)+'</div>'+
+      '<div class="tile-count">'+((s.items||[]).length)+'</div>'+
+      '</div>';
+  });
+  html += '</div>';
+  screen.innerHTML = html;
+}
+
+function mobShowPrompts(secId){
+  var s = section(secId);
+  if(!s) return;
+  mobStack.push({type:'sections'});
+  updateMobHeader(escH(s.icon)+' '+escH(s.title), true);
+  var screen = document.getElementById('mobScreen');
+  screen.scrollTop = 0;
+
+  var html = '<div class="mob-prompt-list">';
+  if(!s.items || !s.items.length){
+    html += '<div style="text-align:center;padding:30px;color:var(--text3)">אין פרומפטים בנושא זה עדיין</div>';
+  } else {
+    s.items.forEach(function(i){
+      html += '<div class="mob-prompt-item" onclick="mobShowPrompt(\''+s.id+'\',\''+i.id+'\')">'+
+        '<div class="pi-title">'+(i.favorite?'⭐ ':'')+escH(i.title)+'</div>'+
+        '<div class="pi-tags">'+(i.tags||[]).map(function(t){return '<span class="pi-tag">'+escH(t)+'</span>';}).join('')+'</div>'+
+        '</div>';
+    });
+  }
+  html += '</div>';
+  screen.innerHTML = html;
+}
+
+function mobShowPrompt(secId, itemId){
+  var s = section(secId);
+  var i = item(secId, itemId);
+  if(!s || !i) return;
+  mobStack.push({type:'prompts', secId:secId});
+  updateMobHeader(escH(i.title), true);
+  var screen = document.getElementById('mobScreen');
+  screen.scrollTop = 0;
+
+  var taId = 'mobTA_'+itemId;
+  var html = '<div class="mob-prompt-view">'+
+    '<div class="pv-title">'+(i.favorite?'⭐ ':'')+escH(i.title)+'</div>'+
+    '<textarea id="'+taId+'">'+escH(i.text)+'</textarea>'+
+    '<button class="mob-copy-btn" onclick="mobCopy(\''+taId+'\',\''+secId+'\',\''+itemId+'\')">📋 העתק פרומפט</button>'+
+    '<div class="mob-copied-msg" id="mobCopiedMsg"></div>'+
+    '<div class="mob-action-row">'+
+      '<button onclick="mobSave(\''+taId+'\',\''+secId+'\',\''+itemId+'\')">💾 שמור</button>'+
+      '<button onclick="mobToggleFav(\''+secId+'\',\''+itemId+'\')"><span id="mobFavLbl_'+itemId+'">'+(i.favorite?'☆ הסר מועדף':'⭐ מועדף')+'</span></button>'+
+    '</div>'+
+    '</div>';
+  screen.innerHTML = html;
+}
+
+function mobGoBack(){
+  if(!mobStack.length){ mobShowSections(); return; }
+  var prev = mobStack.pop();
+  if(prev.type === 'sections'){ mobShowSections(); }
+  else if(prev.type === 'prompts'){ mobShowPrompts(prev.secId); }
+}
+
+function updateMobHeader(titleHtml, showBack){
+  document.getElementById('mobTitle').innerHTML = titleHtml;
+  document.getElementById('mobBack').style.display = showBack ? 'block' : 'none';
+}
+
+function mobSearchChange(val){
+  if(val.trim()){ mobShowSections(val); }
+  else { mobShowSections(); }
+}
+
+async function mobCopy(taId, secId, itemId){
+  var ta = document.getElementById(taId);
+  if(!ta) return;
+  var txt = ta.value;
+  try { await navigator.clipboard.writeText(txt); }
+  catch(e){ ta.select(); document.execCommand('copy'); }
+  var i = item(secId, itemId);
+  if(i){ i.useCount = (i.useCount||0)+1; save(); }
+  var msg = document.getElementById('mobCopiedMsg');
+  if(msg){ msg.textContent = '✓ הועתק ללוח!'; setTimeout(function(){ msg.textContent=''; }, 2000); }
+}
+
+function mobSave(taId, secId, itemId){
+  var ta = document.getElementById(taId);
+  var i = item(secId, itemId);
+  if(!ta || !i) return;
+  i.text = ta.value;
+  save();
+  var msg = document.getElementById('mobCopiedMsg');
+  if(msg){ msg.textContent = '✓ נשמר'; setTimeout(function(){ msg.textContent=''; }, 1500); }
+}
+
+function mobToggleFav(secId, itemId){
+  var i = item(secId, itemId);
+  if(!i) return;
+  i.favorite = !i.favorite;
+  save();
+  var lbl = document.getElementById('mobFavLbl_'+itemId);
+  if(lbl){ lbl.textContent = i.favorite ? '☆ הסר מועדף' : '⭐ מועדף'; }
+}
+
+function escH(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c];}); }
+
+// Init — wait for main script to finish via setTimeout
+setTimeout(function(){
+  mobInit();
+}, 50);
+
+window.addEventListener('resize', function(){
+  if(isMobile()){
+    document.getElementById('mobileApp').style.display = 'flex';
+    mobShowSections();
+  } else {
+    document.getElementById('mobileApp').style.display = 'none';
+  }
+});
+</script>
+
+<!-- ══ TOUR SYSTEM ══ -->
+<style>
+/* Tour overlay */
+#tourOverlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  pointer-events: none;
+}
+
+/* Dark mask with hole - using box-shadow trick */
+#tourMask {
+  position: fixed;
+  inset: 0;
+  z-index: 9001;
+  pointer-events: none;
+  transition: all .4s ease;
+}
+
+/* Highlight ring around target */
+#tourRing {
+  position: fixed;
+  z-index: 9002;
+  border: 3px solid #d4a843;
+  border-radius: 10px;
+  pointer-events: none;
+  transition: all .4s cubic-bezier(.4,0,.2,1);
+  box-shadow: 0 0 0 3000px rgba(0,0,0,0.72), 0 0 0 0 rgba(212,168,67,0.8);
+  animation: tourPulse 1.8s ease-in-out infinite;
+}
+@keyframes tourPulse {
+  0%,100%{box-shadow:0 0 0 3000px rgba(0,0,0,0.72),0 0 0 0 rgba(212,168,67,0.5),0 0 20px rgba(212,168,67,0.3)}
+  50%{box-shadow:0 0 0 3000px rgba(0,0,0,0.72),0 0 0 6px rgba(212,168,67,0.15),0 0 35px rgba(212,168,67,0.5)}
+}
+
+/* Tour tooltip */
+#tourTooltip {
+  position: fixed;
+  z-index: 9010;
+  background: #1a1f2e;
+  border: 1px solid rgba(212,168,67,0.4);
+  border-radius: 16px;
+  padding: 18px 22px;
+  max-width: 320px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.7), 0 0 0 1px rgba(212,168,67,0.15);
+  direction: rtl;
+  transition: all .35s cubic-bezier(.4,0,.2,1);
+  pointer-events: all;
+}
+
+#tourTooltip::before {
+  content: '';
+  position: absolute;
+  width: 12px; height: 12px;
+  background: #1a1f2e;
+  border: 1px solid rgba(212,168,67,0.4);
+  transform: rotate(45deg);
+}
+
+.tt-step {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #d4a843;
+  margin-bottom: 8px;
+}
+
+.tt-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #f0f2f8;
+  margin-bottom: 8px;
+  line-height: 1.3;
+}
+
+.tt-desc {
+  font-size: 14px;
+  color: #9aa3be;
+  line-height: 1.6;
+  margin-bottom: 14px;
+}
+
+.tt-waiting {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #d4a843;
+  font-weight: 600;
+}
+
+.tt-waiting .dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: #d4a843;
+  animation: ttBlink 1s ease-in-out infinite;
+}
+@keyframes ttBlink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+.tt-btn-row { display: flex; gap: 8px; margin-top: 12px; }
+
+.tt-btn {
+  background: linear-gradient(135deg, #7a5a10, #d4a843);
+  color: #1a1200;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 18px;
+  font-size: 14px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all .18s;
+}
+.tt-btn:hover { background: linear-gradient(135deg, #d4a843, #f0c76a); }
+
+.tt-skip {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.12);
+  color: #6b7494;
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all .18s;
+}
+.tt-skip:hover { border-color: rgba(255,255,255,0.25); color: #9aa3be; }
+
+/* Tour start button */
+#tourStartBtn {
+  position: fixed;
+  bottom: 70px;
+  right: 20px;
+  z-index: 8000;
+  background: linear-gradient(135deg, #7a5a10, #d4a843);
+  color: #1a1200;
+  border: none;
+  border-radius: 30px;
+  padding: 11px 22px;
+  font-size: 14px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(212,168,67,0.35);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  direction: rtl;
+  transition: all .2s;
+  animation: tourBtnPulse 3s ease-in-out infinite;
+}
+#tourStartBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(212,168,67,0.5);
+}
+@keyframes tourBtnPulse {
+  0%,100%{box-shadow:0 4px 20px rgba(212,168,67,0.35)}
+  50%{box-shadow:0 4px 28px rgba(212,168,67,0.6)}
+}
+
+/* Arrow bounce */
+#tourArrow {
+  position: fixed;
+  z-index: 9005;
+  font-size: 28px;
+  pointer-events: none;
+  animation: arrowBounce .8s ease-in-out infinite;
+  filter: drop-shadow(0 0 8px rgba(212,168,67,0.8));
+  display: none;
+  color: #d4a843;
+}
+@keyframes arrowBounce {
+  0%,100%{transform:translateY(0) scale(1)}
+  50%{transform:translateY(-6px) scale(1.1)}
+}
+</style>
+
+<!-- Tour DOM -->
+<div id="tourOverlay">
+  <div id="tourRing" style="display:none"></div>
+  <div id="tourArrow">👆</div>
+  <div id="tourTooltip" style="display:none">
+    <div class="tt-step" id="ttStep">שלב 1 מתוך 6</div>
+    <div class="tt-title" id="ttTitle"></div>
+    <div class="tt-desc" id="ttDesc"></div>
+    <div class="tt-waiting" id="ttWaiting" style="display:none">
+      <div class="dot"></div>
+      <span id="ttWaitText">ממתין...</span>
+    </div>
+    <div class="tt-btn-row" id="ttBtnRow" style="display:none">
+      <button class="tt-btn" id="ttNext">המשך ←</button>
+      <button class="tt-skip" id="ttSkip">דלג על הסיור</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ══ TOUR ENGINE ══
+(function(){
+
+const STEPS = [
+  {
+    id: 'profile-btn',
+    step: 'שלב 1 מתוך 6',
+    title: 'הזן את נתוני יחדיו',
+    desc: 'לחץ על הכפתור הצהוב — כדי שה-AI יכיר את הארגון שלך',
+    targetFn: ()=> document.getElementById('profileBtnToolbar') || document.getElementById('profileStatusBar'),
+    waitFor: 'profile-saved',
+    arrowDir: 'down',
+    tooltipPos: 'below',
+    afterText: 'הנתונים נשמרו — תראה אותם בסרגל',
+    afterTarget: ()=> document.getElementById('profileStatusBar'),
+    afterWait: 2200,
+  },
+  {
+    id: 'sidebar-thinktank',
+    step: 'שלב 2 מתוך 6',
+    title: 'בחר נושא — Think Tank',
+    desc: 'לחץ על Think Tank בתפריט — נראה את הפרומפטים',
+    targetFn: ()=>{
+      const btns = document.querySelectorAll('.sec-btn');
+      for(const b of btns){ if(b.textContent.includes('Think Tank')) return b; }
+      return null;
+    },
+    waitFor: 'section-thinktank',
+    arrowDir: 'left',
+    tooltipPos: 'left',
+  },
+  {
+    id: 'claude-btn',
+    step: 'שלב 3 מתוך 6',
+    title: 'שלח ל-Claude',
+    desc: 'לחץ על הכפתור הכחול — Claude ייפתח בלשונית חדשה עם הפרומפט ונתוני יחדיו',
+    targetFn: ()=> document.querySelector('.btn-claude'),
+    waitFor: 'claude-clicked',
+    arrowDir: 'down',
+    tooltipPos: 'below',
+    manualNext: true,
+    manualNextText: 'ראיתי את Claude ←',
+  },
+  {
+    id: 'note-btn',
+    step: 'שלב 4 מתוך 6',
+    title: 'הוסף הערה לפרומפט',
+    desc: 'לחץ על 💬 — כתוב הערה ושמור אותה',
+    targetFn: ()=> document.querySelector('.note-toggle'),
+    waitFor: 'note-saved',
+    arrowDir: 'down',
+    tooltipPos: 'below',
+    afterText: 'ההערה נשמרה — עכשיו נראה איפה היא',
+    afterTarget: ()=>{
+      const btns = document.querySelectorAll('.sec-btn');
+      for(const b of btns){ if(b.textContent.includes('ההערות')) return b; }
+      return null;
+    },
+    afterWait: 2000,
+  },
+  {
+    id: 'notes-section',
+    step: 'שלב 5 מתוך 6',
+    title: 'כל ההערות שלך כאן',
+    desc: 'לחץ על "ההערות שלי" בתפריט — תראה את כל ההערות שכתבת',
+    targetFn: ()=>{
+      const btns = document.querySelectorAll('.sec-btn');
+      for(const b of btns){ if(b.textContent.includes('ההערות')) return b; }
+      return null;
+    },
+    waitFor: 'section-mynotes',
+    arrowDir: 'left',
+    tooltipPos: 'left',
+  },
+  {
+    id: 'add-prompt-btn',
+    step: 'שלב 6 מתוך 6',
+    title: 'הוסף פרומפט משלך',
+    desc: 'לחץ על + פרומפט — תוכל להוסיף שאלה אסטרטגית משלך לספרייה',
+    targetFn: ()=>{
+      const btns = document.querySelectorAll('button');
+      for(const b of btns){
+        if(b.dataset && b.dataset.action === 'new-prompt') return b;
+      }
+      return null;
+    },
+    waitFor: 'modal-opened',
+    arrowDir: 'down',
+    tooltipPos: 'below',
+    isFinal: true,
+  },
+];
+
+let currentStep = -1;
+let tourActive = false;
+let stepTimeout = null;
+
+const ring = document.getElementById('tourRing');
+const tooltip = document.getElementById('tourTooltip');
+const arrow = document.getElementById('tourArrow');
+const ttStep = document.getElementById('ttStep');
+const ttTitle = document.getElementById('ttTitle');
+const ttDesc = document.getElementById('ttDesc');
+const ttWaiting = document.getElementById('ttWaiting');
+const ttWaitText = document.getElementById('ttWaitText');
+const ttBtnRow = document.getElementById('ttBtnRow');
+const ttNext = document.getElementById('ttNext');
+const ttSkip = document.getElementById('ttSkip');
+const overlay = document.getElementById('tourOverlay');
+
+ttNext.onclick = ()=> advanceStep();
+ttSkip.onclick = ()=> endTour();
+
+window.startTour = function(){
+  
+  overlay.style.display = 'block';
+  tourActive = true;
+  currentStep = -1;
+  advanceStep();
+};
+
+function endTour(){
+  tourActive = false;
+  overlay.style.display = 'none';
+  ring.style.display = 'none';
+  tooltip.style.display = 'none';
+  arrow.style.display = 'none';
+  
+  if(stepTimeout) clearTimeout(stepTimeout);
+}
+
+function advanceStep(){
+  currentStep++;
+  if(currentStep >= STEPS.length){ finishTour(); return; }
+  showStep(STEPS[currentStep]);
+}
+
+function showStep(step){
+  if(stepTimeout) clearTimeout(stepTimeout);
+
+  const target = step.targetFn ? step.targetFn() : null;
+
+  ttStep.textContent = step.step;
+  ttTitle.textContent = step.title;
+  ttDesc.textContent = step.desc;
+
+  if(step.manualNext){
+    ttWaiting.style.display = 'none';
+    ttBtnRow.style.display = 'flex';
+    ttNext.textContent = step.manualNextText || 'המשך ←';
+    ttSkip.style.display = 'inline-block';
+  } else {
+    ttWaiting.style.display = 'flex';
+    ttWaitText.textContent = 'ממתין ללחיצה...';
+    ttBtnRow.style.display = 'none';
+  }
+
+  tooltip.style.display = 'block';
+  ring.style.display = 'block';
+  arrow.style.display = 'block';
+
+  if(target){
+    positionOnTarget(target, step);
+    ring.style.pointerEvents = 'none';
+    overlay.style.pointerEvents = 'none';
+    tooltip.style.pointerEvents = 'all';
+    // Scroll target into view
+    target.scrollIntoView({block:'nearest', behavior:'smooth'});
+    // Add pulsing click hint directly on target
+    target._tourHandler && target.removeEventListener('click', target._tourHandler);
+    target._tourHandler = function(){
+      target.removeEventListener('click', target._tourHandler);
+    };
+    target.addEventListener('click', target._tourHandler);
+  } else {
+    // no target found - show manual next
+    ring.style.display = 'none';
+    arrow.style.display = 'none';
+    ttWaiting.style.display = 'none';
+    ttBtnRow.style.display = 'flex';
+    ttNext.textContent = 'המשך ←';
+  }
+
+  // watch for trigger
+  if(step.waitFor && !step.manualNext){
+    watchFor(step);
+  }
+}
+
+function positionOnTarget(el, step){
+  const r = el.getBoundingClientRect();
+  const pad = 8;
+
+  // ring
+  ring.style.top = (r.top - pad) + 'px';
+  ring.style.left = (r.left - pad) + 'px';
+  ring.style.width = (r.width + pad*2) + 'px';
+  ring.style.height = (r.height + pad*2) + 'px';
+
+  // arrow direction
+  const cx = r.left + r.width/2;
+  const cy = r.top + r.height/2;
+  const aDir = step.arrowDir || 'down';
+
+  if(aDir === 'down'){
+    arrow.textContent = '👆';
+    arrow.style.left = (cx - 14) + 'px';
+    arrow.style.top = (r.top - 48) + 'px';
+  } else if(aDir === 'left'){
+    arrow.textContent = '👉';
+    arrow.style.left = (r.right + 8) + 'px';
+    arrow.style.top = (cy - 16) + 'px';
+  } else if(aDir === 'up'){
+    arrow.textContent = '👇';
+    arrow.style.left = (cx - 14) + 'px';
+    arrow.style.top = (r.bottom + 8) + 'px';
+  }
+
+  // tooltip — always position away from target to avoid overlap
+  const ttW = 320;
+  const margin = 60;
+  let ttTop, ttLeft;
+
+  const spaceBelow = window.innerHeight - r.bottom;
+  const spaceAbove = r.top;
+  const spaceRight = window.innerWidth - r.right;
+
+  if(aDir === 'left'){
+    // target is on left side — put tooltip to the right
+    ttLeft = r.right + margin;
+    if(ttLeft + ttW > window.innerWidth - 10) ttLeft = r.left - ttW - margin;
+    ttTop = Math.min(Math.max(cy - 100, 10), window.innerHeight - 220);
+  } else if(r.top < 200){
+    // toolbar button — put tooltip well below, not on top of button
+    ttTop = r.bottom + margin + 20;
+    ttLeft = Math.min(Math.max(cx - ttW/2, 10), window.innerWidth - ttW - 10);
+  } else if(spaceBelow > 200){
+    // put below
+    ttTop = r.bottom + margin;
+    ttLeft = Math.min(Math.max(cx - ttW/2, 10), window.innerWidth - ttW - 10);
+  } else {
+    // put above
+    ttTop = r.top - 200 - margin/2;
+    if(ttTop < 10) ttTop = 10;
+    ttLeft = Math.min(Math.max(cx - ttW/2, 10), window.innerWidth - ttW - 10);
+  }
+
+  tooltip.style.top = ttTop + 'px';
+  tooltip.style.left = ttLeft + 'px';
+}
+
+function watchFor(step){
+  const id = step.waitFor;
+
+  if(id === 'profile-saved'){
+    // Watch for modal to OPEN — then hide tour UI
+    const obsOpen = new MutationObserver(()=>{
+      const modal = document.getElementById('profileModal');
+      if(modal && modal.classList.contains('open')){
+        obsOpen.disconnect();
+        // Hide tour UI while user fills form
+        tooltip.style.display = 'none';
+        ring.style.display = 'none';
+        arrow.style.display = 'none';
+        // Now watch for modal to CLOSE after save
+        const obsClose = new MutationObserver(()=>{
+          const m = document.getElementById('profileModal');
+          if(m && !m.classList.contains('open')){
+            const bar = document.getElementById('profileStatusBar');
+            if(bar && bar.style.display !== 'none'){
+              obsClose.disconnect();
+              afterHighlight(step);
+            }
+          }
+        });
+        obsClose.observe(document.body, {attributes:true, subtree:true, attributeFilter:['class','style']});
+      }
+    });
+    obsOpen.observe(document.body, {attributes:true, subtree:true, attributeFilter:['class']});
+
+  } else if(id === 'section-thinktank'){
+    document.addEventListener('click', function ck(e){
+      const btn = e.target.closest('.sec-btn');
+      if(btn && btn.textContent.includes('Think Tank')){
+        document.removeEventListener('click', ck);
+        tooltip.style.display = 'none';
+        ring.style.display = 'none';
+        arrow.style.display = 'none';
+        stepTimeout = setTimeout(advanceStep, 900);
+      }
+    });
+
+  } else if(id === 'claude-clicked'){
+    document.addEventListener('click', function ck(e){
+      if(e.target.closest('.btn-claude')){
+        document.removeEventListener('click', ck);
+        tooltip.style.display = 'none';
+        ring.style.display = 'none';
+        arrow.style.display = 'none';
+        // show manual next after short delay
+        stepTimeout = setTimeout(()=>{
+          tooltip.style.display = 'block';
+          ttDesc.textContent = 'Claude נפתח בלשונית חדשה עם הפרומפט ונתוני יחדיו. כשסיימת — חזור לכאן.';
+          ttWaiting.style.display = 'none';
+          ttBtnRow.style.display = 'flex';
+          ttNext.textContent = 'חזרתי ← המשך';
+          ttSkip.style.display = 'inline-block';
+          tooltip.style.top = 'auto';
+          tooltip.style.bottom = '90px';
+          tooltip.style.left = '50%';
+          tooltip.style.transform = 'translateX(-50%)';
+        }, 800);
+      }
+    });
+
+  } else if(id === 'note-saved'){
+    document.addEventListener('click', function nt(e){
+      if(e.target.closest('[data-action="toggle-note"]')){
+        document.removeEventListener('click', nt);
+        tooltip.style.display = 'none';
+        ring.style.display = 'none';
+        arrow.style.display = 'none';
+      }
+    });
+    const noteOrig = window.saveNote;
+    window.saveNote = function(itemId, secTitle, itemTitle, card){
+      noteOrig(itemId, secTitle, itemTitle, card);
+      window.saveNote = noteOrig;
+      afterHighlight(step);
+    };
+
+  } else if(id === 'section-mynotes'){
+    document.addEventListener('click', function ck(e){
+      const btn = e.target.closest('.sec-btn');
+      if(btn && btn.textContent.includes('ההערות')){
+        document.removeEventListener('click', ck);
+        tooltip.style.display = 'none';
+        ring.style.display = 'none';
+        arrow.style.display = 'none';
+        stepTimeout = setTimeout(advanceStep, 900);
+      }
+    });
+
+  } else if(id === 'modal-opened'){
+    document.addEventListener('click', function ck(e){
+      const btn = e.target.closest('button');
+      if(btn && btn.dataset && btn.dataset.action === 'new-prompt'){
+        document.removeEventListener('click', ck);
+        tooltip.style.display = 'none';
+        ring.style.display = 'none';
+        arrow.style.display = 'none';
+      }
+    });
+    const obs = new MutationObserver(()=>{
+      const m = document.getElementById('promptModal');
+      if(m && m.classList.contains('open')){
+        obs.disconnect();
+        stepTimeout = setTimeout(()=>{
+          tooltip.style.display = 'block';
+          ttWaiting.style.display = 'none';
+          ttBtnRow.style.display = 'flex';
+          ttNext.textContent = 'סיים סיור ✓';
+          ttSkip.style.display = 'none';
+          tooltip.style.top = 'auto';
+          tooltip.style.bottom = '80px';
+          tooltip.style.left = '50%';
+          tooltip.style.transform = 'translateX(-50%)';
+        }, 600);
+      }
+    });
+    obs.observe(document.body, {attributes:true, subtree:true, attributeFilter:['class']});
+  }
+
+  // intercept claude button
+  if(id === 'claude-clicked'){
+    const claudeBtn = document.querySelector('.btn-claude');
+    if(claudeBtn){
+      claudeBtn.addEventListener('click', function ck(){
+        claudeBtn.removeEventListener('click', ck);
+        // manual next already shown - do nothing, user clicks "ראיתי"
+      }, {once: true});
+    }
+  }
+}
+
+function afterHighlight(step){
+  if(!step.afterTarget) { stepTimeout = setTimeout(advanceStep, 600); return; }
+  const afterEl = step.afterTarget();
+  if(!afterEl){ stepTimeout = setTimeout(advanceStep, 600); return; }
+
+  // show "after" message on the new target
+  ttDesc.textContent = step.afterText || '';
+  ttWaiting.style.display = 'none';
+  ttBtnRow.style.display = 'none';
+
+  positionOnTarget(afterEl, {...step, arrowDir: step.id === 'profile-btn' ? 'down' : 'left', tooltipPos: 'below'});
+
+  stepTimeout = setTimeout(()=>{
+    advanceStep();
+  }, step.afterWait || 2000);
+}
+
+function finishTour(){
+  endTour();
+  // show finish message
+  const msg = document.createElement('div');
+  msg.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#1a1f2e;border:1px solid rgba(212,168,67,0.4);border-radius:20px;padding:36px 48px;text-align:center;z-index:9999;direction:rtl;box-shadow:0 20px 60px rgba(0,0,0,0.8)';
+  msg.innerHTML = `
+    <div style="font-size:48px;margin-bottom:12px">🎯</div>
+    <div style="font-size:24px;font-weight:800;color:#f0f2f8;margin-bottom:8px">הסיור הסתיים</div>
+    <div style="font-size:15px;color:#9aa3be;line-height:1.6;margin-bottom:24px">הכלי שלך — תתחיל לעבוד</div>
+    <button onclick="this.parentElement.remove()" style="background:linear-gradient(135deg,#7a5a10,#d4a843);color:#1a1200;border:none;border-radius:10px;padding:11px 28px;font-size:15px;font-weight:700;font-family:inherit;cursor:pointer">בוא נתחיל ←</button>
+  `;
+  document.body.appendChild(msg);
+}
+
+})();
+</script>
+<!-- ══ MOBILE JS ══ -->
+<script>
+(function(){
+
+function isMobile(){ return window.innerWidth <= 800; }
+
+var mobStack = [];
+var mobCurrentSec = null;
+var mobCurrentItem = null;
+
+function mobInit(){
+  if(!isMobile()) return;
+  document.getElementById('mobApp').style.display = 'flex';
+  mobUpdateProfile();
+  mobShowSections();
+}
+
+function mobUpdateProfile(){
+  const p = typeof getProfile === 'function' ? getProfile() : {};
+  const chip = document.getElementById('mobProfileChip');
+  if(chip){
+    if(p.ceoName) chip.textContent = '👨‍💼 ' + p.ceoName;
+    else chip.textContent = '👨‍💼 הזן נתונים';
+  }
+}
+
+function mobShowSections(q){
+  mobStack = [];
+  mobCurrentSec = null;
+  document.getElementById('mobTitle').innerHTML = 'AI לאסטרטגיה — <span style="color:var(--gold)">מנכ״ל יחדיו</span>';
+  document.getElementById('mobBack').style.display = 'none';
+  document.getElementById('mobSearchBar').style.display = 'block';
+  document.getElementById('mobAddBtn').style.display = 'block';
+
+  const screen = document.getElementById('mobScreen');
+  const d = window.data || [];
+
+  if(q && q.trim()){
+    // Search results
+    const results = [];
+    d.forEach(function(s){
+      if(s.system) return;
+      (s.items||[]).forEach(function(i){
+        const txt = [i.title, i.text, (i.tags||[]).join(' ')].join(' ').toLowerCase();
+        if(txt.indexOf(q.toLowerCase()) > -1) results.push({s:s, i:i});
+      });
+    });
+    let html = '<div class="mob-list">';
+    if(!results.length){
+      html += '<div style="text-align:center;padding:40px;color:var(--text3)">לא נמצאו תוצאות</div>';
+    } else {
+      results.forEach(function(r){
+        html += mobPromptRowHTML(r.s, r.i);
+      });
+    }
+    html += '</div>';
+    screen.innerHTML = html;
+    return;
+  }
+
+  let html = '<div class="mob-grid">';
+  d.forEach(function(s){
+    if(s.archived) return;
+    const isNotes = s.id === 'mynotes';
+    const count = isNotes ? (typeof getNotesCount === 'function' ? getNotesCount() : 0) : (s.items||[]).length;
+    html += '<div class="mob-tile" onclick="mobShowPrompts(\''+escH(s.id)+'\')">'
+      + '<div class="t-ico">'+escH(s.icon)+'</div>'
+      + '<div class="t-name">'+escH(s.title)+'</div>'
+      + '<div class="t-count">'+count+'</div>'
+      + '</div>';
+  });
+  html += '</div>';
+  screen.innerHTML = html;
+}
+
+function mobShowPrompts(secId){
+  const s = (window.data||[]).find(function(x){ return x.id===secId; });
+  if(!s) return;
+  mobCurrentSec = s;
+  mobStack.push({type:'sections'});
+  document.getElementById('mobTitle').textContent = s.icon + ' ' + s.title;
+  document.getElementById('mobBack').style.display = 'block';
+  document.getElementById('mobSearchBar').style.display = 'none';
+  document.getElementById('mobAddBtn').style.display = 'none';
+
+  const screen = document.getElementById('mobScreen');
+
+  // Handle guide section
+  if(s.id === 'guide'){
+    screen.innerHTML = '<div style="padding:16px;direction:rtl"><div style="font-size:16px;color:var(--text2);line-height:1.7">בחר נושא מהרשימה הראשית כדי לראות פרומפטים.</div></div>';
+    return;
+  }
+
+  // Handle notes section
+  if(s.id === 'mynotes'){
+    mobShowNotes();
+    return;
+  }
+
+  let html = '<div class="mob-list">';
+  if(!s.items || !s.items.length){
+    html += '<div style="text-align:center;padding:40px;color:var(--text3)">אין פרומפטים בנושא זה</div>';
+  } else {
+    s.items.forEach(function(i){
+      html += mobPromptRowHTML(s, i);
+    });
+  }
+  html += '</div>';
+  screen.innerHTML = html;
+}
+
+function mobPromptRowHTML(s, i){
+  const noteKey = 'yachdav_note_' + i.id;
+  const hasNote = !!localStorage.getItem(noteKey);
+  return '<div class="mob-prompt-row" onclick="mobShowPrompt(\''+escH(s.id)+'\',\''+escH(i.id)+'\',\''+escH(s.title)+'\')">'
+    + '<div class="mob-prompt-title">'+(i.favorite?'★ ':'')+escH(i.title)+(hasNote?' 💬':'')+'</div>'
+    + '<div class="mob-prompt-tags">'+(i.tags||[]).map(function(t){ return '<span class="mob-prompt-tag">'+escH(t)+'</span>'; }).join('')+'</div>'
+    + '</div>';
+}
+
+function mobShowPrompt(secId, itemId, secTitle){
+  const s = (window.data||[]).find(function(x){ return x.id===secId; });
+  if(!s) return;
+  const i = (s.items||[]).find(function(x){ return x.id===itemId; });
+  if(!i) return;
+
+  mobCurrentSec = s;
+  mobCurrentItem = i;
+  mobStack.push({type:'prompts', secId:secId, secTitle:secTitle});
+  document.getElementById('mobTitle').textContent = i.title;
+  document.getElementById('mobBack').style.display = 'block';
+  document.getElementById('mobSearchBar').style.display = 'none';
+  document.getElementById('mobAddBtn').style.display = 'none';
+
+  const noteKey = 'yachdav_note_' + i.id;
+  const existingNote = localStorage.getItem(noteKey) || '';
+
+  const screen = document.getElementById('mobScreen');
+  screen.innerHTML = '<div class="mob-prompt-view">'
+    + '<div class="mob-pv-title">'+escH(i.title)+'</div>'
+    + '<div class="mob-pv-text">'+escH(i.text)+'</div>'
+    + '<div class="mob-pv-actions">'
+    + '<button class="mob-btn-claude" onclick="mobOpenClaude(\''+escH(secId)+'\',\''+escH(itemId)+'\')">🤖 שלח ל-Claude</button>'
+    + '</div>'
+    + '<div class="mob-copied" id="mobCopied"></div>'
+    + '<div class="mob-note-section">'
+    + '<div class="mob-note-label">💬 הערה אישית לפרומפט הזה</div>'
+    + '<textarea class="mob-note-ta" id="mobNoteTA" placeholder="כתוב הערה...">'+escH(existingNote)+'</textarea>'
+    + '<button class="mob-note-save" onclick="mobSaveNote(\''+escH(secId)+'\',\''+escH(itemId)+'\')">💾 שמור הערה</button>'
+    + '<div class="mob-copied" id="mobNoteSaved"></div>'
+    + '</div>'
+    + '</div>';
+
+  screen.scrollTop = 0;
+}
+
+function mobShowNotes(){
+  const notes = [];
+  (window.data||[]).forEach(function(s){
+    if(s.system) return;
+    (s.items||[]).forEach(function(i){
+      const txt = localStorage.getItem('yachdav_note_'+i.id);
+      if(txt && txt.trim()) notes.push({s:s, i:i, text:txt.trim()});
+    });
+  });
+
+  const screen = document.getElementById('mobScreen');
+  if(!notes.length){
+    screen.innerHTML = '<div style="text-align:center;padding:40px;color:var(--text3)">עדיין אין הערות.<br><br>לחץ על פרומפט ≡ כדי להוסיף הערה.</div>';
+    return;
+  }
+
+  let html = '<div class="mob-list">';
+  notes.forEach(function(n){
+    html += '<div style="background:var(--surface);border:1px solid rgba(212,168,67,0.2);border-radius:12px;padding:14px;margin-bottom:10px;direction:rtl">'
+      + '<div style="font-size:11px;color:var(--text3);margin-bottom:4px">'+escH(n.s.icon)+' '+escH(n.s.title)+'</div>'
+      + '<div style="font-size:15px;font-weight:600;color:var(--gold);margin-bottom:8px">'+escH(n.i.title)+'</div>'
+      + '<div style="font-size:14px;color:var(--text);line-height:1.6;white-space:pre-wrap">'+escH(n.text)+'</div>'
+      + '<div style="margin-top:10px;display:flex;gap:8px">'
+      + '<button onclick="mobShowPrompt(\''+escH(n.s.id)+'\',\''+escH(n.i.id)+'\',\''+escH(n.s.title)+'\')" style="flex:1;background:rgba(212,168,67,0.1);border:1px solid rgba(212,168,67,0.25);color:var(--gold);border-radius:8px;padding:8px;font-family:inherit;font-size:13px;cursor:pointer">✏️ ערוך</button>'
+      + '<button onclick="mobDelNote(\''+escH(n.i.id)+'\')" style="background:rgba(240,82,82,0.1);border:1px solid rgba(240,82,82,0.2);color:var(--red);border-radius:8px;padding:8px 12px;font-family:inherit;font-size:13px;cursor:pointer">🗑</button>'
+      + '</div>'
+      + '</div>';
+  });
+  html += '</div>';
+  screen.innerHTML = html;
+}
+
+function mobDelNote(itemId){
+  if(!confirm('למחוק את ההערה?')) return;
+  localStorage.removeItem('yachdav_note_'+itemId);
+  mobShowNotes();
+}
+
+function mobGoBack(){
+  if(!mobStack.length){ mobShowSections(); return; }
+  const prev = mobStack.pop();
+  if(prev.type === 'sections'){ mobShowSections(); }
+  else if(prev.type === 'prompts'){ mobShowPrompts(prev.secId); }
+}
+
+function mobSearch(q){
+  if(q.trim()) mobShowSections(q);
+  else mobShowSections();
+}
+
+function mobOpenClaude(secId, itemId){
+  const s = (window.data||[]).find(function(x){ return x.id===secId; });
+  if(!s) return;
+  const i = (s.items||[]).find(function(x){ return x.id===itemId; });
+  if(!i) return;
+  const ctx = typeof buildProfileCtx === 'function' ? buildProfileCtx() : '';
+  const txt = ctx + i.text;
+  i.useCount = (i.useCount||0)+1;
+  if(window.save) window.save();
+  window.open('https://claude.ai/new?q='+encodeURIComponent(txt), '_blank');
+}
+
+function mobCopy(secId, itemId){
+  const s = (window.data||[]).find(function(x){ return x.id===secId; });
+  if(!s) return;
+  const i = (s.items||[]).find(function(x){ return x.id===itemId; });
+  if(!i) return;
+  const ctx = typeof buildProfileCtx === 'function' ? buildProfileCtx() : '';
+  const txt = ctx + i.text;
+  i.useCount = (i.useCount||0)+1;
+  if(window.save) window.save();
+  try{ navigator.clipboard.writeText(txt); }
+  catch(e){ const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove(); }
+  const el = document.getElementById('mobCopied');
+  if(el){ el.textContent='✓ הועתק!'; setTimeout(function(){ el.textContent=''; }, 2000); }
+}
+
+function mobSaveNote(secId, itemId){
+  const ta = document.getElementById('mobNoteTA');
+  if(!ta) return;
+  const text = ta.value.trim();
+  if(!text){ alert('כתוב הערה לפני השמירה'); return; }
+  localStorage.setItem('yachdav_note_'+itemId, text);
+  const el = document.getElementById('mobNoteSaved');
+  if(el){ el.textContent='✓ נשמר!'; setTimeout(function(){ el.textContent=''; }, 2000); }
+}
+
+function escH(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c];}); }
+
+// Init
+setTimeout(function(){
+  if(isMobile()){
+    document.getElementById('mobApp').style.display = 'flex';
+    // Wait for main data to load
+    var tries = 0;
+    function tryInit(){
+      if(window.data && window.data.length){ mobShowSections(); mobUpdateProfile(); }
+      else if(tries++ < 20){ setTimeout(tryInit, 100); }
+    }
+    tryInit();
+  }
+}, 100);
+
+window.addEventListener('resize', function(){
+  if(isMobile()) document.getElementById('mobApp').style.display = 'flex';
+  else document.getElementById('mobApp').style.display = 'none';
+});
+
+// expose for profile update after save
+var origSaveProfile = window.saveProfile;
+window.saveProfile = function(){
+  if(origSaveProfile) origSaveProfile.apply(this, arguments);
+  mobUpdateProfile();
+};
+
+})();
+</script>
+</body>
+</html>
