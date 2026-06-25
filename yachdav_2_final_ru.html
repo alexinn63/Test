@@ -1,0 +1,794 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Яхдав 2.0 — Финальная концепция</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700;900&display=swap');
+:root {
+  --navy:#0d1f3c; --navy2:#1a3a6b; --gold:#c8960c; --gold-light:#fdf3dc;
+  --green:#1e6b3a; --purple:#4a1e6b; --teal:#0d6b5e; --orange:#8b3a1a;
+  --white:#ffffff; --off:#f6f4f0; --text:#1a1a2e; --muted:#666; --border:#e0dbd0;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Montserrat',Arial,sans-serif;background:#eeebe4;color:var(--text);}
+@media print{
+  body{background:white;}
+  .page{box-shadow:none;margin:0;border-radius:0;}
+  .print-btn{display:none;}
+  .pb{break-before:page;}
+}
+.print-btn{display:block;text-align:center;margin:24px auto 16px;background:var(--navy);color:white;border:none;padding:11px 28px;font-size:14px;font-weight:700;border-radius:3px;cursor:pointer;font-family:'Montserrat',Arial,sans-serif;}
+.print-btn:hover{background:var(--navy2);}
+.page{max-width:900px;margin:0 auto 40px;background:var(--white);box-shadow:0 8px 60px rgba(0,0,0,0.13);overflow:hidden;}
+
+.cover{background:var(--navy);padding:60px 60px 48px;position:relative;overflow:hidden;}
+.cover::after{content:'';position:absolute;bottom:0;left:0;right:0;height:5px;
+  background:linear-gradient(90deg,var(--gold) 0%,var(--gold) 20%,var(--green) 20%,var(--green) 40%,var(--purple) 40%,var(--purple) 60%,var(--teal) 60%,var(--teal) 80%,#8b3a1a 80%,#8b3a1a 100%);}
+.cover-tag{display:inline-block;border:1.5px solid rgba(200,150,12,0.5);color:var(--gold);font-size:11px;font-weight:700;letter-spacing:2.5px;padding:5px 14px;border-radius:2px;margin-bottom:28px;text-transform:uppercase;}
+.cover-title{font-size:54px;font-weight:900;color:var(--white);line-height:1.1;margin-bottom:8px;letter-spacing:-1px;}
+.cover-title span{color:var(--gold);}
+.cover-subtitle{font-size:18px;font-weight:300;color:#8aaad0;margin-bottom:36px;line-height:1.5;}
+.cover-phil{border-left:3px solid var(--gold);padding-left:20px;margin-bottom:40px;}
+.cover-phil-lbl{font-size:10px;letter-spacing:2px;color:#8aaad0;text-transform:uppercase;margin-bottom:8px;}
+.cover-phil-txt{font-size:26px;font-weight:900;color:var(--white);line-height:1.3;}
+.cover-phil-txt span{color:var(--gold);}
+.cover-phil-sub{font-size:13px;color:#8aaad0;margin-top:10px;line-height:1.6;font-weight:300;}
+.cover-stats{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid rgba(255,255,255,0.1);border-radius:4px;overflow:hidden;}
+.cstat{padding:18px 14px;border-right:1px solid rgba(255,255,255,0.1);text-align:center;}
+.cstat:last-child{border-right:none;}
+.cstat-num{font-size:28px;font-weight:900;color:var(--gold);line-height:1;margin-bottom:6px;}
+.cstat-lbl{font-size:11px;color:#8aaad0;line-height:1.4;}
+
+.intro{padding:48px 60px;background:var(--off);border-bottom:1px solid var(--border);}
+.intro-grid{display:grid;grid-template-columns:1fr 1fr;gap:36px;align-items:start;}
+.intro-main h2{font-size:22px;font-weight:900;color:var(--navy);margin-bottom:14px;line-height:1.3;}
+.intro-main p{font-size:14px;color:#444;line-height:1.75;margin-bottom:10px;}
+.intro-main p strong{color:var(--navy);}
+.intro-side{background:var(--navy);border-radius:4px;padding:26px;}
+.intro-side-lbl{font-size:10px;letter-spacing:2px;color:#8aaad0;text-transform:uppercase;margin-bottom:14px;}
+.intro-row{display:flex;gap:10px;align-items:flex-start;margin-bottom:12px;}
+.intro-row:last-child{margin-bottom:0;}
+.idot{width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-top:7px;}
+.intro-row-txt{font-size:12px;color:#c8d8ec;line-height:1.6;}
+.intro-row-txt strong{color:white;}
+
+.dh{padding:36px 60px 28px;border-bottom:1px solid var(--border);}
+.dtag{font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;margin-bottom:10px;}
+.dtitle{font-size:32px;font-weight:900;color:var(--navy);line-height:1.15;margin-bottom:12px;}
+.dlead{font-size:15px;color:#444;line-height:1.7;max-width:620px;}
+.daccent{height:4px;margin:0 60px;}
+.dbody{padding:32px 60px 44px;}
+
+.reality{background:var(--off);border-left:4px solid var(--border);padding:18px 20px;border-radius:4px 0 0 4px;margin-bottom:28px;}
+.rlbl{font-size:10px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:8px;}
+.rtxt{font-size:13px;color:#444;line-height:1.7;}
+.rtxt strong{color:var(--navy);}
+
+.world-box{background:#f0f4fa;border-left:4px solid var(--navy2);padding:16px 20px;border-radius:4px 0 0 4px;margin-bottom:28px;}
+.world-lbl{font-size:10px;letter-spacing:2px;color:var(--navy2);text-transform:uppercase;margin-bottom:8px;}
+.world-txt{font-size:13px;color:#333;line-height:1.7;}
+.world-txt strong{color:var(--navy);}
+
+.pillars{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:28px;}
+.pillar{border-radius:4px;padding:20px 18px;border-top:3px solid;}
+.pillar-title{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:8px;}
+.pillar-body{font-size:12px;color:#555;line-height:1.65;}
+
+.pillars4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px;margin-bottom:28px;}
+
+.why-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:28px;}
+.why-item{background:var(--off);border-radius:4px;padding:14px 16px;display:flex;gap:10px;}
+.wicon{font-size:17px;flex-shrink:0;margin-top:1px;}
+.wtitle{font-size:13px;font-weight:700;color:var(--navy);margin-bottom:3px;}
+.wtext{font-size:12px;color:#555;line-height:1.6;}
+
+.team-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:28px;}
+.team-card{background:var(--off);border-radius:4px;padding:14px 12px;text-align:center;}
+.team-icon{font-size:22px;margin-bottom:8px;}
+.team-title{font-size:12px;font-weight:700;color:var(--navy);margin-bottom:4px;}
+.team-text{font-size:11px;color:#555;line-height:1.5;}
+
+.newbox{background:var(--navy);border-radius:4px;padding:26px;margin-bottom:24px;}
+.newlbl{font-size:10px;letter-spacing:2px;color:#8aaad0;text-transform:uppercase;margin-bottom:10px;}
+.newtitle{font-size:17px;font-weight:700;color:white;margin-bottom:14px;}
+.newitems{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.ni{display:flex;gap:9px;align-items:flex-start;}
+.ndot{width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-top:7px;}
+.nitxt{font-size:12px;color:#c8d8ec;line-height:1.6;}
+.nitxt strong{color:white;display:block;margin-bottom:1px;}
+
+.pilot{border-radius:4px;padding:18px 22px;display:flex;gap:16px;align-items:flex-start;}
+.picon{font-size:22px;flex-shrink:0;}
+.ptitle{font-size:13px;font-weight:700;color:var(--navy);margin-bottom:5px;}
+.ptext{font-size:12px;color:#444;line-height:1.65;}
+
+.sdiv{height:8px;background:var(--off);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+
+.closing{background:var(--navy);padding:48px 60px;}
+.ctitle{font-size:30px;font-weight:900;color:white;margin-bottom:18px;line-height:1.2;}
+.ctitle span{color:var(--gold);}
+.ctext{font-size:14px;color:#8aaad0;line-height:1.75;max-width:620px;margin-bottom:32px;}
+.cgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:32px;}
+.ccard{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:4px;padding:16px 14px;text-align:center;}
+.ccard-letter{font-size:18px;font-weight:900;margin-bottom:6px;}
+.ccard-title{font-size:12px;font-weight:700;color:white;margin-bottom:5px;line-height:1.3;}
+.ccard-text{font-size:11px;color:#8aaad0;line-height:1.4;}
+.cbottom{border-top:1px solid rgba(255,255,255,0.1);padding-top:20px;display:flex;justify-content:space-between;align-items:center;}
+.corg{font-size:12px;font-weight:700;color:#8aaad0;}
+.cdate{font-size:11px;color:rgba(255,255,255,0.3);}
+
+@media(max-width:700px){
+  .cover{padding:36px 22px 32px;} .cover-title{font-size:36px;} .cover-stats{grid-template-columns:1fr 1fr;}
+  .intro{padding:32px 22px;} .intro-grid{grid-template-columns:1fr;}
+  .dh{padding:28px 22px 22px;} .daccent{margin:0 22px;} .dbody{padding:24px 22px 32px;}
+  .pillars{grid-template-columns:1fr;} .pillars4{grid-template-columns:1fr 1fr;}
+  .why-grid{grid-template-columns:1fr;} .newitems{grid-template-columns:1fr;}
+  .team-grid{grid-template-columns:1fr 1fr;}
+  .closing{padding:32px 22px;} .cgrid{grid-template-columns:1fr 1fr;}
+  .cbottom{flex-direction:column;gap:8px;}
+}
+</style>
+</head>
+<body>
+<button class="print-btn" onclick="window.print()">Распечатать / Сохранить как PDF ↓</button>
+<div class="page">
+
+<!-- COVER -->
+<div class="cover">
+  <div class="cover-tag">Стратегический документ · Июнь 2026 · Конфиденциально</div>
+  <div class="cover-title">Яхдав <span>2.0</span></div>
+  <div class="cover-subtitle">Пять направлений роста — на основе 25 лет реальной работы</div>
+  <div class="cover-phil">
+    <div class="cover-phil-lbl">Философия организации</div>
+    <div class="cover-phil-txt">Потому что <span>всегда можно лучше.</span></div>
+    <div class="cover-phil-sub">Там где есть пустая ниша — мы её заполняем.<br>Там где что-то уже есть — мы делаем это на уровень выше.<br>Не потому что так написано в стратегии. Потому что так работает Яхдав.</div>
+  </div>
+  <div class="cover-stats">
+    <div class="cstat"><div class="cstat-num">100K</div><div class="cstat-lbl">получателей услуг и их семей</div></div>
+    <div class="cstat"><div class="cstat-num">145M ₪</div><div class="cstat-lbl">годовой оборот</div></div>
+    <div class="cstat"><div class="cstat-num">85</div><div class="cstat-lbl">действующих программ</div></div>
+    <div class="cstat"><div class="cstat-num">40</div><div class="cstat-lbl">муниципалитетов-партнёров</div></div>
+  </div>
+</div>
+
+<!-- INTRO -->
+<div class="intro">
+  <div class="intro-grid">
+    <div class="intro-main">
+      <h2>Яхдав уже лидирует.<br>Яхдав 2.0 — следующий шаг.</h2>
+      <p>25 лет работы в Негеве создали то, что трудно повторить: <strong>1 374 сотрудника, 11 мастерских, 85 программ, 5 500 человек выведено на рынок труда.</strong> За этими цифрами — тысячи реальных историй людей которым Яхдав изменила жизнь.</p>
+      <p>Яхдав 2.0 движется в двух направлениях одновременно: там где ниша пустая — мы её заполняем, там где что-то уже есть — мы делаем это лучше. Пять конкретных направлений. Каждое — на основе того что уже работает.</p>
+    </div>
+    <div class="intro-side">
+      <div class="intro-side-lbl">Пять направлений</div>
+      <div class="intro-row"><div class="idot" style="background:var(--gold)"></div><div class="intro-row-txt"><strong>А — Кампус Яхдав</strong> Интегрированный жилой район — жизнь как у всех</div></div>
+      <div class="intro-row"><div class="idot" style="background:#4dbc78"></div><div class="intro-row-txt"><strong>Б — Яхдав для ветеранов</strong> Комплексный центр — от реабилитации до карьеры</div></div>
+      <div class="intro-row"><div class="idot" style="background:#a87dd4"></div><div class="intro-row-txt"><strong>В — Яхдав Медиа</strong> Студия контента — голос тех кого не слышали</div></div>
+      <div class="intro-row"><div class="idot" style="background:#4db8a8"></div><div class="intro-row-txt"><strong>Г — Центр диагностики</strong> Ниша которая опустела — Яхдав может её заполнить</div></div>
+      <div class="intro-row"><div class="idot" style="background:#d4804d"></div><div class="intro-row-txt"><strong>Д — Профессиональные курсы</strong> Разные аудитории — одна цель: работа</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- А: CAMPUS -->
+<div class="pb">
+<div class="dh">
+  <div class="dtag" style="color:var(--gold)">Направление А — Кампус</div>
+  <div class="dtitle">Жить как все — не как исключение</div>
+  <div class="dlead">Человек с инвалидностью заслуживает не учреждения и не изоляции дома — а нормальной жизни в нормальном районе. Кампус Яхдав может стать первым таким местом в Негеве.</div>
+</div>
+<div class="daccent" style="background:var(--gold)"></div>
+<div class="dbody">
+  <div class="reality">
+    <div class="rlbl">Ситуация сегодня</div>
+    <div class="rtxt">Люди с инвалидностью чаще всего оказываются в двух ситуациях: изолированное учреждение или дом с семьёй без достаточной поддержки. <strong>Модели где человек с инвалидностью живёт как равный среди обычных соседей — в Израиле пока крайне мало, особенно в Негеве.</strong> А именно это работает лучше всего.</div>
+  </div>
+  <div class="world-box">
+    <div class="world-lbl">Мировой опыт</div>
+    <div class="world-txt">В Нидерландах студенты живут бесплатно рядом с людьми с инвалидностью в обмен на соседство и общение. В Дании и Швеции интегрированное жильё — стандарт уже 20 лет. <strong>В США модель "Village Movement" показывает: люди живут счастливее, дольше и с меньшими затратами на поддержку когда они часть сообщества, а не учреждения.</strong> Израиль только начинает этот путь.</div>
+  </div>
+  <div class="pillars">
+    <div class="pillar" style="border-top-color:var(--gold);background:var(--gold-light)">
+      <div class="pillar-title">Смешанное жильё</div>
+      <div class="pillar-body">Квартиры для людей с инвалидностью рядом со студентами БГУ и молодыми семьями. Не отдельный блок — один район, одни соседи.</div>
+    </div>
+    <div class="pillar" style="border-top-color:var(--gold);background:var(--gold-light)">
+      <div class="pillar-title">Всё рядом</div>
+      <div class="pillar-body">Клиники, работа, образование, досуг — в шаговой доступности. Без поездок через весь город и без бесконечной бюрократии.</div>
+    </div>
+    <div class="pillar" style="border-top-color:var(--gold);background:var(--gold-light)">
+      <div class="pillar-title">Живое сообщество</div>
+      <div class="pillar-body">Студенты получают сниженную аренду в обмен на соседство. Это не волонтёрство — это жизнь рядом, как она и должна быть.</div>
+    </div>
+  </div>
+  <div class="why-grid">
+    <div class="why-item"><div class="wicon">🏗️</div><div><div class="wtitle">50 млн ₪ в строительстве</div><div class="wtext">Яхдав уже строит и обслуживает здания. Инфраструктура существует.</div></div></div>
+    <div class="why-item"><div class="wicon">🏠</div><div><div class="wtitle">Опыт размещения</div><div class="wtext">300 девочек в кризисных домах, сотни людей с инвалидностью. Яхдав знает как это делать.</div></div></div>
+    <div class="why-item"><div class="wicon">🎓</div><div><div class="wtitle">Партнёрство с БГУ</div><div class="wtext">Университет в городе. Студенты как соседи — это реально и выгодно обеим сторонам.</div></div></div>
+    <div class="why-item"><div class="wicon">📍</div><div><div class="wtitle">Первый в Негеве</div><div class="wtext">Такой модели в Негеве нет. Яхдав с её масштабом может её создать.</div></div></div>
+  </div>
+  <div class="pilot" style="background:var(--gold-light);border:1.5px solid #e8c870;">
+    <div class="picon">🚀</div>
+    <div><div class="ptitle">Первый шаг — 18 месяцев</div><div class="ptext">Проектирование кампуса в Беэр-Шеве совместно с БГУ и мэрией. Картирование потребностей, проверка планировочной возможности, разговор с фондом Ротшильда и Министерством строительства о финансировании.</div></div>
+  </div>
+</div>
+</div>
+
+<div class="sdiv"></div>
+
+<!-- Б: VETERANS -->
+<div class="pb">
+<div class="dh">
+  <div class="dtag" style="color:var(--green)">Направление Б — Ветераны</div>
+  <div class="dtitle">Не просто реабилитация — новая жизнь</div>
+  <div class="dlead">Молодой боец вернулся с войны. Без руки. Или после 600 дней на нервах. Его тело лечат. Его душу поддерживают. Но кто помогает ему найти себя заново — профессионально, физически, психологически? Яхдав может стать этим местом.</div>
+</div>
+<div class="daccent" style="background:var(--green)"></div>
+<div class="dbody">
+  <div class="reality">
+    <div class="rlbl">Что есть и чего не хватает</div>
+    <div class="rtxt">Бейт ха-Лохем даёт спорт и досуг. Организация инвалидов ЦАХАЛа защищает права. "Натив Хадаш" даёт общие инструменты для рынка труда. Это важная работа и она продолжается. <strong>Но нет места которое берёт человека целиком — тело, голову, профессию — и ведёт его до реальной работы у реального работодателя в Негеве.</strong> Яхдав не конкурирует с существующим. Она продолжает там где другие останавливаются.</div>
+  </div>
+  <div class="world-box">
+    <div class="world-lbl">Мировой опыт</div>
+    <div class="world-txt">В США программа "Hire Heroes" работает так: компания берёт обязательство нанять ветерана до начала его обучения. В Германии военное ведомство финансирует переобучение до 2 лет. <strong>В Великобритании "Supported Employment" — соцработник едет с человеком на работу первые месяцы. Не "мы тебя трудоустроили" — "мы с тобой пока ты не встал на ноги". Это поднимает процент успеха с 40% до 70%+.</strong></div>
+  </div>
+
+  <div class="rlbl" style="margin-bottom:14px">Команда центра — один человек, пять специалистов рядом</div>
+  <div class="team-grid">
+    <div class="team-card">
+      <div class="team-icon">🏃</div>
+      <div class="team-title">Мадрих спорта</div>
+      <div class="team-text">Движение, рутина, физическая форма — адаптированная под каждого</div>
+    </div>
+    <div class="team-card">
+      <div class="team-icon">🥗</div>
+      <div class="team-title">Диетолог</div>
+      <div class="team-text">Депрессия, лишний вес, потеря органов, ограниченная подвижность — питание влияет на всё это</div>
+    </div>
+    <div class="team-card">
+      <div class="team-icon">🧠</div>
+      <div class="team-title">Психолог</div>
+      <div class="team-text">Тот кто видел ужасы. Кто не узнаёт себя в зеркале. Кто 600 дней жил на нервах</div>
+    </div>
+    <div class="team-card">
+      <div class="team-icon">💼</div>
+      <div class="team-title">Проф. наставник</div>
+      <div class="team-text">Курс под конкретного работодателя. Коворкинг для начала работы</div>
+    </div>
+    <div class="team-card">
+      <div class="team-icon">🤝</div>
+      <div class="team-title">Соцработник</div>
+      <div class="team-text">Права, льготы, связь с системой — чтобы человек не блуждал один</div>
+    </div>
+  </div>
+
+  <div class="newbox">
+    <div class="newlbl">Что делает это место особенным</div>
+    <div class="newtitle">Не программа. Место где человека видят целиком.</div>
+    <div class="newitems">
+      <div class="ni"><div class="ndot" style="background:#4dbc78"></div><div class="nitxt"><strong>Работодатель сначала</strong>Компания берёт обязательство до начала обучения. Человек знает куда идёт.</div></div>
+      <div class="ni"><div class="ndot" style="background:#4dbc78"></div><div class="nitxt"><strong>Сопровождение на работе</strong>Специалист едет с ветераном в первые месяцы. Пока не встал на ноги.</div></div>
+      <div class="ni"><div class="ndot" style="background:#4dbc78"></div><div class="nitxt"><strong>Диетолог + психолог</strong>Тело и голова — не отдельно от профессии. Всё связано.</div></div>
+      <div class="ni"><div class="ndot" style="background:#4dbc78"></div><div class="nitxt"><strong>Коворкинг</strong>Маленький офис где можно начать работать — не дома в одиночестве.</div></div>
+    </div>
+  </div>
+  <div class="world-box" style="margin-bottom:20px;">
+    <div class="world-lbl">Дополнительный потенциал — ветераны как менторы</div>
+    <div class="world-txt">Боец который прошёл через центр и вернулся к работе — становится наставником для следующего. В США "peer support" даёт лучшие результаты чем профессиональные консультанты. Это снижает стоимость программы и создаёт сообщество.</div>
+  </div>
+  <div class="pilot" style="background:#edf7f1;border:1.5px solid #7dcfa0;">
+    <div class="picon">🚀</div>
+    <div><div class="ptitle">Пилот — 12 месяцев</div><div class="ptext">20 раненых бойцов из Негева. 5 компаний с обязательствами заранее. Обучение минимум полгода. Команда: мадрих, диетолог, психолог, соцработник. Сопровождение год после трудоустройства. Стоимость: 400 000–600 000 ₪. Критерий успеха: 70% работают через 6 месяцев после окончания.</div></div>
+  </div>
+</div>
+</div>
+
+<div class="sdiv"></div>
+
+<!-- В: MEDIA -->
+<div class="pb">
+<div class="dh">
+  <div class="dtag" style="color:var(--purple)">Направление В — Медиа</div>
+  <div class="dtitle">Голос тех кого не слышали</div>
+  <div class="dlead">100 000 получателей услуг. 85 программ. 25 лет историй. У Яхдав есть что рассказать — и люди которые могут это делать лучше всех. Потому что они живут этим изнутри.</div>
+</div>
+<div class="daccent" style="background:var(--purple)"></div>
+<div class="dbody">
+  <div class="reality">
+    <div class="rlbl">Ситуация сегодня</div>
+    <div class="rtxt">Социальные организации ограничиваются рассылками и постами в соцсетях. Компании ищут настоящий контент о реальных людях — и не находят. <strong>А у матерей-одиночек, у людей которые прошли через трудности, у тех кто изменил свою жизнь — есть истории которые стоят больше любой рекламы.</strong> Студия Яхдав даёт им голос — и зарабатывает на этом.</div>
+  </div>
+  <div class="pillars">
+    <div class="pillar" style="border-top-color:var(--purple);background:#f3edf7">
+      <div class="pillar-title">Контент для Яхдав</div>
+      <div class="pillar-body">Студия документирует реальную работу Яхдав — истории людей, результаты программ, изменения в жизни. Это привлекает пожертвования и строит доверие с министерствами лучше любого отчёта.</div>
+    </div>
+    <div class="pillar" style="border-top-color:var(--purple);background:#f3edf7">
+      <div class="pillar-title">Контент для компаний</div>
+      <div class="pillar-body">Компании платят за настоящие истории о реальных людях. Не постановочная реклама — живой контент от тех кто прошёл через это сам.</div>
+    </div>
+    <div class="pillar" style="border-top-color:var(--purple);background:#f3edf7">
+      <div class="pillar-title">Занятость изнутри</div>
+      <div class="pillar-body">Матери-одиночки, люди прошедшие через трудности — они не просто тема студии. Они её сотрудники. За зарплату, не как волонтёры.</div>
+    </div>
+  </div>
+  <div class="why-grid">
+    <div class="why-item"><div class="wicon">📖</div><div><div class="wtitle">100 000 историй</div><div class="wtext">Яхдав сидит на огромном контентном сокровище. Нужен тот кто умеет его рассказывать.</div></div></div>
+    <div class="why-item"><div class="wicon">👩</div><div><div class="wtitle">Матери-одиночки</div><div class="wtext">Умные женщины с историей и с мотивацией. Медиа — это гибкая занятость которую можно строить вокруг детей.</div></div></div>
+    <div class="why-item"><div class="wicon">💰</div><div><div class="wtitle">Реальный рынок</div><div class="wtext">Компании платят за diversity-контент. Это бизнес, не благотворительность.</div></div></div>
+    <div class="why-item"><div class="wicon">🔗</div><div><div class="wtitle">Голос всего Яхдав 2.0</div><div class="wtext">Студия рассказывает о кампусе, ветеранах, курсах, диагностике. Она связывает всё вместе.</div></div></div>
+  </div>
+  <div class="world-box" style="margin-bottom:20px;">
+    <div class="world-lbl">Потенциал — подкасты на арабском и амхарском</div>
+    <div class="world-txt">У Яхдав есть бедуинская и эфиопская аудитория. Контент на их языках — это расширение охвата и трудоустройство людей из этих общин в самой студии.</div>
+  </div>
+  <div class="pilot" style="background:#f3edf7;border:1.5px solid #c0a0e0;">
+    <div class="picon">🚀</div>
+    <div><div class="ptitle">Пилот — 6 месяцев</div><div class="ptext">Команда 4-6 человек — матери-одиночки и люди с инвалидностью. Обучение производству контента. Сначала работают для самой Яхдав, параллельно строят портфолио для 3 корпоративных клиентов. Стоимость: 200 000–350 000 ₪.</div></div>
+  </div>
+</div>
+</div>
+
+<div class="sdiv"></div>
+
+<!-- Г: DIAGNOSIS -->
+<div class="pb">
+<div class="dh">
+  <div class="dtag" style="color:var(--teal)">Направление Г — Центр диагностики</div>
+  <div class="dtitle">Семья не должна ждать месяцами чтобы получить ответ</div>
+  <div class="dlead">Когда родители подозревают что с их ребёнком что-то не так — они должны знать. Не через полгода ожидания. Центр который давал этот ответ всему югу закрылся. Яхдав может его заменить — и сделать лучше.</div>
+</div>
+<div class="daccent" style="background:var(--teal)"></div>
+<div class="dbody">
+  <div class="reality">
+    <div class="rlbl">Ситуация сегодня</div>
+    <div class="rtxt">Диагностика — это первый и самый важный шаг. Без неё семья не знает куда идти, какие права есть, в какую программу направить ребёнка. Центр который обслуживал весь юг закрылся. Оставшиеся перегружены. <strong>Особенно острая нехватка — выездные сессии: когда специалисты приезжают в отдалённые районы, к семьям которые не могут добраться до города. По имеющимся данным эта ниша сейчас практически пуста.</strong></div>
+  </div>
+  <div class="world-box">
+    <div class="world-lbl">Мировой опыт — две идеи которые стоит взять</div>
+    <div class="world-txt"><strong>Телемедицина для диагностики:</strong> в Канаде часть диагностики аутизма проводится онлайн — семья остаётся дома, специалисты работают через экран. Для бедуинских сёл и отдалённых районов Негева это может изменить всё. <strong>В Великобритании</strong> после постановки диагноза сразу начинается сопровождение семьи — не "идите и разбирайтесь сами", а конкретный план на следующий день.</div>
+  </div>
+  <div class="pillars4">
+    <div class="pillar" style="border-top-color:var(--teal);background:#edf7f5">
+      <div class="pillar-title">Дети</div>
+      <div class="pillar-body">Ранняя оценка при подозрении на нарушения развития. Врач, психолог, соцработник — под одной крышей.</div>
+    </div>
+    <div class="pillar" style="border-top-color:var(--teal);background:#edf7f5">
+      <div class="pillar-title">Взрослые</div>
+      <div class="pillar-body">Оценка функционирования для определения прав, льгот и подходящих программ.</div>
+    </div>
+    <div class="pillar" style="border-top-color:var(--teal);background:#edf7f5">
+      <div class="pillar-title">Аутизм</div>
+      <div class="pillar-body">Диагностика спектра для всех возрастов. Огромный спрос, длинные очереди. Яхдав может сократить ожидание на юге.</div>
+    </div>
+    <div class="pillar" style="border-top-color:var(--teal);background:#edf7f5">
+      <div class="pillar-title">Выездные сессии</div>
+      <div class="pillar-body">Специалисты едут в Димону, Арад, Офаким, бедуинские сёла. Плюс онлайн-диагностика для тех кто совсем далеко.</div>
+    </div>
+  </div>
+  <div class="pilot" style="background:#edf7f5;border:1.5px solid #7dcfc8;">
+    <div class="picon">🚀</div>
+    <div><div class="ptitle">Первый шаг — 90 дней</div><div class="ptext">Встреча с Министерством социальной защиты для изучения возможности получения мандата. Картирование специалистов готовых работать. Оценка спроса на выездные сессии. После диагностики — Яхдав направляет в свои программы. Полный маршрут для семьи.</div></div>
+  </div>
+</div>
+</div>
+
+<div class="sdiv"></div>
+
+<!-- Д: COURSES -->
+<div class="pb">
+<div class="dh">
+  <div class="dtag" style="color:#8b3a1a">Направление Д — Профессиональные курсы</div>
+  <div class="dtitle">Профессия до года — с поддержкой на каждом шагу</div>
+  <div class="dlead">Курсы для людей с инвалидностью существуют. Яхдав делает их по-другому: рядом всегда соцработник, темп адаптирован к человеку, работодатель найден до начала курса. И там где детям нужен присмотр — он будет.</div>
+</div>
+<div class="daccent" style="background:#8b3a1a"></div>
+<div class="dbody">
+  <div class="reality">
+    <div class="rlbl">Что отличает Яхдав</div>
+    <div class="rtxt">Обычные курсы дают знания. Яхдав даёт знания плюс сопровождение. <strong>Соцработник рядом на всём пути — от первого дня курса до первого месяца на работе. Для матери-одиночки — детский сад или присмотр за детьми пока она учится. Для бедуинской женщины — курс в её общине, не в далёком городе.</strong> И у нас есть преподаватель с реальным результатом: 75% трудоустройство по бухгалтерии. Это не цель — это то что уже было.</div>
+  </div>
+  <div class="world-box">
+    <div class="world-lbl">Мировой опыт</div>
+    <div class="world-txt">В Финляндии курсы для матерей-одиночек проводятся прямо в здании где есть детский сад. В Канаде профессиональные программы для коренных народов проходят в их общинах. <strong>В США программы для ветеранов-женщин включают AutoCAD и программирование — именно то что даёт независимость и хорошую зарплату.</strong> Всё это работает потому что убирает барьеры, а не игнорирует их.</div>
+  </div>
+
+  <div style="margin-bottom:28px;">
+    <div class="rlbl" style="margin-bottom:14px">Профессии по аудитории</div>
+    <table style="width:100%;border-collapse:collapse;font-size:13px;">
+      <tr style="background:var(--navy);color:white;">
+        <td style="padding:10px 14px;font-weight:700;border-right:1px solid rgba(255,255,255,0.1)">Аудитория</td>
+        <td style="padding:10px 14px;font-weight:700;border-right:1px solid rgba(255,255,255,0.1)">Профессии</td>
+        <td style="padding:10px 14px;font-weight:700;">Срок</td>
+      </tr>
+      <tr style="background:var(--off);">
+        <td style="padding:10px 14px;font-weight:700;color:var(--navy);border-right:1px solid var(--border);border-bottom:1px solid var(--border)">Люди с инвалидностью</td>
+        <td style="padding:10px 14px;color:#444;border-right:1px solid var(--border);border-bottom:1px solid var(--border)">Бухгалтерия тип 1 и 2, секретариат, ремонт компьютеров и сетей, швейное дело</td>
+        <td style="padding:10px 14px;color:#444;border-bottom:1px solid var(--border)">До года</td>
+      </tr>
+      <tr>
+        <td style="padding:10px 14px;font-weight:700;color:var(--navy);border-right:1px solid var(--border);border-bottom:1px solid var(--border)">Харедим (женщины)</td>
+        <td style="padding:10px 14px;color:#444;border-right:1px solid var(--border);border-bottom:1px solid var(--border)">Кройка и шитьё (свадебные и вечерние платья), макияж, причёски, עיפור</td>
+        <td style="padding:10px 14px;color:#444;border-bottom:1px solid var(--border)">До года</td>
+      </tr>
+      <tr style="background:var(--off);">
+        <td style="padding:10px 14px;font-weight:700;color:var(--navy);border-right:1px solid var(--border);border-bottom:1px solid var(--border)">Харедим (мужчины)</td>
+        <td style="padding:10px 14px;color:#444;border-right:1px solid var(--border);border-bottom:1px solid var(--border)">Бухгалтерия тип 1 и 2, секретариат</td>
+        <td style="padding:10px 14px;color:#444;border-bottom:1px solid var(--border)">До года</td>
+      </tr>
+      <tr>
+        <td style="padding:10px 14px;font-weight:700;color:var(--navy);border-right:1px solid var(--border);border-bottom:1px solid var(--border)">Бедуины Негева</td>
+        <td style="padding:10px 14px;color:#444;border-right:1px solid var(--border);border-bottom:1px solid var(--border)">Автомеханика, бухгалтерия тип 1, секретариат, швейное дело — курсы в общинах</td>
+        <td style="padding:10px 14px;color:#444;border-bottom:1px solid var(--border)">До года</td>
+      </tr>
+      <tr style="background:var(--off);">
+        <td style="padding:10px 14px;font-weight:700;color:var(--navy);border-right:1px solid var(--border);border-bottom:1px solid var(--border)">Эфиопы</td>
+        <td style="padding:10px 14px;color:#444;border-right:1px solid var(--border);border-bottom:1px solid var(--border)">Бухгалтерия, секретариат — проверенные курсы с высоким трудоустройством</td>
+        <td style="padding:10px 14px;color:#444;border-bottom:1px solid var(--border)">До года</td>
+      </tr>
+      <tr>
+        <td style="padding:10px 14px;font-weight:700;color:var(--navy);border-right:1px solid var(--border)">Матери-одиночки и трудные подростки</td>
+        <td style="padding:10px 14px;color:#444;border-right:1px solid var(--border)">AutoCAD, מחסן ממוחשב — продвинутые курсы которые открывают хорошие рабочие места</td>
+        <td style="padding:10px 14px;color:#444;">До года</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="why-grid">
+    <div class="why-item"><div class="wicon">✅</div><div><div class="wtitle">75% трудоустройство — реальный факт</div><div class="wtext">Эта методология уже давала такой результат. Не обещание — история.</div></div></div>
+    <div class="why-item"><div class="wicon">👩‍🏫</div><div><div class="wtitle">Преподаватели готовы</div><div class="wtext">Преподаватель бухгалтерии и преподаватель секретариата с опытом работы с особыми аудиториями — готовы начать.</div></div></div>
+    <div class="why-item"><div class="wicon">🧒</div><div><div class="wtitle">Присмотр за детьми</div><div class="wtext">Для матерей-одиночек — дети под присмотром пока мама учится. Убираем главный барьер.</div></div></div>
+    <div class="why-item"><div class="wicon">🤝</div><div><div class="wtitle">Работодатель до курса</div><div class="wtext">Компания обязуется взять человека ещё до начала обучения. Человек знает куда идёт.</div></div></div>
+  </div>
+  <div class="pilot" style="background:#fdf0eb;border:1.5px solid #d4a080;">
+    <div class="picon">🚀</div>
+    <div><div class="ptitle">Пилот — до года</div><div class="ptext">3 курса параллельно: бухгалтерия для людей с инвалидностью (15 человек), кройка и שитьё для харедимных женщин (15 человек), автомеханика для бедуинов в их общине (15 человек). Преподаватели готовы. Соцработник на всём пути. Работодатели с обязательствами заранее. Для матерей — присмотр за детьми. Стоимость: 350 000–500 000 ₪.</div></div>
+  </div>
+</div>
+</div>
+
+
+<div class="sdiv"></div>
+
+<div class="sdiv"></div>
+
+<!-- MECHANISM PAGE -->
+<div class="pb">
+<div class="dh">
+  <div class="dtag" style="color:var(--navy2)">מנגנון ניהול | Механизм управления</div>
+  <div class="dtitle">Кто решает, кто останавливает, кто измеряет</div>
+  <div class="dlead">Пять направлений — это концепция. Но концепция без механизма управления остаётся на бумаге. Вот четыре элемента которые превращают идеи в реальность.</div>
+</div>
+<div class="daccent" style="background:var(--navy2)"></div>
+<div class="dbody">
+
+  <!-- INNOVATION COUNCIL -->
+  <div style="margin-bottom:32px;">
+    <div class="rlbl" style="margin-bottom:14px">א — מועצת החדשנות | Совет инноваций</div>
+    <div class="rtxt" style="margin-bottom:16px;">Орган который принимает решения GO/NO GO по каждому пилоту. Собирается раз в два месяца. Без него — каждое решение зависит от настроения дня.</div>
+    <div class="team-grid" style="grid-template-columns:repeat(4,1fr);">
+      <div class="team-card">
+        <div class="team-icon">👔</div>
+        <div class="team-title">מנכ"ל</div>
+        <div class="team-text">Председатель. Стратегическая ответственность</div>
+      </div>
+      <div class="team-card">
+        <div class="team-icon">🎯</div>
+        <div class="team-title">Innovation Manager</div>
+        <div class="team-text">Ведёт механизм. Выделенная должность 1.0 FTE</div>
+      </div>
+      <div class="team-card">
+        <div class="team-icon">🏗️</div>
+        <div class="team-title">נציג שטח</div>
+        <div class="team-text">Голос сотрудников и реальности на местах</div>
+      </div>
+      <div class="team-card">
+        <div class="team-icon">🤝</div>
+        <div class="team-title">נציג מקבלי שירות</div>
+        <div class="team-text">Голос тех для кого всё это делается</div>
+      </div>
+    </div>
+    <div class="gold-note" style="background:#f0f4fa;border-left:4px solid var(--navy2);padding:14px 18px;border-radius:4px 0 0 4px;margin-top:14px;">
+      <div style="font-size:13px;color:var(--navy);line-height:1.7;"><strong>Ключевое:</strong> Innovation Manager — это не дополнительная нагрузка на существующего сотрудника. Это отдельная должность. Без неё механизм не запустится. Это единственное место где экономить нельзя.</div>
+    </div>
+  </div>
+
+  <!-- STOP RULES -->
+  <div style="margin-bottom:32px;">
+    <div class="rlbl" style="margin-bottom:14px">ב — Stop Rules | Правила остановки</div>
+    <div class="rtxt" style="margin-bottom:16px;">Большинство организаций не умеют закрывать проекты — потому что они стали частью идентичности. Яхдав 2.0 устанавливает чёткое правило:</div>
+    <div style="background:#fdecea;border-radius:4px;padding:20px 24px;margin-bottom:14px;">
+      <div style="font-size:14px;font-weight:700;color:#c62828;margin-bottom:12px;">Если через 12 месяцев не выполнены все три условия — проект закрывается. Без исключений.</div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div style="display:flex;gap:10px;align-items:center;"><div style="width:8px;height:8px;border-radius:50%;background:#c62828;flex-shrink:0;"></div><div style="font-size:13px;color:#333;">Есть измеримый и задокументированный результат</div></div>
+        <div style="display:flex;gap:10px;align-items:center;"><div style="width:8px;height:8px;border-radius:50%;background:#c62828;flex-shrink:0;"></div><div style="font-size:13px;color:#333;">Есть подтверждённое финансирование на следующий год</div></div>
+        <div style="display:flex;gap:10px;align-items:center;"><div style="width:8px;height:8px;border-radius:50%;background:#c62828;flex-shrink:0;"></div><div style="font-size:13px;color:#333;">Есть подтверждённая потребность с мест</div></div>
+      </div>
+    </div>
+    <div style="background:#edf7f1;border-left:4px solid var(--green);padding:14px 18px;border-radius:4px 0 0 4px;font-size:13px;color:#333;line-height:1.7;">
+      <strong>Закрытый проект — не провал.</strong> Это задокументированный урок который передаётся всей организации. Неудача которую изучают — это актив. Неудача которую прячут — это потеря.
+    </div>
+  </div>
+
+  <!-- THEORY OF CHANGE -->
+  <div style="margin-bottom:32px;">
+    <div class="rlbl" style="margin-bottom:14px">ג — Theory of Change | Теория изменений</div>
+    <div class="rtxt" style="margin-bottom:16px;">Каждый проект до старта обязан ответить на пять вопросов. Без ответов — проект не запускается. Это не бюрократия — это защита от трат денег на идеи которые звучат хорошо но не работают.</div>
+    <table style="width:100%;border-collapse:collapse;font-size:13px;">
+      <tr style="background:var(--navy);color:white;">
+        <td style="padding:10px 14px;font-weight:700;width:40px;text-align:center;">#</td>
+        <td style="padding:10px 14px;font-weight:700;">Вопрос</td>
+        <td style="padding:10px 14px;font-weight:700;">Зачем это важно</td>
+      </tr>
+      <tr style="background:var(--off);">
+        <td style="padding:10px 14px;text-align:center;font-weight:800;color:var(--navy2);">1</td>
+        <td style="padding:10px 14px;">Какую проблему мы решаем?</td>
+        <td style="padding:10px 14px;color:#555;">Чёткое определение — не симптомы</td>
+      </tr>
+      <tr>
+        <td style="padding:10px 14px;text-align:center;font-weight:800;color:var(--navy2);">2</td>
+        <td style="padding:10px 14px;">Почему она существует?</td>
+        <td style="padding:10px 14px;color:#555;">Понять корень — не лечить следствие</td>
+      </tr>
+      <tr style="background:var(--off);">
+        <td style="padding:10px 14px;text-align:center;font-weight:800;color:var(--navy2);">3</td>
+        <td style="padding:10px 14px;">Почему наше решение сработает?</td>
+        <td style="padding:10px 14px;color:#555;">Логика вмешательства — не интуиция</td>
+      </tr>
+      <tr>
+        <td style="padding:10px 14px;text-align:center;font-weight:800;color:var(--navy2);">4</td>
+        <td style="padding:10px 14px;">Как измерим успех?</td>
+        <td style="padding:10px 14px;color:#555;">Конкретные цифры — не ощущения</td>
+      </tr>
+      <tr style="background:var(--off);">
+        <td style="padding:10px 14px;text-align:center;font-weight:800;color:var(--navy2);">5</td>
+        <td style="padding:10px 14px;">Как узнаем что провалились?</td>
+        <td style="padding:10px 14px;color:#555;">Stop Rules определяются до старта — не после</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- FUNNEL + KPI -->
+  <div style="margin-bottom:16px;">
+    <div class="rlbl" style="margin-bottom:14px">ד — מדידה ומשפך | Измерение и воронка</div>
+    <div class="rtxt" style="margin-bottom:16px;">Пять направлений — это первое поколение. Яхдав 2.0 должна стать организацией которая генерирует новые идеи постоянно — не раз в пять лет. Для этого нужна воронка и годовые KPI.</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;">
+      <div>
+        <div style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:4px;letter-spacing:0.5px;">ВОРОНКА ИДЕЙ — КАЖДЫЙ ГОД</div>
+        <div style="font-size:11px;color:var(--muted);margin-bottom:10px;font-style:italic;">Ориентировочные цифры — основаны на опыте похожих организаций</div>
+        <div style="display:flex;flex-direction:column;gap:3px;">
+          <div style="background:var(--navy);color:white;padding:10px 16px;border-radius:3px;font-size:13px;font-weight:700;">30+ идей — из всех уровней организации</div>
+          <div style="background:var(--navy2);color:white;padding:10px 16px;border-radius:3px;font-size:13px;font-weight:700;">10+ проверок — Validation</div>
+          <div style="background:#3a7abd;color:white;padding:10px 16px;border-radius:3px;font-size:13px;font-weight:700;">5 концептов — с Theory of Change</div>
+          <div style="background:#5a94cc;color:white;padding:10px 16px;border-radius:3px;font-size:13px;font-weight:700;">2 пилота — с бюджетом и ответственным</div>
+          <div style="background:var(--gold);color:var(--navy);padding:10px 16px;border-radius:3px;font-size:13px;font-weight:700;">1 новое направление</div>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:4px;letter-spacing:0.5px;">KPI СИСТЕМЫ</div>
+        <div style="font-size:11px;color:var(--muted);margin-bottom:10px;font-style:italic;">Первоначальные ориентиры — подлежат уточнению после первого года</div>
+        <table style="width:100%;border-collapse:collapse;font-size:12px;">
+          <tr style="background:var(--navy);color:white;">
+            <td style="padding:8px 12px;font-weight:700;">Показатель</td>
+            <td style="padding:8px 12px;font-weight:700;text-align:center;">Год 1</td>
+            <td style="padding:8px 12px;font-weight:700;text-align:center;">Год 3</td>
+          </tr>
+          <tr style="background:var(--off);">
+            <td style="padding:8px 12px;">Идей собрано</td>
+            <td style="padding:8px 12px;text-align:center;font-weight:700;color:var(--navy2);">30+</td>
+            <td style="padding:8px 12px;text-align:center;font-weight:700;color:var(--navy2);">60+</td>
+          </tr>
+          <tr>
+            <td style="padding:8px 12px;">Пилотов запущено</td>
+            <td style="padding:8px 12px;text-align:center;font-weight:700;color:var(--navy2);">1–2</td>
+            <td style="padding:8px 12px;text-align:center;font-weight:700;color:var(--navy2);">3+</td>
+          </tr>
+          <tr style="background:var(--off);">
+            <td style="padding:8px 12px;">Новых источников финансирования</td>
+            <td style="padding:8px 12px;text-align:center;font-weight:700;color:var(--navy2);">1</td>
+            <td style="padding:8px 12px;text-align:center;font-weight:700;color:var(--navy2);">2+</td>
+          </tr>
+          <tr>
+            <td style="padding:8px 12px;">Доход от новых направлений</td>
+            <td style="padding:8px 12px;text-align:center;font-weight:700;color:var(--navy2);">0%</td>
+            <td style="padding:8px 12px;text-align:center;font-weight:700;color:var(--navy2);">5%</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- PRIORITY MATRIX PAGE -->
+<div class="pb">
+<div class="dh">
+  <div class="dtag" style="color:var(--navy2)">Страница приоритетов</div>
+  <div class="dtitle">С чего начать — и в каком порядке</div>
+  <div class="dlead">Пять направлений не равны по сложности, стоимости и срокам. Вот как они выстраиваются если смотреть практично.</div>
+</div>
+<div class="daccent" style="background:var(--navy2)"></div>
+<div class="dbody">
+
+  <!-- MATRIX TABLE -->
+  <div style="margin-bottom:32px;">
+    <div class="rlbl" style="margin-bottom:14px">Матрица приоритетов</div>
+    <table style="width:100%;border-collapse:collapse;font-size:13px;">
+      <tr style="background:var(--navy);color:white;">
+        <td style="padding:10px 14px;font-weight:700;border-right:1px solid rgba(255,255,255,0.1)">Направление</td>
+        <td style="padding:10px 14px;font-weight:700;border-right:1px solid rgba(255,255,255,0.1);text-align:center">Стоимость</td>
+        <td style="padding:10px 14px;font-weight:700;border-right:1px solid rgba(255,255,255,0.1);text-align:center">Сложность</td>
+        <td style="padding:10px 14px;font-weight:700;border-right:1px solid rgba(255,255,255,0.1);text-align:center">Риск</td>
+        <td style="padding:10px 14px;font-weight:700;border-right:1px solid rgba(255,255,255,0.1);text-align:center">Потенциал</td>
+        <td style="padding:10px 14px;font-weight:700;text-align:center">Срок</td>
+      </tr>
+      <tr style="background:#edf7f1;">
+        <td style="padding:10px 14px;font-weight:700;color:var(--green);border-right:1px solid var(--border);border-bottom:1px solid var(--border)">Д — Курсы</td>
+        <td style="padding:10px 14px;text-align:center;border-right:1px solid var(--border);border-bottom:1px solid var(--border)">🟢 Низкая</td>
+        <td style="padding:10px 14px;text-align:center;border-right:1px solid var(--border);border-bottom:1px solid var(--border)">🟢 Низкая</td>
+        <td style="padding:10px 14px;text-align:center;border-right:1px solid var(--border);border-bottom:1px solid var(--border)">🟢 Низкий</td>
+        <td style="padding:10px 14px;text-align:center;border-right:1px solid var(--border);border-bottom:1px solid var(--border)">🟡 Высокий</td>
+        <td style="padding:10px 14px;text-align:center;font-weight:700;color:var(--green);border-bottom:1px solid var(--border)">До года</td>
+      </tr>
+      <tr style="background:var(--off);">
+        <td style="padding:10px 14px;font-weight:700;color:var(--green);border-right:1px solid var(--border);border-bottom:1px solid var(--border)">Б — Ветераны</td>
+        <td style="padding:10px 14px;text-align:center;border-right:1px solid var(--border);border-bottom:1px solid var(--border)">🟡 Средняя</td>
+        <td style="padding:10px 14px;text-align:center;border-right:1px solid var(--border);border-bottom:1px solid var(--border)">🟡 Средняя</td>
+        <td style="padding:10px 14px;text-align:center;border-right:1px solid var(--border);border-bottom:1px solid var(--border)">🟡 Средний</td>
+        <td style="padding:10px 14px;text-align:center;border-right:1px solid var(--border);border-bottom:1px solid var(--border)">🟠 Очень высокий</td>
+        <td style="padding:10px 14px;text-align:center;font-weight:700;color:var(--green);border-bottom:1px solid var(--border)">1–2 года</td>
+      </tr>
+      <tr>
+        <td style="padding:10px 14px;font-weight:700;color:var(--purple);border-right:1px solid var(--border);border-bottom:1px solid var(--border)">В — Медиа</td>
+        <td style="padding:10px 14px;text-align:center;border-right:1px solid var(--border);border-bottom:1px solid var(--border)">🟢 Низкая</td>
+        <td style="padding:10px 14px;text-align:center;border-right:1px solid var(--border);border-bottom:1px solid var(--border)">🟡 Средняя</td>
+        <td style="padding:10px 14px;text-align:center;border-right:1px solid var(--border);border-bottom:1px solid var(--border)">🟡 Средний</td>
+        <td style="padding:10px 14px;text-align:center;border-right:1px solid var(--border);border-bottom:1px solid var(--border)">🟡 Средний</td>
+        <td style="padding:10px 14px;text-align:center;font-weight:700;color:var(--purple);border-bottom:1px solid var(--border)">6–12 месяцев</td>
+      </tr>
+      <tr style="background:var(--off);">
+        <td style="padding:10px 14px;font-weight:700;color:var(--teal);border-right:1px solid var(--border);border-bottom:1px solid var(--border)">Г — Диагностика</td>
+        <td style="padding:10px 14px;text-align:center;border-right:1px solid var(--border);border-bottom:1px solid var(--border)">🟡 Средняя</td>
+        <td style="padding:10px 14px;text-align:center;border-right:1px solid var(--border);border-bottom:1px solid var(--border)">🔴 Высокая</td>
+        <td style="padding:10px 14px;text-align:center;border-right:1px solid var(--border);border-bottom:1px solid var(--border)">🟡 Средний</td>
+        <td style="padding:10px 14px;text-align:center;border-right:1px solid var(--border);border-bottom:1px solid var(--border)">🟠 Очень высокий</td>
+        <td style="padding:10px 14px;text-align:center;font-weight:700;color:var(--teal);border-bottom:1px solid var(--border)">1–3 года</td>
+      </tr>
+      <tr>
+        <td style="padding:10px 14px;font-weight:700;color:var(--gold);border-right:1px solid var(--border)">А — Кампус</td>
+        <td style="padding:10px 14px;text-align:center;border-right:1px solid var(--border)">🔴 Очень высокая</td>
+        <td style="padding:10px 14px;text-align:center;border-right:1px solid var(--border)">🔴 Очень высокая</td>
+        <td style="padding:10px 14px;text-align:center;border-right:1px solid var(--border)">🔴 Высокий</td>
+        <td style="padding:10px 14px;text-align:center;border-right:1px solid var(--border)">🟠 Огромный</td>
+        <td style="padding:10px 14px;text-align:center;font-weight:700;color:var(--gold)">5–10 лет</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- THREE PHASES -->
+  <div class="rlbl" style="margin-bottom:14px">Дорожная карта — три фазы</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:32px;">
+    <div style="background:#edf7f1;border-radius:4px;padding:20px;border-top:4px solid var(--green);">
+      <div style="font-size:11px;font-weight:700;color:var(--green);letter-spacing:1px;margin-bottom:10px;">ФАЗА 1 — СЕЙЧАС</div>
+      <div style="font-size:14px;font-weight:700;color:var(--navy);margin-bottom:8px;">Можно начать завтра</div>
+      <div style="font-size:13px;color:#444;line-height:1.6;">
+        <div style="margin-bottom:6px;">✓ <strong>Курсы</strong> — преподаватели готовы, методология проверена</div>
+        <div>✓ <strong>Медиа</strong> — низкий порог входа, быстрый результат</div>
+      </div>
+    </div>
+    <div style="background:#edf7f5;border-radius:4px;padding:20px;border-top:4px solid var(--teal);">
+      <div style="font-size:11px;font-weight:700;color:var(--teal);letter-spacing:1px;margin-bottom:10px;">ФАЗА 2 — ПОДГОТОВКА</div>
+      <div style="font-size:14px;font-weight:700;color:var(--navy);margin-bottom:8px;">Требует подготовки</div>
+      <div style="font-size:13px;color:#444;line-height:1.6;">
+        <div style="margin-bottom:6px;">⟳ <strong>Ветераны</strong> — нужны партнёры и команда</div>
+        <div>⟳ <strong>Диагностика</strong> — нужен мандат министерства</div>
+      </div>
+    </div>
+    <div style="background:var(--gold-light);border-radius:4px;padding:20px;border-top:4px solid var(--gold);">
+      <div style="font-size:11px;font-weight:700;color:var(--gold);letter-spacing:1px;margin-bottom:10px;">ФАЗА 3 — ГОРИЗОНТ</div>
+      <div style="font-size:14px;font-weight:700;color:var(--navy);margin-bottom:8px;">Проект на 5–10 лет</div>
+      <div style="font-size:13px;color:#444;line-height:1.6;">
+        <div>◆ <strong>Кампус</strong> — самый амбициозный, самый трансформирующий</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FINANCE TABLE -->
+  <div class="rlbl" style="margin-bottom:14px">Откуда деньги — по каждому направлению</div>
+  <table style="width:100%;border-collapse:collapse;font-size:12px;margin-bottom:24px;">
+    <tr style="background:var(--navy);color:white;">
+      <td style="padding:10px 14px;font-weight:700;border-right:1px solid rgba(255,255,255,0.1)">Направление</td>
+      <td style="padding:10px 14px;font-weight:700;border-right:1px solid rgba(255,255,255,0.1)">Стоимость пилота</td>
+      <td style="padding:10px 14px;font-weight:700;border-right:1px solid rgba(255,255,255,0.1)">Источники финансирования</td>
+      <td style="padding:10px 14px;font-weight:700;">Потенциальный доход</td>
+    </tr>
+    <tr style="background:var(--off);">
+      <td style="padding:10px 14px;font-weight:700;color:var(--green);border-right:1px solid var(--border);border-bottom:1px solid var(--border)">Д — Курсы</td>
+      <td style="padding:10px 14px;border-right:1px solid var(--border);border-bottom:1px solid var(--border)">350–500K ₪</td>
+      <td style="padding:10px 14px;color:#444;border-right:1px solid var(--border);border-bottom:1px solid var(--border)">Министерство труда, муниципалитеты, плата за обучение</td>
+      <td style="padding:10px 14px;color:#444;border-bottom:1px solid var(--border)">Частичная самоокупаемость через плату за курс</td>
+    </tr>
+    <tr>
+      <td style="padding:10px 14px;font-weight:700;color:var(--green);border-right:1px solid var(--border);border-bottom:1px solid var(--border)">Б — Ветераны</td>
+      <td style="padding:10px 14px;border-right:1px solid var(--border);border-bottom:1px solid var(--border)">400–600K ₪</td>
+      <td style="padding:10px 14px;color:#444;border-right:1px solid var(--border);border-bottom:1px solid var(--border)">Министерство обороны, реабилитация, компании (CSR)</td>
+      <td style="padding:10px 14px;color:#444;border-bottom:1px solid var(--border)">Плата от компаний за подготовку кадров</td>
+    </tr>
+    <tr style="background:var(--off);">
+      <td style="padding:10px 14px;font-weight:700;color:var(--purple);border-right:1px solid var(--border);border-bottom:1px solid var(--border)">В — Медиа</td>
+      <td style="padding:10px 14px;border-right:1px solid var(--border);border-bottom:1px solid var(--border)">200–350K ₪</td>
+      <td style="padding:10px 14px;color:#444;border-right:1px solid var(--border);border-bottom:1px solid var(--border)">Корпоративные клиенты, гранты, внутренний бюджет Яхдав</td>
+      <td style="padding:10px 14px;color:#444;border-bottom:1px solid var(--border)">Продажа контента компаниям, потенциально самоокупаема</td>
+    </tr>
+    <tr>
+      <td style="padding:10px 14px;font-weight:700;color:var(--teal);border-right:1px solid var(--border);border-bottom:1px solid var(--border)">Г — Диагностика</td>
+      <td style="padding:10px 14px;border-right:1px solid var(--border);border-bottom:1px solid var(--border)">Требует оценки</td>
+      <td style="padding:10px 14px;color:#444;border-right:1px solid var(--border);border-bottom:1px solid var(--border)">Министерство соцзащиты (мандат), больничные кассы</td>
+      <td style="padding:10px 14px;color:#444;border-bottom:1px solid var(--border)">Оплата за диагностику через больничные кассы</td>
+    </tr>
+    <tr style="background:var(--off);">
+      <td style="padding:10px 14px;font-weight:700;color:var(--gold);border-right:1px solid var(--border)">А — Кампус</td>
+      <td style="padding:10px 14px;border-right:1px solid var(--border)">Десятки млн ₪</td>
+      <td style="padding:10px 14px;color:#444;border-right:1px solid var(--border)">Министерство строительства, фонд Ротшильда, муниципалитет, банки</td>
+      <td style="padding:10px 14px;color:#444;">Аренда квартир, услуги резидентам — долгосрочная окупаемость</td>
+    </tr>
+  </table>
+
+  <div class="newbox">
+    <div class="newlbl">Важное замечание</div>
+    <div class="newtitle">Цифры — рабочие, не окончательные.</div>
+    <div class="newitems">
+      <div class="ni"><div class="ndot" style="background:var(--gold)"></div><div class="nitxt"><strong>Это концепция</strong>Точные цифры появятся после первых встреч с министерствами и потенциальными партнёрами.</div></div>
+      <div class="ni"><div class="ndot" style="background:var(--gold)"></div><div class="nitxt"><strong>Профицит Яхдав</strong>6.1 млн ₪ профицита в 2024 году — это реальная база для запуска первых двух пилотов без внешнего финансирования.</div></div>
+      <div class="ni"><div class="ndot" style="background:var(--gold)"></div><div class="nitxt"><strong>Начать можно малым</strong>Курсы и медиа-студия могут стартовать с минимальным бюджетом и доказать концепцию за год.</div></div>
+      <div class="ni"><div class="ndot" style="background:var(--gold)"></div><div class="nitxt"><strong>Риск управляем</strong>Каждый пилот ограничен по времени и бюджету. Если не работает — закрываем. Если работает — масштабируем.</div></div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- CLOSING -->
+<div class="closing">
+  <div class="ctitle">Пять направлений.<br>Одна философия.<br><span>Потому что всегда можно лучше.</span></div>
+  <div class="ctext">За 25 лет Яхдав построила то, что не строится за один день: доверие тысяч семей, инфраструктуру по всему югу, команду которая знает эту работу изнутри. Яхдав 2.0 — это не революция. Это следующий шаг. Одни направления заполняют пустые ниши. Другие поднимают существующее на уровень выше. Потому что всегда можно лучше.</div>
+  <div class="cgrid">
+    <div class="ccard">
+      <div class="ccard-letter" style="color:var(--gold)">А</div>
+      <div class="ccard-title">Кампус Яхдав</div>
+      <div class="ccard-text">Интегрированный район. Первый шаг — 18 месяцев.</div>
+    </div>
+    <div class="ccard">
+      <div class="ccard-letter" style="color:#4dbc78">Б</div>
+      <div class="ccard-title">Яхдав для ветеранов</div>
+      <div class="ccard-text">20 бойцов. Команда из 5 специалистов. 400–600K ₪.</div>
+    </div>
+    <div class="ccard">
+      <div class="ccard-letter" style="color:#a87dd4">В</div>
+      <div class="ccard-title">Яхдав Медиа</div>
+      <div class="ccard-text">Студия контента. 6 месяцев. 200–350K ₪.</div>
+    </div>
+    <div class="ccard">
+      <div class="ccard-letter" style="color:#4db8a8">Г</div>
+      <div class="ccard-title">Центр диагностики</div>
+      <div class="ccard-text">4 вида диагностики + выезды + онлайн. 90 дней до встречи с министерством.</div>
+    </div>
+    <div class="ccard">
+      <div class="ccard-letter" style="color:#d4804d">Д</div>
+      <div class="ccard-title">Профессиональные курсы</div>
+      <div class="ccard-text">6 аудиторий. Соцработник рядом. До года. 350–500K ₪.</div>
+    </div>
+  </div>
+  <div class="cbottom">
+    <div class="corg">Ассоциация Яхдав Беэр-Шева и Юг | Яхдав 2.0 | Внутренний рабочий документ</div>
+    <div class="cdate">Июнь 2026</div>
+  </div>
+</div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,616 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>YIOS v1.0 — Yachdav Innovation Operating System</title>
+<style>
+:root {
+  --bg: #f0f4fa;
+  --navy: #1a3a6b;
+  --navy2: #2e5fa3;
+  --gold: #c8960c;
+  --gold-light: #fdf3dc;
+  --gold-mid: #f5d87a;
+  --white: #ffffff;
+  --gray: #f4f6f9;
+  --text: #1a1a2e;
+  --muted: #5a6a82;
+  --red-bg: #fdecea;
+  --red: #c62828;
+  --green-bg: #e8f5e9;
+  --green: #2e7d32;
+  --border: #d0d8e8;
+  --shadow: 0 2px 16px rgba(26,58,107,0.10);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: Arial, sans-serif; line-height: 1.7; }
+
+/* HEADER */
+header {
+  background: var(--navy);
+  padding: 36px 32px 28px;
+  position: sticky; top: 0; z-index: 10;
+  box-shadow: 0 2px 24px rgba(26,58,107,0.22);
+}
+.header-inner { max-width: 1100px; margin: auto; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+.header-text h1 { color: #fff; font-size: 28px; font-weight: 800; margin-bottom: 4px; }
+.header-text p { color: #a0c4f0; font-size: 14px; }
+.header-badge { background: var(--gold); color: #fff; font-weight: 800; font-size: 13px; padding: 6px 16px; border-radius: 20px; white-space: nowrap; }
+
+/* NAV */
+nav {
+  background: #fff;
+  border-bottom: 2px solid var(--border);
+  padding: 0 32px;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+nav .nav-inner { max-width: 1100px; margin: auto; display: flex; gap: 4px; }
+nav button {
+  background: none; border: none; cursor: pointer;
+  color: var(--muted); font-size: 14px; font-weight: 600;
+  padding: 14px 16px; border-bottom: 3px solid transparent;
+  transition: all .2s; white-space: nowrap; font-family: Arial, sans-serif;
+}
+nav button:hover { color: var(--navy2); }
+nav button.active { color: var(--navy); border-bottom-color: var(--gold); }
+
+/* LAYOUT */
+.wrap { max-width: 1100px; margin: 0 auto; padding: 32px 24px 80px; }
+
+/* SECTIONS */
+.section { display: none; }
+.section.active { display: block; }
+
+/* CARDS */
+.card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow);
+}
+.card-title { font-size: 20px; font-weight: 800; color: var(--navy); margin-bottom: 8px; }
+.card-body { color: #2a2a2a; font-size: 15px; line-height: 1.75; }
+
+/* SECTION HEADER */
+.section-title {
+  font-size: 26px; font-weight: 800; color: var(--navy);
+  border-right: 6px solid var(--gold);
+  padding-right: 16px;
+  margin-bottom: 24px;
+}
+
+/* FUNNEL */
+.funnel { display: flex; flex-direction: column; gap: 4px; margin: 20px 0; }
+.funnel-row {
+  display: flex; align-items: center; border-radius: 10px; overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0,0,0,.07);
+}
+.funnel-num {
+  width: 80px; min-width: 80px; padding: 14px 10px;
+  font-size: 28px; font-weight: 900; text-align: center; color: #fff;
+}
+.funnel-label {
+  flex: 1; padding: 14px 20px;
+  font-size: 17px; font-weight: 700; color: var(--text);
+  background: var(--gray);
+}
+
+/* STAGE CARDS */
+.stages { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
+.stage {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+.stage-header {
+  background: var(--navy);
+  padding: 12px 18px;
+  display: flex; align-items: center; gap: 10px;
+}
+.stage-num { background: var(--gold); color: #fff; font-weight: 900; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
+.stage-name { color: #fff; font-weight: 700; font-size: 16px; }
+.stage-body { padding: 16px 18px; }
+.stage-body ul { padding-right: 20px; }
+.stage-body li { color: var(--muted); font-size: 14px; margin-bottom: 6px; }
+.stage-gate {
+  margin-top: 10px; background: var(--gold-light);
+  border-radius: 8px; padding: 10px 14px;
+  font-size: 13px; font-weight: 700; color: var(--gold);
+  border-right: 4px solid var(--gold);
+}
+
+/* TABLES */
+.tbl { width: 100%; border-collapse: collapse; margin: 16px 0; }
+.tbl th { background: var(--navy); color: #fff; padding: 10px 14px; font-size: 14px; text-align: right; }
+.tbl td { padding: 10px 14px; font-size: 14px; border-bottom: 1px solid var(--border); text-align: right; }
+.tbl tr:nth-child(even) td { background: var(--gray); }
+.tbl .num { color: var(--navy2); font-weight: 800; font-size: 18px; text-align: center; }
+.tbl .note { color: var(--muted); font-size: 13px; }
+
+/* COUNCIL */
+.council-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 16px 0; }
+.council-card {
+  background: var(--white); border: 1px solid var(--border); border-radius: 12px;
+  padding: 14px 18px; display: flex; flex-direction: column; gap: 4px;
+}
+.council-role { font-weight: 800; color: var(--navy); font-size: 15px; }
+.council-desc { color: var(--muted); font-size: 13px; }
+.council-card.highlight { border-color: var(--gold); background: var(--gold-light); }
+.council-card.highlight .council-role { color: var(--gold); }
+
+/* BOXES */
+.blue-box {
+  background: #dce8f5; border-radius: 12px;
+  padding: 18px 22px; margin: 16px 0;
+  border-right: 5px solid var(--navy2);
+}
+.blue-box p, .blue-box li { color: var(--navy); font-size: 14px; line-height: 1.75; }
+.blue-box ul { padding-right: 20px; }
+.gold-box {
+  background: var(--gold-light); border-radius: 12px;
+  padding: 18px 22px; margin: 16px 0;
+  border-right: 5px solid var(--gold);
+}
+.gold-box .gold-label { font-weight: 800; color: var(--gold); font-size: 14px; margin-bottom: 4px; }
+.gold-box p { color: #4a3800; font-size: 14px; }
+
+/* STOP RULES */
+.stop-rule {
+  background: var(--red-bg); border-radius: 10px;
+  padding: 14px 18px; margin: 8px 0;
+  border-right: 6px solid var(--red);
+  font-weight: 700; color: var(--text); font-size: 15px;
+}
+
+/* RESULT GRID */
+.result-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 16px 0; }
+.result-card { border-radius: 12px; padding: 18px; }
+.result-card.green { background: var(--green-bg); border: 1px solid #a5d6a7; }
+.result-card.red { background: var(--red-bg); border: 1px solid #ef9a9a; }
+.result-card .result-label { font-weight: 800; font-size: 15px; margin-bottom: 6px; }
+.result-card.green .result-label { color: var(--green); }
+.result-card.red .result-label { color: var(--red); }
+.result-card p { font-size: 14px; color: #2a2a2a; }
+
+/* ROADMAP */
+.roadmap { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin: 20px 0; }
+.rm-phase { background: var(--white); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; box-shadow: var(--shadow); }
+.rm-head { padding: 14px; text-align: center; font-weight: 800; color: #fff; font-size: 16px; }
+.rm-body { padding: 14px; }
+.rm-body ul { padding-right: 16px; }
+.rm-body li { color: var(--muted); font-size: 13px; margin-bottom: 6px; }
+
+/* BUDGET TABLE */
+.budget-total td { font-weight: 800; background: var(--gold-light) !important; color: var(--gold); }
+
+/* ToC */
+.toc-section { margin-bottom: 14px; }
+.toc-num { display: inline-block; background: var(--navy); color: #fff; font-weight: 800; width: 26px; height: 26px; border-radius: 50%; text-align: center; line-height: 26px; font-size: 13px; margin-left: 10px; }
+.toc-item { display: flex; align-items: center; padding: 12px 16px; border-radius: 10px; cursor: pointer; transition: background .15s; }
+.toc-item:hover { background: #eaf1fb; }
+.toc-label { font-weight: 700; color: var(--navy); font-size: 15px; }
+
+@media(max-width: 700px) {
+  header { padding: 18px 16px; }
+  .header-inner { flex-direction: column; align-items: flex-start; }
+  nav { padding: 0 12px; }
+  .wrap { padding: 20px 14px 60px; }
+  .stages { grid-template-columns: 1fr; }
+  .council-grid { grid-template-columns: 1fr; }
+  .result-grid { grid-template-columns: 1fr; }
+  .roadmap { grid-template-columns: 1fr 1fr; }
+  .section-title { font-size: 20px; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="header-text">
+      <h1>YIOS v1.0 | מנגנון חדשנות ארגונית</h1>
+      <p>Yachdav Innovation Operating System — מסמך עבודה</p>
+    </div>
+    <div class="header-badge">יחדיו 2.0</div>
+  </div>
+</header>
+
+<nav>
+  <div class="nav-inner">
+    <button class="active" onclick="show('toc')">תוכן עניינים</button>
+    <button onclick="show('vision')">1. חזון</button>
+    <button onclick="show('funnel')">2. משפך</button>
+    <button onclick="show('stages')">3. שלבים</button>
+    <button onclick="show('stakeholders')">4. מקבלי שירות</button>
+    <button onclick="show('toc-theory')">5. Theory of Change</button>
+    <button onclick="show('council')">6. מועצה</button>
+    <button onclick="show('ai')">7. AI</button>
+    <button onclick="show('stop')">8. Stop Rules</button>
+    <button onclick="show('kpi')">9. KPI</button>
+    <button onclick="show('roadmap')">10. Roadmap</button>
+    <button onclick="show('budget')">11. תקציב</button>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<!-- TOC -->
+<div id="toc" class="section active">
+  <div class="section-title">YIOS v1.0 — תוכן עניינים</div>
+  <div class="card card-body">
+    <p style="margin-bottom:20px">YIOS הוא מנגנון חדשנות ארגונית ליחדיו — לא מסמך חזון, לא קמפיין. מנגנון עם תפקידים, תהליכים, תקציב, מדדים וכללי סגירה.</p>
+    <div class="toc-section">
+      <div class="toc-item" onclick="show('vision')"><span class="toc-num">1</span><span class="toc-label">חזון: מה זה YIOS?</span></div>
+      <div class="toc-item" onclick="show('funnel')"><span class="toc-num">2</span><span class="toc-label">משפך החדשנות: 100 → 1</span></div>
+      <div class="toc-item" onclick="show('stages')"><span class="toc-num">3</span><span class="toc-label">שלבי המנגנון (6 שלבים)</span></div>
+      <div class="toc-item" onclick="show('stakeholders')"><span class="toc-num">4</span><span class="toc-label">מקבלי השירות במרכז</span></div>
+      <div class="toc-item" onclick="show('toc-theory')"><span class="toc-num">5</span><span class="toc-label">Theory of Change — חובה לכל יוזמה</span></div>
+      <div class="toc-item" onclick="show('council')"><span class="toc-num">6</span><span class="toc-label">מועצת החדשנות — מבנה וסמכויות</span></div>
+      <div class="toc-item" onclick="show('ai')"><span class="toc-num">7</span><span class="toc-label">AI כתשתית — לא כפרויקט</span></div>
+      <div class="toc-item" onclick="show('stop')"><span class="toc-num">8</span><span class="toc-label">Stop Rules — כללי הסגירה</span></div>
+      <div class="toc-item" onclick="show('kpi')"><span class="toc-num">9</span><span class="toc-label">מדדי הצלחה שנתיים</span></div>
+      <div class="toc-item" onclick="show('roadmap')"><span class="toc-num">10</span><span class="toc-label">מפת דרכים 2026–2035</span></div>
+      <div class="toc-item" onclick="show('budget')"><span class="toc-num">11</span><span class="toc-label">מסגרת תקציבית ראשונית</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- 1: VISION -->
+<div id="vision" class="section">
+  <div class="section-title">1. החזון: מה זה YIOS?</div>
+  <div class="card">
+    <div class="card-title">יחדיו 2.0 — המעבר</div>
+    <div class="card-body">
+      <p>יחדיו 2.0 היא מעבר מארגון המפעיל שירותים לארגון שיוצר, בודק ומרחיב פתרונות חברתיים חדשים.</p>
+      <p style="margin-top:10px">YIOS הוא מנגנון הפעולה שמאפשר את המעבר הזה. לא מסמך חזון. לא קמפיין. <strong>מנגנון</strong> — עם תפקידים, תהליכים, תקציב, מדדים וכללי סגירה.</p>
+    </div>
+  </div>
+  <div class="gold-box">
+    <div class="gold-label">עיקרון יסוד</div>
+    <p>לא כל רעיון הופך לפרויקט. רוב הארגונים טועים: רעיון → פרויקט → מימון → כישלון.<br>ב-YIOS: רעיון עובר סינון מחמיר לפני שמשקיעים בו שקל.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">ההבדל בין יחדיו 1.0 ל-2.0</div>
+    <table class="tbl">
+      <tr><th>ממד</th><th>יחדיו 1.0</th><th>יחדיו 2.0</th></tr>
+      <tr><td>תפקיד הארגון</td><td class="note">מפעיל שירותים</td><td>יוצר פתרונות</td></tr>
+      <tr><td>קשר עם משרדים</td><td class="note">מגיב למכרזים</td><td>משפיע על מדיניות</td></tr>
+      <tr><td>חדשנות</td><td class="note">אד-הוק, אקראית</td><td>מנגנון קבוע</td></tr>
+      <tr><td>כישלון</td><td class="note">לא מדובר</td><td>מתועד ונלמד</td></tr>
+      <tr><td>מדידה</td><td class="note">תפוקות (outputs)</td><td>השפעה (impact)</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- 2: FUNNEL -->
+<div id="funnel" class="section">
+  <div class="section-title">2. משפך החדשנות</div>
+  <div class="card card-body">
+    <p>כל שנה, YIOS מסנן רעיונות לפי שלבים מוגדרים. רק מה שעובר את כל השלבים ממשיך הלאה.</p>
+  </div>
+  <div class="funnel">
+    <div class="funnel-row"><div class="funnel-num" style="background:#1a3a6b">100</div><div class="funnel-label">רעיונות — נאספים מכל רמות הארגון</div></div>
+    <div class="funnel-row"><div class="funnel-num" style="background:#2e5fa3">20</div><div class="funnel-label">בדיקות — Validation ראשוני</div></div>
+    <div class="funnel-row"><div class="funnel-num" style="background:#3a7abd">10</div><div class="funnel-label">קונספטים — עם Theory of Change</div></div>
+    <div class="funnel-row"><div class="funnel-num" style="background:#5a94cc">5</div><div class="funnel-label">פיילוטים — עם תקציב ואחראי</div></div>
+    <div class="funnel-row"><div class="funnel-num" style="background:#7aaede">2</div><div class="funnel-label">סקיילינג — לאחר הערכה</div></div>
+    <div class="funnel-row"><div class="funnel-num" style="background:#c8960c">1</div><div class="funnel-label">כיוון חדש קבוע — תוכנית ארגונית</div></div>
+  </div>
+  <div class="gold-box">
+    <div class="gold-label">המשמעות</div>
+    <p>99 רעיונות מתוך 100 לא יגיעו לסקיילינג — וזה בסדר. כך עובד מנגנון חדשנות בריא. הכישלון המהיר זול; הכישלון המאוחר יקר.</p>
+  </div>
+</div>
+
+<!-- 3: STAGES -->
+<div id="stages" class="section">
+  <div class="section-title">3. שלבי המנגנון</div>
+  <div class="stages">
+    <div class="stage">
+      <div class="stage-header"><div class="stage-num">1</div><div class="stage-name">איסוף סיגנלים</div></div>
+      <div class="stage-body">
+        <p style="margin-bottom:10px;font-size:14px;color:var(--muted)">מקורות הסיגנל:</p>
+        <ul>
+          <li>עובד / מדריך מהשטח</li>
+          <li>משפחה של מקבל שירות</li>
+          <li>מקבל שירות עצמו</li>
+          <li>משרד ממשלתי / רגולטור</li>
+          <li>עיריה / רשות מקומית</li>
+          <li>אוניברסיטה / מחקר</li>
+          <li>ניתוח AI של נתונים</li>
+        </ul>
+        <div class="stage-gate">שאלה: איזו בעיה זוהתה? מדוע עכשיו?</div>
+      </div>
+    </div>
+    <div class="stage">
+      <div class="stage-header"><div class="stage-num">2</div><div class="stage-name">Validation — אימות</div></div>
+      <div class="stage-body">
+        <p style="margin-bottom:10px;font-size:14px;color:var(--muted)">בודקים ארבעה דברים:</p>
+        <ul>
+          <li>האם הבעיה קיימת בפועל?</li>
+          <li>כמה אנשים היא נוגעת?</li>
+          <li>מי כבר ניסה לפתור ומה קרה?</li>
+          <li>האם ליחדיו יש מענה ייחודי?</li>
+        </ul>
+        <div class="stage-gate">תוצר: GO / NO GO — ללא יוצא מן הכלל</div>
+      </div>
+    </div>
+    <div class="stage">
+      <div class="stage-header"><div class="stage-num">3</div><div class="stage-name">עיצוב הפתרון</div></div>
+      <div class="stage-body">
+        <p style="margin-bottom:10px;font-size:14px;color:var(--muted)">ארבעה מסמכים חובה:</p>
+        <ul>
+          <li>Theory of Change</li>
+          <li>מפת סטייקהולדרים</li>
+          <li>הערכת סיכונים</li>
+          <li>תקציב פיילוט (50–150K ₪)</li>
+        </ul>
+        <div class="stage-gate">בלי ארבעתם — לא ממשיכים</div>
+      </div>
+    </div>
+    <div class="stage">
+      <div class="stage-header"><div class="stage-num">4</div><div class="stage-name">פיילוט</div></div>
+      <div class="stage-body">
+        <p style="margin-bottom:10px;font-size:14px;color:var(--muted)">מגבלות קשיחות:</p>
+        <ul>
+          <li>מקסימום 6 חודשים</li>
+          <li>תקציב קבוע מראש</li>
+          <li>מנהל אחראי מוגדר</li>
+        </ul>
+        <div class="stage-gate">אסור להרחיב לפני תוצאות מדודות</div>
+      </div>
+    </div>
+    <div class="stage">
+      <div class="stage-header"><div class="stage-num">5</div><div class="stage-name">הערכה</div></div>
+      <div class="stage-body">
+        <p style="margin-bottom:10px;font-size:14px;color:var(--muted)">ארבעה ממדים:</p>
+        <ul>
+          <li><strong>Impact</strong> — השפעה על מקבלי שירות</li>
+          <li><strong>Cost</strong> — עלות ליחידת שירות</li>
+          <li><strong>Scalability</strong> — ניתן לשכפול?</li>
+          <li><strong>Funding</strong> — מימון בר-קיימא?</li>
+        </ul>
+        <div class="stage-gate">ללא ארבעת הממדים — אין המלצה</div>
+      </div>
+    </div>
+    <div class="stage">
+      <div class="stage-header"><div class="stage-num">6</div><div class="stage-name">הכרעה סופית</div></div>
+      <div class="stage-body">
+        <div class="result-grid" style="margin:0">
+          <div class="result-card green">
+            <div class="result-label">✓ הפיילוט הצליח</div>
+            <p>הופך לתוכנית קבועה עם מימון ומשאבים.</p>
+          </div>
+          <div class="result-card red">
+            <div class="result-label">✗ הפיילוט נכשל</div>
+            <p>נסגר. ללא יוצא מן הכלל. הלמידה מתועדת.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 4: STAKEHOLDERS -->
+<div id="stakeholders" class="section">
+  <div class="section-title">4. מקבלי השירות במרכז</div>
+  <div class="card card-body">
+    <p>חדשנות חברתית ללא קול מקבלי השירות אינה חדשנות — היא השערה. כל יוזמה חייבת לעבור שלושה שערים:</p>
+  </div>
+  <div class="blue-box">
+    <ul>
+      <li><strong>קול מקבלי השירות</strong> — מה הם אומרים שהם צריכים?</li>
+      <li><strong>קול המשפחות</strong> — מה הם רואים שחסר?</li>
+      <li><strong>קול הצוות המקצועי</strong> — מה הם מזהים בשטח?</li>
+    </ul>
+    <p style="margin-top:12px;font-weight:700">בלי כל שלושת הקולות — הפרויקט לא ממשיך לשלב הבא.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">שיטות לאיסוף קולות</div>
+    <table class="tbl">
+      <tr><th>מקור</th><th>שיטת האיסוף</th><th>תדירות</th></tr>
+      <tr><td>מקבלי שירות</td><td>ראיונות, קבוצות מיקוד</td><td>לפני כל פיילוט</td></tr>
+      <tr><td>משפחות</td><td>שאלון, מפגש קהילתי</td><td>פעם בשנה + לפני פיילוט</td></tr>
+      <tr><td>צוות שטח</td><td>סיעור מוחות מובנה</td><td>רבעוני</td></tr>
+      <tr><td>נתונים ארגוניים</td><td>ניתוח תלונות ופניות</td><td>שוטף (AI)</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- 5: TOC -->
+<div id="toc-theory" class="section">
+  <div class="section-title">5. Theory of Change — חובה לכל יוזמה</div>
+  <div class="card card-body">
+    <p>כל יוזמה חייבת לענות על חמשת השאלות הבאות לפני אישור. בלי תשובות ברורות — הפרויקט לא מתחיל.</p>
+  </div>
+  <table class="tbl">
+    <tr><th style="width:40px">#</th><th>שאלה</th><th>מטרה</th></tr>
+    <tr><td style="text-align:center;font-weight:800;color:var(--navy2)">1</td><td>מה הבעיה?</td><td class="note">הגדרה ברורה וממוקדת</td></tr>
+    <tr><td style="text-align:center;font-weight:800;color:var(--navy2)">2</td><td>מדוע היא קיימת?</td><td class="note">ניתוח שורשי, לא סימפטומים</td></tr>
+    <tr><td style="text-align:center;font-weight:800;color:var(--navy2)">3</td><td>מדוע הפתרון שלנו יעבוד?</td><td class="note">לוגיקת ההתערבות</td></tr>
+    <tr><td style="text-align:center;font-weight:800;color:var(--navy2)">4</td><td>כיצד נמדוד הצלחה?</td><td class="note">מדדים כמותיים ואיכותיים</td></tr>
+    <tr><td style="text-align:center;font-weight:800;color:var(--navy2)">5</td><td>כיצד נזהה כישלון?</td><td class="note">Stop Rules מוגדרים מראש</td></tr>
+  </table>
+  <div class="gold-box">
+    <div class="gold-label">הכלל</div>
+    <p>אם צוות לא מסוגל לענות על שאלה 3 ו-5 באופן ברור ומדיד — הפרויקט לא בשל לפיילוט. זה לא כישלון; זה אימות שדרוש עוד עבודת בסיס.</p>
+  </div>
+</div>
+
+<!-- 6: COUNCIL -->
+<div id="council" class="section">
+  <div class="section-title">6. מועצת החדשנות</div>
+  <div class="card card-body">
+    <p>מועצת החדשנות היא גוף ההחלטה של YIOS. מתכנסת אחת לחודשיים, מוסמכת לאשר פיילוטים, לסגור פרויקטים ולהקצות משאבים.</p>
+  </div>
+  <div class="council-grid">
+    <div class="council-card"><div class="council-role">מנכ"ל</div><div class="council-desc">יו"ר המועצה, אחריות אסטרטגית</div></div>
+    <div class="council-card"><div class="council-role">סמנכ"ל</div><div class="council-desc">ניהול שוטף של מנגנון החדשנות</div></div>
+    <div class="council-card"><div class="council-role">נציג שטח</div><div class="council-desc">קול העובדים והמדריכים</div></div>
+    <div class="council-card"><div class="council-role">עו"ס ראשי</div><div class="council-desc">קול מקבלי השירות והמשפחות</div></div>
+    <div class="council-card"><div class="council-role">נציג מקבלי שירות</div><div class="council-desc">השתתפות ישירה בתהליך</div></div>
+    <div class="council-card"><div class="council-role">שותף אקדמי</div><div class="council-desc">אימות מחקרי ומדידת השפעה</div></div>
+    <div class="council-card"><div class="council-role">יועץ טכנולוגיה / AI</div><div class="council-desc">הטמעת כלים ותשתית נתונים</div></div>
+    <div class="council-card highlight"><div class="council-role">Innovation Manager ★</div><div class="council-desc">הרצת המנגנון — תפקיד ייעודי 1.0 FTE</div></div>
+  </div>
+  <div class="gold-box">
+    <div class="gold-label">הכרחי: Innovation Manager</div>
+    <p>זה לא תפקיד נוסף על קיים. זהו תפקיד ייעודי שמנהל את מנגנון ה-YIOS במלואו. בלי אדם כזה — המנגנון לא יעבוד. ניסיון מארגונים אחרים מראה שזה נקודת הכשל הנפוצה ביותר.</p>
+  </div>
+</div>
+
+<!-- 7: AI -->
+<div id="ai" class="section">
+  <div class="section-title">7. AI כתשתית — לא כפרויקט</div>
+  <div class="card card-body">
+    <p>AI אינו יוזמה שמשיקים. AI הוא כלי תמיכה למנגנון. הוא מסייע בשישה תחומים:</p>
+  </div>
+  <div class="blue-box">
+    <ul>
+      <li>ניתוח מגמות וצרכים עולים בסקטור</li>
+      <li>ניתוח תלונות ופניות מקבלי שירות</li>
+      <li>חיפוש פרויקטים דומים בישראל ובעולם</li>
+      <li>הכנת טיוטות לפיילוטים ול-Theory of Change</li>
+      <li>הערכת סיכונים ראשונית</li>
+      <li>הכנת חומרים למועצת החדשנות</li>
+    </ul>
+  </div>
+  <div class="gold-box">
+    <div class="gold-label">תנאים מוקדמים לשימוש ב-AI</div>
+    <p>• מדיניות פרטיות ברורה לגבי נתוני מקבלי שירות<br>• הגדרת מי מאשר שימוש בנתונים<br>• תדריך לצוות על שימוש נכון<br>• ניתוח נתונים אגרגטיבי בלבד — לא נתונים אישיים</p>
+  </div>
+</div>
+
+<!-- 8: STOP RULES -->
+<div id="stop" class="section">
+  <div class="section-title">8. Stop Rules — כללי הסגירה</div>
+  <div class="card card-body">
+    <p>זה הסעיף החשוב ביותר. ארגונים חברתיים לרוב אינם יודעים לסגור פרויקטים — כי הם הפכו לחלק מהזהות הארגונית.<br><br>YIOS קובע: אם אחרי 12 חודשים לא התקיימו שלושת התנאים הבאים — הפרויקט נסגר:</p>
+  </div>
+  <div class="stop-rule">1. יש תוצאה מדידה ומתועדת</div>
+  <div class="stop-rule">2. יש מימון מאושר לשנה הבאה</div>
+  <div class="stop-rule">3. יש צורך מאושר ומאומת מהשטח</div>
+  <div class="gold-box" style="margin-top:20px">
+    <div class="gold-label">הלמידה לא נסגרת</div>
+    <p>כל פרויקט שנסגר מניב מסמך לקחים שמשותף עם כל הארגון. כישלון מתועד הוא נכס ארגוני — לא כישלון לשכוח.</p>
+  </div>
+  <div class="card" style="margin-top:16px">
+    <div class="card-title">הערה לגבי פרויקטים ממומנים</div>
+    <div class="card-body">
+      <p>פרויקטים הממומנים על ידי משרדי ממשלה מחייבים תיאום עם הגורם הממן לפני סגירה. ה-Stop Rule עדיין חל — אך הסגירה מתבצעת דרך תהליך מסודר ולא חד-צדדית.</p>
+    </div>
+  </div>
+</div>
+
+<!-- 9: KPI -->
+<div id="kpi" class="section">
+  <div class="section-title">9. מדדי הצלחה שנתיים</div>
+  <div class="card card-body">
+    <p>YIOS נמדד כל שנה. אלו המדדים הרשמיים:</p>
+  </div>
+  <table class="tbl">
+    <tr><th>מדד</th><th>יעד שנה 1</th><th>יעד שנה 3</th><th>יעד 5 שנים</th></tr>
+    <tr><td>רעיונות חדשים</td><td class="num">30+</td><td class="num">60+</td><td class="num">100+</td></tr>
+    <tr><td>רעיונות שנבדקו (Validation)</td><td class="num">5+</td><td class="num">12+</td><td class="num">20+</td></tr>
+    <tr><td>פיילוטים שהושקו</td><td class="num">1–2</td><td class="num">3+</td><td class="num">5+</td></tr>
+    <tr><td>פרויקטים שהורחבו</td><td class="num">0–1</td><td class="num">1</td><td class="num">1–2</td></tr>
+    <tr><td>מקורות מימון חדשים</td><td class="num">1</td><td class="num">2</td><td class="num">2+</td></tr>
+    <tr><td>הכנסה מכיוונים חדשים</td><td class="num">0%</td><td class="num">3%</td><td class="num">10%</td></tr>
+  </table>
+  <div class="gold-box">
+    <div class="gold-label">הערה חשובה על שנה ראשונה</div>
+    <p>יעדי שנה 1 מכוונים. הגדרנו אותם נמוך בכוונה — כי הזמן הראשון מוקדש לבנייה: גיוס Innovation Manager, הקמת מועצה, פתיחת ערוצים. מי שמציב 100 רעיונות בשנה 1 עובד מהר מדי.</p>
+  </div>
+</div>
+
+<!-- 10: ROADMAP -->
+<div id="roadmap" class="section">
+  <div class="section-title">10. מפת דרכים 2026–2035</div>
+  <div class="roadmap">
+    <div class="rm-phase">
+      <div class="rm-head" style="background:#2e5fa3">90 יום</div>
+      <div class="rm-body"><ul>
+        <li>גיוס Innovation Manager</li>
+        <li>הקמת מועצת חדשנות ראשונה</li>
+        <li>פתיחת ערוצי איסוף רעיונות</li>
+        <li>הגדרת תקציב פיילוט ראשון</li>
+        <li>הכנת מדיניות AI ופרטיות</li>
+      </ul></div>
+    </div>
+    <div class="rm-phase">
+      <div class="rm-head" style="background:#1a3a6b">שנה 1</div>
+      <div class="rm-body"><ul>
+        <li>30+ רעיונות נאספו</li>
+        <li>1–2 פיילוטים ראשונים</li>
+        <li>שותפות אקדמית אחת</li>
+        <li>מדידה ודוח שנתי ראשון</li>
+        <li>תרבות "כישלון מהיר" בארגון</li>
+      </ul></div>
+    </div>
+    <div class="rm-phase">
+      <div class="rm-head" style="background:#1a3560">3 שנים</div>
+      <div class="rm-body"><ul>
+        <li>5+ פיילוטים הסתיימו</li>
+        <li>1–2 תוכניות חדשות הורחבו</li>
+        <li>YIOS ידוע בסקטור</li>
+        <li>3% הכנסה ממקורות חדשים</li>
+        <li>מועצת חדשנות מבוססת</li>
+      </ul></div>
+    </div>
+    <div class="rm-phase">
+      <div class="rm-head" style="background:#c8960c">2035</div>
+      <div class="rm-body"><ul>
+        <li>יחדיו מוביל חדשנות חברתית</li>
+        <li>10%+ מכיוונים חדשים</li>
+        <li>השפעה על מדיניות ציבורית</li>
+        <li>YIOS כמודל לארגונים אחרים</li>
+      </ul></div>
+    </div>
+  </div>
+</div>
+
+<!-- 11: BUDGET -->
+<div id="budget" class="section">
+  <div class="section-title">11. מסגרת תקציבית ראשונית</div>
+  <div class="card card-body">
+    <p>אין מנגנון ללא תקציב. להלן הערכת עלויות שנה ראשונה — לפני שמגייסים מימון חיצוני:</p>
+  </div>
+  <table class="tbl">
+    <tr><th>סעיף</th><th>הערכת עלות</th></tr>
+    <tr><td>Innovation Manager (1.0 FTE)</td><td>250,000–320,000 ₪</td></tr>
+    <tr><td>תקציב פיילוטים שנה 1 (1–2 פרויקטים)</td><td>100,000–300,000 ₪</td></tr>
+    <tr><td>מחקר ושיתוף אקדמי</td><td>30,000–60,000 ₪</td></tr>
+    <tr><td>כלי AI ותשתית דיגיטלית</td><td>20,000–40,000 ₪</td></tr>
+    <tr><td>הדרכה ותרבות ארגונית</td><td>20,000–30,000 ₪</td></tr>
+    <tr class="budget-total"><td>סה"כ שנה ראשונה</td><td>~420,000–750,000 ₪</td></tr>
+  </table>
+  <div class="gold-box">
+    <div class="gold-label">מקורות מימון אפשריים</div>
+    <p>• פרק חדשנות בתקציב הארגוני הקיים<br>• קרן רוטשילד / JDC / קרן ברכה לחדשנות חברתית<br>• שיתוף פעולה עם מכללות ואוניברסיטאות (מחקר משותף)<br>• תוכניות מימון של משרד הכלכלה לחדשנות בשירותים חברתיים</p>
+  </div>
+  <div class="blue-box">
+    <p><strong>שאלה למנכ"ל לפני אישור:</strong> האם הארגון מסוגל להקדיש 420,000–750,000 ₪ בשנה הראשונה למנגנון שייתכן שלא יניב תוצאות גלויות לפני שנה שנייה? אם התשובה "לא" — YIOS לא בשל לעכשיו, ויש להתחיל בגרסה מינימלית יותר.</p>
+  </div>
+</div>
+
+</div><!-- /wrap -->
+
+<script>
+function show(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  const map = {toc:0,vision:1,funnel:2,stages:3,stakeholders:4,'toc-theory':5,council:6,ai:7,stop:8,kpi:9,roadmap:10,budget:11};
+  const btns = document.querySelectorAll('nav button');
+  if (map[id] !== undefined) btns[map[id]].classList.add('active');
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+</script>
+</body>
+</html>
