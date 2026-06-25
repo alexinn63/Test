@@ -973,13 +973,7 @@ textarea:focus {
   header { display: none !important; }
 
   /* Mobile app container */
-  #mobileApp {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    overflow: hidden;
-    background: var(--bg);
-  }
+  
 
   /* Mobile header */
   .mob-header {
@@ -1231,7 +1225,7 @@ textarea:focus {
 
 /* Desktop: hide mobile app */
 @media screen and (min-width: 801px) {
-  #mobileApp { display: none !important; }
+  
 }
 
 /* Profile bar in toolbar */
@@ -3642,208 +3636,6 @@ window.copyExamplePrompt = async function(){
 })();
 </script>
 
-<!-- ══ MOBILE APP ══ -->
-<div id="mobileApp" style="display:none">
-
-  <!-- Header -->
-  <div class="mob-header">
-    <div class="mob-header-icon">
-      <img src="https://img.magnific.com/premium-vector/sphere-grid-wave-with-binary-code-ai-artificial-intelligence-logo-hands-machine-learning-concept_127544-856.jpg"
-           onerror="this.style.display='none';this.parentElement.innerHTML='🤖';" alt="AI">
-    </div>
-    <div class="mob-header-title" id="mobTitle">
-      AI לאסטרטגיה — <span>מנכ"ל יחדיו</span>
-    </div>
-    <button class="mob-back" id="mobBack" style="display:none" onclick="mobGoBack()">← חזרה</button>
-  </div>
-
-  <!-- Search + add buttons -->
-  <div class="mob-search-bar">
-    <input id="mobSearch" placeholder="🔍 חיפוש פרומפטים..." oninput="mobSearchChange(this.value)" dir="rtl">
-    <button class="mob-add-btn" onclick="openModal('sectionModal')">＋ נושא</button>
-    <button class="mob-add-btn" style="background:var(--surface2);border:1px solid var(--border2);color:var(--text)" onclick="openModal('promptModal')">＋ פרומפט</button>
-  </div>
-
-  <!-- Screen container -->
-  <div class="mob-screen" id="mobScreen"></div>
-</div>
-
-<script>
-// ══ MOBILE NAV ══
-var mobStack = []; // navigation stack
-
-function isMobile(){ return window.innerWidth <= 800; }
-
-function mobInit(){
-  if(!isMobile()) return;
-  var app = document.getElementById('mobileApp');
-  if(!app) return;
-  app.style.display = 'flex';
-  // make sure data is available (from main script)
-  if(typeof data === 'undefined' || !data || !data.length){
-    setTimeout(mobInit, 100);
-    return;
-  }
-  mobShowSections();
-}
-
-function mobShowSections(searchQ){
-  mobStack = [];
-  updateMobHeader('AI לאסטרטגיה — <span style="color:var(--gold)">מנכ\"ל יחדיו</span>', false);
-  var screen = document.getElementById('mobScreen');
-
-  if(searchQ && searchQ.trim()){
-    // show search results
-    var q = searchQ.trim().toLowerCase();
-    var results = [];
-    data.forEach(function(s){
-      if(s.system) return;
-      (s.items||[]).forEach(function(i){
-        var txt = [i.title, i.text, (i.tags||[]).join(' '), s.title].join(' ').toLowerCase();
-        if(txt.indexOf(q) > -1) results.push({s:s, i:i});
-      });
-    });
-    var html = '<div class="mob-search-results">';
-    if(!results.length){
-      html += '<div style="text-align:center;padding:30px;color:var(--text3)">לא נמצאו תוצאות</div>';
-    } else {
-      results.forEach(function(r){
-        html += '<div class="mob-prompt-item" onclick="mobShowPrompt(\''+r.s.id+'\',\''+r.i.id+'\')">'+
-          '<div class="pi-title">'+(r.i.favorite?'⭐ ':'')+escH(r.i.title)+'</div>'+
-          '<div style="font-size:11px;color:var(--text3);margin-bottom:5px">'+escH(r.s.icon)+' '+escH(r.s.title)+'</div>'+
-          '<div class="pi-tags">'+(r.i.tags||[]).map(function(t){return '<span class="pi-tag">'+escH(t)+'</span>';}).join('')+'</div>'+
-          '</div>';
-      });
-    }
-    html += '</div>';
-    screen.innerHTML = html;
-    return;
-  }
-
-  var html = '<div class="mob-sections-grid">';
-  data.forEach(function(s){
-    if(s.system || s.archived) return;
-    html += '<div class="mob-section-tile" onclick="mobShowPrompts(\''+s.id+'\')">'+
-      '<div class="tile-ico">'+escH(s.icon)+'</div>'+
-      '<div class="tile-name">'+escH(s.title)+'</div>'+
-      '<div class="tile-count">'+((s.items||[]).length)+'</div>'+
-      '</div>';
-  });
-  html += '</div>';
-  screen.innerHTML = html;
-}
-
-function mobShowPrompts(secId){
-  var s = section(secId);
-  if(!s) return;
-  mobStack.push({type:'sections'});
-  updateMobHeader(escH(s.icon)+' '+escH(s.title), true);
-  var screen = document.getElementById('mobScreen');
-  screen.scrollTop = 0;
-
-  var html = '<div class="mob-prompt-list">';
-  if(!s.items || !s.items.length){
-    html += '<div style="text-align:center;padding:30px;color:var(--text3)">אין פרומפטים בנושא זה עדיין</div>';
-  } else {
-    s.items.forEach(function(i){
-      html += '<div class="mob-prompt-item" onclick="mobShowPrompt(\''+s.id+'\',\''+i.id+'\')">'+
-        '<div class="pi-title">'+(i.favorite?'⭐ ':'')+escH(i.title)+'</div>'+
-        '<div class="pi-tags">'+(i.tags||[]).map(function(t){return '<span class="pi-tag">'+escH(t)+'</span>';}).join('')+'</div>'+
-        '</div>';
-    });
-  }
-  html += '</div>';
-  screen.innerHTML = html;
-}
-
-function mobShowPrompt(secId, itemId){
-  var s = section(secId);
-  var i = item(secId, itemId);
-  if(!s || !i) return;
-  mobStack.push({type:'prompts', secId:secId});
-  updateMobHeader(escH(i.title), true);
-  var screen = document.getElementById('mobScreen');
-  screen.scrollTop = 0;
-
-  var taId = 'mobTA_'+itemId;
-  var html = '<div class="mob-prompt-view">'+
-    '<div class="pv-title">'+(i.favorite?'⭐ ':'')+escH(i.title)+'</div>'+
-    '<textarea id="'+taId+'">'+escH(i.text)+'</textarea>'+
-    '<button class="mob-copy-btn" onclick="mobCopy(\''+taId+'\',\''+secId+'\',\''+itemId+'\')">📋 העתק פרומפט</button>'+
-    '<div class="mob-copied-msg" id="mobCopiedMsg"></div>'+
-    '<div class="mob-action-row">'+
-      '<button onclick="mobSave(\''+taId+'\',\''+secId+'\',\''+itemId+'\')">💾 שמור</button>'+
-      '<button onclick="mobToggleFav(\''+secId+'\',\''+itemId+'\')"><span id="mobFavLbl_'+itemId+'">'+(i.favorite?'☆ הסר מועדף':'⭐ מועדף')+'</span></button>'+
-    '</div>'+
-    '</div>';
-  screen.innerHTML = html;
-}
-
-function mobGoBack(){
-  if(!mobStack.length){ mobShowSections(); return; }
-  var prev = mobStack.pop();
-  if(prev.type === 'sections'){ mobShowSections(); }
-  else if(prev.type === 'prompts'){ mobShowPrompts(prev.secId); }
-}
-
-function updateMobHeader(titleHtml, showBack){
-  document.getElementById('mobTitle').innerHTML = titleHtml;
-  document.getElementById('mobBack').style.display = showBack ? 'block' : 'none';
-}
-
-function mobSearchChange(val){
-  if(val.trim()){ mobShowSections(val); }
-  else { mobShowSections(); }
-}
-
-async function mobCopy(taId, secId, itemId){
-  var ta = document.getElementById(taId);
-  if(!ta) return;
-  var txt = ta.value;
-  try { await navigator.clipboard.writeText(txt); }
-  catch(e){ ta.select(); document.execCommand('copy'); }
-  var i = item(secId, itemId);
-  if(i){ i.useCount = (i.useCount||0)+1; save(); }
-  var msg = document.getElementById('mobCopiedMsg');
-  if(msg){ msg.textContent = '✓ הועתק ללוח!'; setTimeout(function(){ msg.textContent=''; }, 2000); }
-}
-
-function mobSave(taId, secId, itemId){
-  var ta = document.getElementById(taId);
-  var i = item(secId, itemId);
-  if(!ta || !i) return;
-  i.text = ta.value;
-  save();
-  var msg = document.getElementById('mobCopiedMsg');
-  if(msg){ msg.textContent = '✓ נשמר'; setTimeout(function(){ msg.textContent=''; }, 1500); }
-}
-
-function mobToggleFav(secId, itemId){
-  var i = item(secId, itemId);
-  if(!i) return;
-  i.favorite = !i.favorite;
-  save();
-  var lbl = document.getElementById('mobFavLbl_'+itemId);
-  if(lbl){ lbl.textContent = i.favorite ? '☆ הסר מועדף' : '⭐ מועדף'; }
-}
-
-function escH(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c];}); }
-
-// Init — wait for main script to finish via setTimeout
-setTimeout(function(){
-  mobInit();
-}, 50);
-
-window.addEventListener('resize', function(){
-  if(isMobile()){
-    document.getElementById('mobileApp').style.display = 'flex';
-    mobShowSections();
-  } else {
-    document.getElementById('mobileApp').style.display = 'none';
-  }
-});
-</script>
-
 <!-- ══ TOUR SYSTEM ══ -->
 <style>
 /* Tour overlay */
@@ -4707,13 +4499,23 @@ function mobSaveNote(secId, itemId){
 function escH(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c];}); }
 
 // Init
+var mobInited = false;
 setTimeout(function(){
   if(isMobile()){
     document.getElementById('mobApp').style.display = 'flex';
-    // Wait for main data to load
     var tries = 0;
     function tryInit(){
-      if(window.data && window.data.length){ mobShowSections(); mobUpdateProfile(); }
+      if(window.data && window.data.length){
+        mobInited = true;
+        mobShowSections();
+        mobUpdateProfile();
+        // Block desktop render() from resetting mobile state
+        var origRender = window.render;
+        window.render = function(){
+          if(isMobile()) return; // don't render desktop on mobile
+          if(origRender) origRender();
+        };
+      }
       else if(tries++ < 20){ setTimeout(tryInit, 100); }
     }
     tryInit();
@@ -4721,8 +4523,16 @@ setTimeout(function(){
 }, 100);
 
 window.addEventListener('resize', function(){
-  if(isMobile()) document.getElementById('mobApp').style.display = 'flex';
-  else document.getElementById('mobApp').style.display = 'none';
+  if(isMobile()){
+    document.getElementById('mobApp').style.display = 'flex';
+    if(!mobInited && window.data && window.data.length){
+      mobInited = true;
+      mobShowSections();
+      mobUpdateProfile();
+    }
+  } else {
+    document.getElementById('mobApp').style.display = 'none';
+  }
 });
 
 // expose for profile update after save
@@ -4731,6 +4541,16 @@ window.saveProfile = function(){
   if(origSaveProfile) origSaveProfile.apply(this, arguments);
   mobUpdateProfile();
 };
+
+// Expose mobile nav functions globally
+window.mobShowPrompts = mobShowPrompts;
+window.mobShowPrompt = mobShowPrompt;
+window.mobGoBack = mobGoBack;
+window.mobSearch = mobSearch;
+window.mobOpenClaude = mobOpenClaude;
+window.mobCopy = mobCopy;
+window.mobSaveNote = mobSaveNote;
+window.mobDelNote = mobDelNote;
 
 })();
 </script>
