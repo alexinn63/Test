@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>יחדיו 2.0 — מנקל״י</title>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Rubik', Arial, sans-serif;
+      background: linear-gradient(155deg, #0b1e35 0%, #14395f 55%, #1a4a42 100%);
+      min-height: 100vh;
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 48px 24px 60px;
+    }
+
+    /* HEADER — logo left, text right (RTL: logo on right side visually) */
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      margin-bottom: 56px;
+      max-width: 1060px;
+      width: 100%;
+    }
+
+    .logo-wrap {
+      width: 260px;
+      height: 260px;
+      flex-shrink: 0;
+    }
+
+    .logo-img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    .header-text { display: flex; flex-direction: column; align-items: center; gap: 6px; flex: 1; }
+
+    .org-name {
+      font-size: 52px;
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: -0.5px;
+      line-height: 1;
+      text-align: center;
+    }
+
+    .org-name span { color: #c9a84c; }
+
+    .tagline {
+      font-size: 16px;
+      color: rgba(255,255,255,0.45);
+      font-weight: 300;
+      text-align: center;
+    }
+
+    .divider {
+      width: 50px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #c9a84c, transparent);
+      margin-top: 4px;
+    }
+
+    /* GRID */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      max-width: 1060px;
+      width: 100%;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 20px;
+      padding: 28px 24px 24px;
+      text-decoration: none;
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.25), 0 2px 8px rgba(0,0,0,0.15);
+      transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease, background 0.22s ease;
+    }
+
+    .card::after {
+      content: "";
+      position: absolute;
+      bottom: 0; right: 0; left: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #1a7a6e, #c9a84c);
+      opacity: 0;
+      transition: opacity 0.22s;
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+      background: rgba(255,255,255,0.11);
+      border-color: rgba(201,168,76,0.4);
+      box-shadow: 0 24px 60px rgba(0,0,0,0.35), 0 4px 16px rgba(201,168,76,0.1);
+    }
+
+    .card:hover::after { opacity: 1; }
+
+    .card.featured {
+      background: rgba(201,168,76,0.09);
+      border-color: rgba(201,168,76,0.3);
+    }
+
+    .card-icon {
+      font-size: 34px;
+      line-height: 1;
+    }
+
+    .card-title {
+      font-size: 18px;
+      font-weight: 500;
+      line-height: 1.4;
+      color: #ffffff;
+    }
+
+    .card-desc {
+      font-size: 13.5px;
+      color: rgba(255,255,255,0.5);
+      line-height: 1.65;
+      flex: 1;
+      font-weight: 300;
+    }
+
+    .card-link {
+      font-size: 13px;
+      color: #c9a84c;
+      font-weight: 500;
+      margin-top: 6px;
+    }
+
+    .footer {
+      margin-top: 48px;
+      color: rgba(255,255,255,0.22);
+      font-size: 13px;
+      font-weight: 300;
+    }
+
+    @media (max-width: 860px) {
+      .grid { grid-template-columns: repeat(2, 1fr); }
+      .org-name { font-size: 36px; }
+    }
+    @media (max-width: 540px) {
+      .grid { grid-template-columns: 1fr; }
+      .header { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="logo-wrap">
+      <img class="logo-img" src="logo.png" alt="יחדיו" />
+    </div>
+    <div class="header-text">
+      <div class="org-name">יחדיו <span>2.0</span></div>
+      <div class="tagline">כי תמיד אפשר יותר טוב</div>
+      <div class="divider"></div>
+    </div>
+  </div>
+
+  <div class="grid">
+
+    <a class="card featured" href="yachdav_2_final_he.html" target="_blank">
+      <div class="card-icon">📋</div>
+      <div class="card-title">קונספט אסטרטגי</div>
+      <div class="card-desc">חמישה כיווני פיתוח חדשים — חזון, מנגנון ומודל כלכלי לארגון.</div>
+      <div class="card-link">פתח ←</div>
+    </a>
+
+    <a class="card" href="YIOS_v1_0.html" target="_blank">
+      <div class="card-icon">⚙️</div>
+      <div class="card-title">YIOS — מנגנון חדשנות ארגונית</div>
+      <div class="card-desc">מועצת חדשנות, חוקי עצירה ותיאוריית שינוי.</div>
+      <div class="card-link">פתח ←</div>
+    </a>
+
+    <a class="card" href="yachdav_siyur_mobile.html" target="_blank">
+      <div class="card-icon">🤖</div>
+      <div class="card-title">Future Lab — כלי ה-AI של המנכ״ל</div>
+      <div class="card-desc">ספריית פרומפטים חכמה לתמיכה בקבלת החלטות.</div>
+      <div class="card-link">פתח ←</div>
+    </a>
+
+    <a class="card" href="דואר.html" target="_blank">
+      <div class="card-icon">📦</div>
+      <div class="card-title">מיקרו-לוגיסטיקה חברתית</div>
+      <div class="card-desc">שילוב משתתפי שיקום ברשת משלוחים מקומית עם דואר ישראל.</div>
+      <div class="card-link">פתח ←</div>
+    </a>
+
+    <a class="card" href="מרכז_חברתי_לטיפול_בבעלי_חיים_ללא_כפילות.html" target="_blank">
+      <div class="card-icon" style="color: white; font-size: 30px; filter: brightness(0) invert(1);">🐾</div>
+      <div class="card-title">מרכז חברתי לטיפול בבעלי חיים</div>
+      <div class="card-desc">טיפול בבעלי חיים ככלי לתעסוקה ושיקום.</div>
+      <div class="card-link">פתח ←</div>
+    </a>
+
+    <a class="card" href="רשת_סיוע_קהילתית.html" target="_blank">
+      <div class="card-icon">🤝</div>
+      <div class="card-title">רשת סיוע קהילתית</div>
+      <div class="card-desc">רשת מהירה לסיוע קהילתי באמצעות משתתפי שיקום.</div>
+      <div class="card-link">פתח ←</div>
+    </a>
+
+  </div>
+
+  <div class="footer">עמותת יחדיו · באר שבע · הנגב · 2026</div>
+
+</body>
+</html>
