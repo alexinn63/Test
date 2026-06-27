@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Сеть быстрой общественной помощи через участников реабилитации</title>
+<style>
+  :root{
+    --navy:#0b1f3a;
+    --blue:#1f5f99;
+    --teal:#0f766e;
+    --green:#15803d;
+    --orange:#f59e0b;
+    --red:#b91c1c;
+    --light:#f6f8fb;
+    --paper:#ffffff;
+    --ink:#172033;
+    --muted:#5f6b7a;
+    --border:#d8e0eb;
+    --shadow:0 14px 34px rgba(11,31,58,.14);
+  }
+
+  *{box-sizing:border-box}
+
+  body{
+    margin:0;
+    background:linear-gradient(135deg,#eef3f9 0%,#ffffff 45%,#edf7f6 100%);
+    color:var(--ink);
+    font-family: Arial, "Noto Sans", sans-serif;
+    line-height:1.65;
+  }
+
+  .toolbar{
+    position:sticky;
+    top:0;
+    z-index:20;
+    display:flex;
+    gap:12px;
+    justify-content:center;
+    padding:12px;
+    background:rgba(255,255,255,.88);
+    backdrop-filter: blur(10px);
+    border-bottom:1px solid var(--border);
+  }
+
+  button{
+    border:0;
+    border-radius:999px;
+    padding:11px 20px;
+    font-size:15px;
+    font-weight:700;
+    cursor:pointer;
+    background:var(--navy);
+    color:white;
+    box-shadow:0 8px 18px rgba(11,31,58,.18);
+  }
+
+  button.secondary{
+    background:#ffffff;
+    color:var(--navy);
+    border:1px solid var(--border);
+  }
+
+  .page{
+    width:210mm;
+    min-height:297mm;
+    margin:18px auto;
+    background:var(--paper);
+    box-shadow:var(--shadow);
+    overflow:hidden;
+  }
+
+  .cover{
+    background:
+      radial-gradient(circle at 20% 20%, rgba(25,118,210,.35), transparent 28%),
+      radial-gradient(circle at 80% 70%, rgba(20,184,166,.28), transparent 30%),
+      linear-gradient(135deg,#071a32 0%,#0b1f3a 58%,#123c63 100%);
+    color:white;
+    padding:46px 46px 38px;
+    position:relative;
+  }
+
+  .badge{
+    display:inline-block;
+    background:rgba(255,255,255,.14);
+    border:1px solid rgba(255,255,255,.28);
+    padding:7px 14px;
+    border-radius:999px;
+    font-weight:700;
+    letter-spacing:.2px;
+    margin-bottom:24px;
+  }
+
+  h1{
+    font-size:34px;
+    line-height:1.18;
+    margin:0 0 14px;
+    max-width:760px;
+  }
+
+  .subtitle{
+    font-size:18px;
+    color:#dbeafe;
+    max-width:780px;
+    margin:0 0 28px;
+  }
+
+  .slogan{
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr;
+    gap:14px;
+    margin-top:26px;
+  }
+
+  .slogan div{
+    background:rgba(255,255,255,.12);
+    border:1px solid rgba(255,255,255,.22);
+    border-radius:18px;
+    padding:16px;
+    min-height:86px;
+  }
+
+  .slogan strong{
+    display:block;
+    font-size:20px;
+    margin-bottom:6px;
+  }
+
+  .content{
+    padding:34px 42px 46px;
+  }
+
+  h2{
+    font-size:25px;
+    margin:0 0 16px;
+    color:var(--navy);
+    border-left:6px solid var(--teal);
+    padding-left:14px;
+  }
+
+  h3{
+    font-size:19px;
+    color:var(--navy);
+    margin:0 0 10px;
+  }
+
+  .section{
+    margin-bottom:26px;
+  }
+
+  .lead{
+    background:#eef7ff;
+    border:1px solid #cce5ff;
+    border-left:7px solid var(--blue);
+    border-radius:18px;
+    padding:20px 22px;
+    font-size:17px;
+  }
+
+  .quote{
+    margin:28px 0;
+    background:linear-gradient(135deg,#fff7e6,#ffffff);
+    border:1px solid #fde3a4;
+    border-left:8px solid var(--orange);
+    border-radius:20px;
+    padding:22px 24px;
+    font-size:23px;
+    font-weight:800;
+    color:#7a4b00;
+  }
+
+  .grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:16px;
+  }
+
+  .card{
+    border:1px solid var(--border);
+    border-radius:18px;
+    padding:18px 18px 16px;
+    background:#fff;
+  }
+
+  .card.blue{border-top:6px solid var(--blue)}
+  .card.green{border-top:6px solid var(--green)}
+  .card.teal{border-top:6px solid var(--teal)}
+  .card.orange{border-top:6px solid var(--orange)}
+  .card.red{border-top:6px solid var(--red)}
+  .card.navy{border-top:6px solid var(--navy)}
+
+  ul{
+    margin:8px 0 0;
+    padding-left:20px;
+  }
+
+  li{margin:5px 0}
+
+  .pill{
+    display:inline-block;
+    padding:5px 10px;
+    border-radius:999px;
+    font-size:13px;
+    font-weight:800;
+    background:#edf7f6;
+    color:#075e59;
+    margin-bottom:10px;
+  }
+
+  .score-row{
+    display:grid;
+    grid-template-columns:1.1fr 2fr 64px;
+    align-items:center;
+    gap:12px;
+    margin:10px 0;
+  }
+
+  .bar{
+    height:12px;
+    background:#e6edf5;
+    border-radius:999px;
+    overflow:hidden;
+  }
+
+  .fill{
+    height:100%;
+    background:linear-gradient(90deg,var(--teal),var(--blue));
+    border-radius:999px;
+  }
+
+  .score{
+    font-weight:900;
+    color:var(--navy);
+  }
+
+  .decision{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+  }
+
+  .decision .yes,
+  .decision .no,
+  .decision .warn{
+    border-radius:16px;
+    padding:14px;
+    font-weight:800;
+    border:1px solid var(--border);
+  }
+
+  .yes{background:#ecfdf3;color:#14532d}
+  .no{background:#fff1f2;color:#881337}
+  .warn{background:#fffbeb;color:#7a4b00}
+
+  .footer-note{
+    margin-top:26px;
+    padding:20px;
+    background:#f3f6fb;
+    border-radius:18px;
+    color:var(--muted);
+    font-weight:700;
+  }
+
+  @media print{
+    @page{
+      size:A4;
+      margin:0;
+    }
+
+    body{
+      background:white;
+      -webkit-print-color-adjust:exact;
+      print-color-adjust:exact;
+    }
+
+    .toolbar{display:none}
+
+    .page{
+      width:210mm;
+      min-height:297mm;
+      margin:0;
+      box-shadow:none;
+      page-break-after:always;
+    }
+
+    .cover{
+      padding-top:38px;
+    }
+
+    .content{
+      padding:30px 38px 38px;
+    }
+
+    .card, .lead, .quote{
+      break-inside:avoid;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <button onclick="window.print()">🖨️ Печать</button>
+  <button class="secondary" onclick="saveHtml()">💾 Сохранить HTML</button>
+</div>
+
+<main class="page">
+  <section class="cover">
+    <div class="badge">Новая стратегическая инициатива</div>
+    <h1>Сеть быстрой общественной помощи через участников реабилитации</h1>
+    <p class="subtitle">
+      Локальная модель быстрой повседневной поддержки для жителей района, пожилых людей,
+      пациентов и уязвимых групп — в ситуациях, когда существующие службы недоступны
+      или не дают немедленного ответа.
+    </p>
+
+    <div class="slogan">
+      <div>
+        <strong>Быстро</strong>
+        Ответ в течение часов, а не дней.
+      </div>
+      <div>
+        <strong>Локально</strong>
+        Основано на людях, которые живут и действуют рядом.
+      </div>
+      <div>
+        <strong>Реабилитационно</strong>
+        Участник становится не только получателем помощи, но и её источником.
+      </div>
+    </div>
+  </section>
+
+  <section class="content">
+    <div class="section">
+      <h2>Проект</h2>
+      <div class="lead">
+        Создание локальной сети участников реабилитации, оказывающих быструю бытовую помощь
+        жителям района, пациентам, пожилым людям и уязвимым группам населения в ситуациях,
+        когда существующие службы недоступны или не обеспечивают оперативного ответа.
+      </div>
+    </div>
+
+    <div class="quote">
+      “Участники реабилитации могут быть не только получателями помощи — они могут стать частью инфраструктуры поддержки общества.”
+    </div>
+
+    <div class="section">
+      <h2>Ключевой принцип</h2>
+      <div class="grid">
+        <div class="card teal">
+          <h3>Не уход и не социальная работа</h3>
+          <p>
+            Это слой простой, быстрой, повседневной помощи. Он не заменяет соцработника,
+            сиделку, медицинскую службу или профессиональное сопровождение.
+          </p>
+        </div>
+        <div class="card blue">
+          <h3>Главный разрыв: “нужно сейчас”</h3>
+          <p>
+            В реальности есть маленькие, но срочные задачи: хлеб, лекарство, зарядка,
+            документ, вещь в больницу. Обычные службы часто не закрывают такие потребности вовремя.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Возможные направления работы</h2>
+      <div class="grid">
+        <div class="card green">
+          <span class="pill">Направление 1</span>
+          <h3>Пожилые люди и хостели</h3>
+          <ul>
+            <li>Купить базовые продукты: хлеб, молоко, чай</li>
+            <li>Мелкие срочные покупки</li>
+            <li>Принести документы или личные вещи</li>
+            <li>Помочь, когда помощник приходит не в этот день</li>
+          </ul>
+          <p><strong>Оценка потенциала:</strong> 10/10</p>
+        </div>
+
+        <div class="card blue">
+          <span class="pill">Направление 2</span>
+          <h3>Пациенты больниц</h3>
+          <ul>
+            <li>Принести зарядку, одежду, очки или личные вещи</li>
+            <li>Купить предметы первой необходимости</li>
+            <li>Помочь родственникам, если они не могут приехать сразу</li>
+          </ul>
+          <p><strong>Оценка потенциала:</strong> 8.5/10</p>
+        </div>
+
+        <div class="card orange">
+          <span class="pill">Направление 3</span>
+          <h3>После выписки из больницы</h3>
+          <ul>
+            <li>Помощь в первые дни после выписки</li>
+            <li>Покупка еды и лекарств</li>
+            <li>Простые бытовые задачи</li>
+          </ul>
+          <p><strong>Оценка потенциала:</strong> 9.5/10</p>
+        </div>
+
+        <div class="card teal">
+          <span class="pill">Направление 4</span>
+          <h3>Люди с тревогой, депрессией или социальной изоляцией</h3>
+          <ul>
+            <li>Базовые покупки</li>
+            <li>Принести или отнести документы</li>
+            <li>Помочь с задачами вне дома</li>
+          </ul>
+          <p><strong>Оценка потенциала:</strong> 9/10</p>
+        </div>
+
+        <div class="card red">
+          <span class="pill">Направление 5</span>
+          <h3>Психиатрические отделения</h3>
+          <ul>
+            <li>Доставка только разрешённых вещей</li>
+            <li>Одежда и предметы гигиены</li>
+            <li>Координация с семьями и персоналом</li>
+          </ul>
+          <p><strong>Оценка потенциала:</strong> 7/10</p>
+        </div>
+
+        <div class="card navy">
+          <span class="pill">Направление 6</span>
+          <h3>Одинокие люди в районе</h3>
+          <ul>
+            <li>Точечная помощь в ситуациях затруднения</li>
+            <li>Маленькие повседневные задачи</li>
+            <li>Укрепление чувства безопасности и связи с районом</li>
+          </ul>
+          <p><strong>Оценка потенциала:</strong> 9/10</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<main class="page">
+  <section class="content">
+    <div class="section">
+      <h2>Сильные стороны</h2>
+      <div class="grid">
+        <div class="card green">
+          <h3>Понятная и реальная потребность</h3>
+          <p>Модель закрывает разрыв: небольшие задачи, которые не требуют профессиональной услуги, но важны для человека прямо сейчас.</p>
+        </div>
+        <div class="card teal">
+          <h3>Изменение роли участника</h3>
+          <p>Человек в реабилитации перестаёт быть только объектом помощи и получает социально значимую роль.</p>
+        </div>
+        <div class="card blue">
+          <h3>Подходит для пилота</h3>
+          <p>Можно начать с одного района, небольшой группы участников и ограниченного набора задач.</p>
+        </div>
+        <div class="card orange">
+          <h3>Потенциал расширения</h3>
+          <p>После проверки модель можно расширять на хостели, больницы, пожилых людей и людей в социальной изоляции.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Риски и точки проверки</h2>
+      <div class="grid">
+        <div class="card red">
+          <h3>Риск: расползание во всё подряд</h3>
+          <p>Если модель попытается сразу закрывать любые просьбы, она станет хаотичной.</p>
+          <p><strong>Решение:</strong> начать с 2–3 чётко определённых типов задач.</p>
+        </div>
+        <div class="card orange">
+          <h3>Риск: границы роли</h3>
+          <p>Нужно ясно определить: не медицинская помощь, не уход, не сложные финансовые операции.</p>
+          <p><strong>Решение:</strong> список разрешённых и запрещённых задач.</p>
+        </div>
+        <div class="card blue">
+          <h3>Риск: работа с учреждениями</h3>
+          <p>Больницы и закрытые отделения требуют правил, согласований и доверия.</p>
+          <p><strong>Решение:</strong> начать с района и хостелей, а учреждения подключать позже.</p>
+        </div>
+        <div class="card teal">
+          <h3>Риск: подбор участников</h3>
+          <p>Не каждый участник подходит для каждой задачи.</p>
+          <p><strong>Решение:</strong> подбирать задачи по уровню стабильности, ответственности и нагрузки.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Оценка проекта</h2>
+
+      <div class="score-row">
+        <div>Новизна</div>
+        <div class="bar"><div class="fill" style="width:90%"></div></div>
+        <div class="score">9/10</div>
+      </div>
+
+      <div class="score-row">
+        <div>Социальная польза</div>
+        <div class="bar"><div class="fill" style="width:100%"></div></div>
+        <div class="score">10/10</div>
+      </div>
+
+      <div class="score-row">
+        <div>Соответствие реабилитации</div>
+        <div class="bar"><div class="fill" style="width:100%"></div></div>
+        <div class="score">10/10</div>
+      </div>
+
+      <div class="score-row">
+        <div>Реалистичность пилота</div>
+        <div class="bar"><div class="fill" style="width:80%"></div></div>
+        <div class="score">8/10</div>
+      </div>
+
+      <div class="score-row">
+        <div>Потенциал развития</div>
+        <div class="bar"><div class="fill" style="width:100%"></div></div>
+        <div class="score">10/10</div>
+      </div>
+
+      <div class="score-row">
+        <div>Риск распыления</div>
+        <div class="bar"><div class="fill" style="width:70%"></div></div>
+        <div class="score">7/10</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Стратегическое решение</h2>
+      <div class="decision">
+        <div class="no">Убить идею: ❌</div>
+        <div class="warn">Уточнить / доработать: ✅</div>
+        <div class="yes">Проверить пилотом: ✅</div>
+        <div class="no">Запускать сразу полностью: ❌</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Вывод</h2>
+      <div class="lead">
+        Это сильная идея, которая не сводится к доставке или разовой помощи.
+        Это возможность построить новую общественную инфраструктуру, где участники реабилитации
+        получают активную, значимую и полезную роль внутри района.
+        <br><br>
+        Рекомендация: развивать идею как стратегическое направление, но начинать с ограниченного
+        и чётко определённого пилота, с ясными границами задач, ответственности и роли участников.
+      </div>
+
+      <div class="quote">
+        Редкая идея — стоит отдельной глубокой проработки.
+      </div>
+
+      <div class="footer-note">
+        Ключевая формулировка для презентации: “Сеть быстрой общественной помощи через участников реабилитации — простой, быстрый и человеческий ответ там, где обычные системы не успевают.”
+      </div>
+    </div>
+  </section>
+</main>
+
+<script>
+function saveHtml(){
+  const htmlContent = document.documentElement.outerHTML;
+  const blob = new Blob([htmlContent], {type: "text/html;charset=utf-8"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "community_support_network_ru.html";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+</script>
+
+</body>
+</html>

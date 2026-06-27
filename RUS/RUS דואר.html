@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Социальная микрологистика</title>
+  <style>
+    :root {
+      --navy: #0f2742;
+      --navy2: #14395f;
+      --blue: #1e6fb8;
+      --cyan: #e8f4ff;
+      --green: #1f8a5b;
+      --green-bg: #eaf8f1;
+      --orange: #d97706;
+      --orange-bg: #fff3df;
+      --red: #b42318;
+      --red-bg: #fff0ef;
+      --gray: #f4f6f8;
+      --text: #1c2430;
+      --muted: #667085;
+      --border: #d8dee6;
+      --white: #ffffff;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, "Noto Sans", sans-serif;
+      background: #e9eef4;
+      color: var(--text);
+      line-height: 1.55;
+    }
+
+    .toolbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(15, 39, 66, 0.96);
+      padding: 12px 20px;
+      text-align: center;
+      box-shadow: 0 4px 14px rgba(0,0,0,.18);
+    }
+
+    button {
+      border: 0;
+      border-radius: 12px;
+      padding: 11px 20px;
+      margin: 0 6px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      background: #ffffff;
+      color: var(--navy);
+    }
+
+    button:hover { background: #dcecff; }
+
+    .page {
+      width: 210mm;
+      min-height: 297mm;
+      margin: 18px auto;
+      background: white;
+      box-shadow: 0 10px 35px rgba(0,0,0,.18);
+      overflow: hidden;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, var(--navy), var(--navy2));
+      color: white;
+      padding: 34px 42px 30px;
+      position: relative;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      right: -70px;
+      top: -80px;
+      width: 220px;
+      height: 220px;
+      background: rgba(255,255,255,.08);
+      border-radius: 50%;
+    }
+
+    .tag {
+      display: inline-block;
+      background: rgba(255,255,255,.14);
+      border: 1px solid rgba(255,255,255,.25);
+      padding: 7px 13px;
+      border-radius: 999px;
+      font-size: 14px;
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 31px;
+      line-height: 1.2;
+      letter-spacing: -.2px;
+    }
+
+    .subtitle {
+      margin: 14px 0 0;
+      font-size: 18px;
+      color: #dbeafe;
+      max-width: 720px;
+    }
+
+    .content { padding: 28px 42px 36px; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .card {
+      background: var(--gray);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 18px 20px;
+      margin-bottom: 16px;
+      break-inside: avoid;
+    }
+
+    .card h2 {
+      margin: 0 0 10px;
+      font-size: 21px;
+      color: var(--navy);
+    }
+
+    .card h3 {
+      margin: 0 0 8px;
+      font-size: 17px;
+      color: var(--navy);
+    }
+
+    .accent-blue { background: var(--cyan); border-color: #b9dcff; }
+    .accent-green { background: var(--green-bg); border-color: #b8e7cf; }
+    .accent-orange { background: var(--orange-bg); border-color: #ffd59a; }
+
+    ul { margin: 8px 0 0; padding-left: 21px; }
+    li { margin: 6px 0; }
+
+    .check-list li::marker { color: var(--green); }
+
+    .pilot-box {
+      border-left: 6px solid var(--blue);
+      background: #f8fbff;
+    }
+
+    .message-box {
+      background: #ffffff;
+      border: 2px dashed #9cc7ee;
+      border-radius: 16px;
+      padding: 16px 18px;
+      font-size: 18px;
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .metric {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 13px 8px;
+      text-align: center;
+    }
+
+    .metric .score {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--blue);
+      margin-bottom: 3px;
+    }
+
+    .metric .label {
+      font-size: 12.5px;
+      color: var(--muted);
+      line-height: 1.25;
+    }
+
+    .decision {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    .decision-item {
+      border-radius: 14px;
+      padding: 13px 10px;
+      text-align: center;
+      font-weight: 700;
+      background: white;
+      border: 1px solid var(--border);
+    }
+
+    .yes { color: var(--green); background: var(--green-bg); }
+    .no { color: var(--red); background: var(--red-bg); }
+    .warn { color: var(--orange); background: var(--orange-bg); }
+
+    .highlight {
+      background: linear-gradient(90deg, #fff7cc, #ffffff);
+      border-left: 6px solid #f2c94c;
+      padding: 16px 18px;
+      border-radius: 16px;
+      font-weight: 700;
+      margin-top: 8px;
+    }
+
+    .footer-note {
+      margin-top: 18px;
+      padding: 18px 20px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, #102a46, #1d4773);
+      color: white;
+      font-size: 18px;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .small { color: var(--muted); font-size: 14px; }
+
+    @page {
+      size: A4;
+      margin: 0;
+    }
+
+    @media print {
+      html, body {
+        width: 210mm;
+        min-height: 297mm;
+        background: white !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+      .toolbar { display: none !important; }
+      .page {
+        width: 210mm;
+        min-height: 297mm;
+        margin: 0;
+        box-shadow: none;
+      }
+      .card, .metric, .decision-item, .footer-note, .hero {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        break-inside: avoid;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="toolbar">
+    <button onclick="window.print()">🖨️ Печать</button>
+    <button onclick="saveHtml()">💾 Сохранить HTML</button>
+  </div>
+
+  <main class="page" id="document">
+    <section class="hero">
+      <div class="tag">Стратегическая инициатива для реабилитационной занятости</div>
+      <h1>Социальная микрологистика</h1>
+      <p class="subtitle">Включение участников реабилитации в локальную сеть доставки лёгких посылок по низкой стоимости, в сотрудничестве с Почтой Израиля и логистическими компаниями.</p>
+    </section>
+
+    <section class="content">
+      <div class="card accent-blue">
+        <h2>Проект</h2>
+        <p>Создание модели <strong>социальной микрологистики</strong>, в рамках которой участники реабилитации и люди с инвалидностью участвуют в выдаче и локальной доставке лёгких посылок за символическую плату, например 5 ₪, используя существующую инфраструктуру Почты Израиля и логистических компаний.</p>
+      </div>
+
+      <div class="grid">
+        <div class="card accent-green">
+          <h2>Почему идея сильная</h2>
+          <ul class="check-list">
+            <li>Может увеличить доход участников до более значимого уровня.</li>
+            <li>Использует существующие системы вместо создания новой инфраструктуры.</li>
+            <li>Даёт реальную работу, а не только искусственную занятость.</li>
+            <li>Может быть удобна и полезна клиентам, а не только социально значима.</li>
+            <li>Подходит для запуска пилота с относительно низкими затратами.</li>
+          </ul>
+        </div>
+
+        <div class="card accent-orange">
+          <h2>Главные вопросы для проверки</h2>
+          <ul>
+            <li>Какой процент посылок подходит для локальной доставки при весе 300–500 грамм?</li>
+            <li>Сколько клиентов реально согласятся на доставку за 5 ₪?</li>
+            <li>Можно ли встроить модель в существующие процессы почты и логистических компаний?</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card pilot-box">
+        <h2>Пилот — начальная версия</h2>
+        <div class="grid">
+          <div>
+            <h3>Цель</h3>
+            <p>Проверить, может ли модель создать дополнительную занятость и реальный спрос на услугу.</p>
+            <h3>Место</h3>
+            <p>Один город / один район</p>
+            <h3>Участники</h3>
+            <p>5–10 участников реабилитации</p>
+          </div>
+          <div>
+            <h3>Партнёр</h3>
+            <p>Один пункт выдачи / логистическая компания / местная инфраструктура</p>
+            <h3>Период</h3>
+            <p>2–3 месяца</p>
+            <h3>Услуга</h3>
+            <div class="message-box">
+              Посылка прибыла.<br>
+              Доставка домой до 300–500 грамм: <strong>5 ₪</strong><br>
+              Подтвердить: <strong>Да / Нет</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Показатели успеха</h2>
+        <ul>
+          <li>сколько клиентов выбирают доставку;</li>
+          <li>количество доставок в день;</li>
+          <li>дополнительный доход участников;</li>
+          <li>удовлетворённость клиентов;</li>
+          <li>трудности и проблемы в процессе.</li>
+        </ul>
+      </div>
+
+      <div class="card accent-green">
+        <h2>Возможный результат пилота</h2>
+        <p>Если модель окажется успешной: расширение на дополнительные районы, включение новых участников и развитие дополнительных услуг.</p>
+      </div>
+
+      <div class="card">
+        <h2>Оценка идеи</h2>
+        <div class="metrics">
+          <div class="metric"><div class="score">8.5</div><div class="label">Новизна</div></div>
+          <div class="metric"><div class="score">8.5</div><div class="label">Реалистичность пилота</div></div>
+          <div class="metric"><div class="score">9</div><div class="label">Социальная польза</div></div>
+          <div class="metric"><div class="score">8</div><div class="label">Масштабирование</div></div>
+          <div class="metric"><div class="score">10</div><div class="label">Соответствие организации</div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Решение</h2>
+        <div class="decision">
+          <div class="decision-item no">Убить<br>❌</div>
+          <div class="decision-item warn">Изменить<br>⚠️ минимально</div>
+          <div class="decision-item yes">Пилот<br>✅</div>
+          <div class="decision-item no">Запуск сразу<br>❌</div>
+        </div>
+      </div>
+
+      <div class="highlight">
+        Идея достаточно сильная, чтобы представить её генеральному директору как возможную модель пилота в сфере социальной микрологистики, а не как теоретическую идею.
+      </div>
+
+      <div class="footer-note">
+        Редкая идея — стоит отдельной стратегической проработки
+      </div>
+    </section>
+  </main>
+
+  <script>
+    function saveHtml() {
+      const html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+      const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'social_micro_logistics_ru.html';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+  </script>
+</body>
+</html>
