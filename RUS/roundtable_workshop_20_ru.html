@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ru" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Производственная реабилитационная мастерская 2.0 | Круглый стол — 22 июня</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&display=swap');
+  :root {
+    --ink: #1a1a2e; --warm: #f5f0e8; --gold: #c9952a; --gold-light: #f0d98a;
+    --teal: #2a7c8a; --teal-light: #e0f2f5; --red: #b94040;
+    --border: #d6cfc2; --text-secondary: #5a5550; --green: #2a6a2a;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Heebo', sans-serif; background: var(--warm); color: var(--ink); line-height: 1.7; }
+  .page-wrap { max-width: 800px; margin: 0 auto; padding: 40px 24px 80px; }
+  .top-header { text-align: center; padding: 48px 0 40px; border-bottom: 2px solid var(--gold); margin-bottom: 56px; }
+  .top-header .org { font-size: 13px; font-weight: 500; letter-spacing: 2px; color: var(--teal); text-transform: uppercase; margin-bottom: 12px; }
+  .top-header h1 { font-size: 30px; font-weight: 900; line-height: 1.3; margin-bottom: 8px; }
+  .top-header .subtitle { font-size: 15px; color: var(--text-secondary); }
+  .doc-section { margin-bottom: 56px; }
+  .section-label { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 2px; color: var(--gold); text-transform: uppercase; border-top: 2px solid var(--gold); padding-top: 6px; margin-bottom: 16px; }
+  .doc-section h2 { font-size: 22px; font-weight: 700; margin-bottom: 20px; color: var(--ink); }
+  .block { background: white; border: 1px solid var(--border); border-radius: 4px; padding: 28px 32px; position: relative; margin-bottom: 20px; }
+  .block::before { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: var(--teal); border-radius: 4px 0 0 4px; }
+  .block p { font-size: 15px; margin-bottom: 14px; }
+  .block p:last-child { margin-bottom: 0; }
+  .block.red::before { background: var(--red); }
+  .block.gold::before { background: var(--gold); }
+  .highlight { font-size: 16px; font-weight: 700; color: var(--teal); border-left: 3px solid var(--gold); padding-left: 14px; margin: 18px 0; }
+  .highlight.red { color: var(--red); border-color: var(--red); }
+  .problems-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 20px 0; }
+  .problem-card { background: #fce8e8; border: 1px solid var(--red); border-radius: 4px; padding: 16px 18px; }
+  .problem-card .p-title { font-size: 12px; font-weight: 700; color: var(--red); letter-spacing: 1px; margin-bottom: 8px; text-transform: uppercase; }
+  .problem-card p { font-size: 13px; line-height: 1.7; margin: 0; }
+  .solution-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 20px 0; }
+  .solution-card { background: var(--teal-light); border: 1px solid var(--teal); border-radius: 4px; padding: 16px 18px; }
+  .solution-card .s-title { font-size: 12px; font-weight: 700; color: var(--teal); letter-spacing: 1px; margin-bottom: 8px; text-transform: uppercase; }
+  .solution-card p { font-size: 13px; line-height: 1.7; margin: 0; }
+  .principle-box { background: var(--ink); color: white; border-radius: 4px; padding: 24px 28px; margin: 20px 0; }
+  .principle-box .p-text { font-size: 16px; font-weight: 700; color: var(--gold); margin-bottom: 10px; }
+  .principle-box p { font-size: 14px; color: #d0ccc8; margin: 0; }
+  .question-box { border: 2px dashed var(--gold); border-radius: 4px; padding: 20px 24px; margin-top: 16px; background: white; }
+  .question-box .q-label { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; color: var(--gold); text-transform: uppercase; margin-bottom: 10px; }
+  .question-box p { font-size: 15px; font-weight: 500; margin-bottom: 10px; }
+  .question-box p:last-child { margin-bottom: 0; }
+  .intro-box { background: white; border: 1px solid var(--border); border-radius: 4px; padding: 22px 32px; margin-bottom: 40px; border-left: 4px solid var(--ink); }
+  .intro-box p { font-size: 15px; margin: 0; line-height: 1.8; }
+  @media print { body { background: white; } .doc-section { page-break-inside: avoid; } }
+  @media (max-width: 600px) {
+    .problems-grid, .solution-grid { grid-template-columns: 1fr; }
+    .block { padding: 18px 20px; }
+  }
+</style>
+</head>
+<body>
+<div class="page-wrap">
+
+  <div class="top-header">
+    <div class="org">Ассоциация Яхдав — Беэр-Шева</div>
+    <h1>Производственная реабилитационная мастерская 2.0</h1>
+    <div class="subtitle">Модель устойчивой трудовой реабилитации | Материал для обсуждения — круглый стол 22 июня</div>
+  </div>
+
+  <div class="intro-box">
+    <p>Это материал для совместного обсуждения — не готовая программа. Он основан на ежедневном опыте управления защищённой мастерской с более чем 100 получателями услуг. Цель: положить на стол концепцию, услышать что говорят другие руководители — и проверить вместе, есть ли здесь основа для системных изменений.</p>
+  </div>
+
+  <!-- Часть А: Диагноз -->
+  <div class="doc-section">
+    <div class="section-label">Часть А</div>
+    <h2>Диагноз: что не работает в нынешней системе</h2>
+
+    <div class="block">
+      <p>Защищённые мастерские оказывают реальную реабилитационную услугу. Мы работаем со сложной группой населения, выполняем производственные заказы для коммерческих клиентов и сопровождаем людей в долгом и непростом процессе. Это работает.</p>
+      <div class="highlight">Но система выстроена так, что затрудняет наш успех — не из-за непрофессионализма, а из-за структуры.</div>
+      <p>Проблемы ниже не уникальны для нашей мастерской. Они структурные. Каждый руководитель в этом зале их знает.</p>
+    </div>
+
+    <div class="problems-grid">
+      <div class="problem-card">
+        <div class="p-title">Финансирование на основе посещаемости</div>
+        <p>Мы получаем оплату только за дни присутствия получателя. Праздники, болезни, отпуска — доход нулевой. Но расходы остаются. Это создаёт встроенную финансовую хрупкость, которая мешает любому долгосрочному планированию.</p>
+      </div>
+      <div class="problem-card">
+        <div class="p-title">Перегрузка мадрихов</div>
+        <p>Один мадрих на ~25 получателей услуг. Он должен одновременно управлять производством, обучать, контролировать качество, справляться с кризисами и быть внимательным к каждому. Это невозможно — и мы выжигаем хороших людей.</p>
+      </div>
+      <div class="problem-card">
+        <div class="p-title">Инфраструктура без финансирования</div>
+        <p>Мы управляем пространством в сотни квадратных метров с десятками людей — но финансирования на уборку, кондиционирование, перемещение, эргономичное оборудование и склады почти нет. Физическая среда напрямую влияет на способность функционировать.</p>
+      </div>
+      <div class="problem-card">
+        <div class="p-title">Нет индивидуального сопровождения в производстве</div>
+        <p>Нет специальной роли человека, который садится рядом с получателем услуг, изучает что ему мешает и помогает освоить задачу. Это именно та точка, которая может превратить "не справляется" в "работает стабильно" — и у неё нет системного ответа.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Часть Б: Концепция -->
+  <div class="doc-section">
+    <div class="section-label">Часть Б</div>
+    <h2>Концепция: что должно измениться</h2>
+
+    <div class="principle-box">
+      <div class="p-text">Руководящий принцип: не "мастерская отдельно" и "реабилитация отдельно" — а одна интегрированная система</div>
+      <p>Работа + адаптация + сопровождение + базовые условия + обучение + профилактика кризисов = устойчивость. Когда не хватает одного из компонентов — вся система страдает.</p>
+    </div>
+
+    <div class="block">
+      <div class="highlight">Принцип 1: устойчивость важнее выхода на открытый рынок</div>
+      <p>Нынешняя система измеряет успех по выходу на открытую занятость. Это важно — но не может быть единственным критерием. Получатель услуг, который выходит на обычную работу и срывается через два месяца — это не всегда реабилитационный успех.</p>
+      <p>Для значительной части нашей группы стабильное участие в адаптированной среде является реальным и значимым реабилитационным результатом. Нужно измерять успех по точке старта каждого человека.</p>
+    </div>
+
+    <div class="block red">
+      <div class="highlight red">Принцип 2: среда лечит — не только работа</div>
+      <p>Человек с высокой чувствительностью к стрессу будет функционировать совершенно по-разному в правильной среде по сравнению с неподходящей. Кондиционирование, чистота, пространство, тишина, еда — это не "дополнения". Это базовые условия для функционирования.</p>
+      <p>Если мы финансируем "активности" но не финансируем условия, которые позволяют людям в них участвовать — мы строим на песке.</p>
+    </div>
+
+    <div class="block gold">
+      <div class="highlight" style="color:var(--gold); border-color:var(--gold);">Принцип 3: доход получателя зависит от среды которую мы построили — а не только от его способностей</div>
+      <p>Если человек зарабатывает мало — это не всегда потому что он не способен. Иногда это потому что мы не поставили его правильно, не разбили задачу на этапы, не построили для него правильную среду. Это наша ответственность.</p>
+    </div>
+
+    <div class="block" style="border-left: 4px solid var(--green);">
+      <div class="highlight" style="color:var(--green); border-color:var(--green);">Принцип 4: нужно измерять тех кто остаётся — а не только тех кто ушёл</div>
+      <p>Нынешняя система измеряет успех по выходу на открытый рынок труда. Это важный показатель — но он неверный для значительной части нашей группы.</p>
+      <p>Человек вышел на обычную работу и сломался через два месяца — KPI выполнен. Но это не реабилитационный успех.</p>
+      <p>Человек остаётся в мастерской три года стабильно, зарабатывает, приходит регулярно, работает над собой — он не попадёт в статистику успехов. Но это именно и есть реабилитационный успех.</p>
+      <div style="background:var(--gold-light); border:1px solid var(--gold); border-radius:4px; padding:14px 18px; margin-top:16px;">
+        <strong>Предложение:</strong> измерять успех по точке старта каждого человека — а не по единой целевой точке для всех. Стабильное участие в адаптированной среде является самостоятельным и значимым реабилитационным результатом — а не "промежуточной станцией" перед настоящей работой.
+      </div>
+    </div>
+  </div>
+
+  <!-- Часть В: Практическое предложение -->
+  <div class="doc-section">
+    <div class="section-label">Часть В</div>
+    <h2>Практическое предложение: что можно сделать</h2>
+
+    <div class="solution-grid">
+      <div class="solution-card">
+        <div class="s-title">Субсидированный транспорт</div>
+        <p>Оценка: организованная подвозка может повысить посещаемость примерно на 20%. Больше присутствия = больше дневного финансирования = больше выполненных заказов = выше зарплата получателя. Экономическая логика ясна — нужно проверить на данных.</p>
+      </div>
+      <div class="solution-card">
+        <div class="s-title">Базовое питание</div>
+        <p>Часть получателей приходит без денег на еду. Голодный человек работает меньше, устаёт быстрее, раздражается больше. Еда — не социальная льгота, это условие для стабильного производства.</p>
+      </div>
+      <div class="solution-card">
+        <div class="s-title">Координатор функционального развития</div>
+        <p>Новая роль — не психолог и не обычный мадрих. Человек, который сидит рядом с получателем, понимает что мешает, разбивает задачи на этапы, находит решения. Маленькая роль, которая может превратить "не справляется" в "работает стабильно".</p>
+      </div>
+      <div class="solution-card">
+        <div class="s-title">Усиленное социальное сопровождение</div>
+        <p>Получатели услуг выпадают не потому что не хотят работать — а потому что нет никого, кто достаточно рано замечает ухудшение. Дополнительная ставка соцработника, раннее выявление, поддержка возвращения после кризиса — снижают длительные выпадения.</p>
+      </div>
+    </div>
+
+    <div class="solution-grid" style="margin-top:0;">
+      <div class="solution-card">
+        <div class="s-title">Финансовая грамотность и помощь с долгами</div>
+        <p>Часть получателей не знает сколько у них на счету, берёт долги, приходит с арестованным счётом (עיקול) — и не понимает связи между посещаемостью и зарплатой. Целевая финансовая консультация, добровольный механизм накоплений по личной цели, помощь с арестами счетов — могут изменить отношение человека к работе в целом.</p>
+      </div>
+      <div class="solution-card">
+        <div class="s-title">Цифровые и жизненные навыки — включая AI</div>
+        <p>Многие получатели не умеют записаться к врачу, посмотреть результаты анализов, пользоваться банковскими приложениями или государственными сервисами. Практические мини-занятия — не курсы, а конкретно: "как записаться на приём", "как проверить зарплату", "как использовать AI для решения повседневных задач". Это повышает самостоятельность и снижает зависимость.</p>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="highlight">Экономическая логика: инвестиции могут окупиться</div>
+      <p>Мастерская получает ежедневное финансирование за каждого присутствующего. Любой рост посещаемости улучшает доход. Если транспорт, питание и сопровождение повышают посещаемость — они не только улучшают жизнь людей, они также укрепляют экономику мастерской.</p>
+      <p style="font-size:13px; color:var(--text-secondary); margin-top:10px;">* Точный расчёт требует данных реальной посещаемости, стоимости услуг и симуляции по процентам роста. Это второй этап.</p>
+    </div>
+  </div>
+
+  <!-- Часть Г: Вопросы к столу -->
+  <div class="doc-section">
+    <div class="section-label">Часть Г</div>
+    <h2>Вопросы к круглому столу</h2>
+
+    <div class="block">
+      <p>Материал выше основан на полевом опыте — не на контролируемом исследовании. Он выносится на стол чтобы услышать, узнают ли другие те же проблемы, и есть ли совместное мышление о решениях.</p>
+    </div>
+
+    <div class="question-box">
+      <div class="q-label">Открытые вопросы для обсуждения</div>
+      <p>Узнают ли другие руководители в зале те же структурные проблемы? Какие решения уже пробовали — и что сработало?</p>
+      <p>Можно ли разработать модель финансирования, которая не зависит полностью от ежедневной посещаемости — такую, которая вознаграждает за стабильность и процесс, а не только за присутствие?</p>
+      <p>Есть ли место для роли "координатора функционального развития", которая будет признана и профинансирована министерством — не как "дополнительный мадрих", а как специализированная реабилитационная роль?</p>
+      <p>Кто может взять ответственность за пилот — измерение влияния одного изменения (транспорт / питание / сопровождение) на посещаемость и функциональную стабильность?</p>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
