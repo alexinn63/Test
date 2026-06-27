@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>מרכז חברתי לטיפול בבעלי חיים</title>
+  <style>
+    :root{
+      --navy:#0f2747;
+      --navy2:#153963;
+      --blue:#2f6fab;
+      --light:#f4f7fb;
+      --soft:#eaf1f8;
+      --green:#2e7d62;
+      --gold:#c08a2c;
+      --text:#1f2933;
+      --muted:#5d6b7a;
+      --border:#d7e1ec;
+      --white:#ffffff;
+    }
+
+    *{box-sizing:border-box}
+
+    body{
+      margin:0;
+      font-family: Calibri, Tahoma, Arial, sans-serif;
+      background:#eef3f8;
+      color:var(--text);
+      line-height:1.55;
+      direction:rtl;
+    }
+
+    .toolbar{
+      position:sticky;
+      top:0;
+      z-index:20;
+      display:flex;
+      justify-content:center;
+      gap:8px;
+      padding:12px;
+      background:rgba(255,255,255,.92);
+      backdrop-filter:blur(8px);
+      border-bottom:1px solid var(--border);
+    }
+
+    button{
+      border:0;
+      border-radius:10px;
+      padding:11px 18px;
+      font-size:15px;
+      font-weight:700;
+      cursor:pointer;
+      color:#fff;
+      background:var(--navy);
+      box-shadow:0 4px 14px rgba(15,39,71,.18);
+    }
+
+    button.secondary{background:var(--blue)}
+
+    .page{
+      width:210mm;
+      min-height:297mm;
+      margin:8px auto;
+      background:#fff;
+      box-shadow:0 10px 35px rgba(15,39,71,.12);
+      page-break-after:always;
+      overflow:hidden;
+    }
+
+    .cover{
+      min-height:297mm;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+      background:
+        radial-gradient(circle at 15% 15%, rgba(74,144,226,.35), transparent 28%),
+        radial-gradient(circle at 88% 80%, rgba(192,138,44,.22), transparent 32%),
+        linear-gradient(135deg, #0b203d 0%, #12345c 55%, #0f2747 100%);
+      color:white;
+      padding:34mm 25mm 22mm;
+    }
+
+    .badge{
+      display:inline-block;
+      align-self:flex-start;
+      padding:8px 14px;
+      border:1px solid rgba(255,255,255,.45);
+      border-radius:999px;
+      font-size:13px;
+      letter-spacing:.4px;
+      color:#e8f1ff;
+    }
+
+    .cover h1{
+      margin:36mm 0 10mm;
+      font-size:34px;
+      line-height:1.15;
+      letter-spacing:.2px;
+      max-width:680px;
+    }
+
+    .cover h2{
+      margin:0 0 9mm;
+      font-size:22px;
+      font-weight:500;
+      color:#d9e8ff;
+      max-width:660px;
+    }
+
+    .slogan{
+      max-width:640px;
+      padding:18px 22px;
+      border-right:5px solid var(--gold);
+      background:rgba(255,255,255,.09);
+      border-radius:14px;
+      font-size:19px;
+      font-weight:700;
+    }
+
+    .cover-footer{
+      display:grid;
+      grid-template-columns:1fr 1fr 1fr;
+      gap:8px;
+      margin-top:28mm;
+    }
+
+    .cover-mini{
+      background:rgba(255,255,255,.10);
+      border:1px solid rgba(255,255,255,.18);
+      padding:14px;
+      border-radius:14px;
+      font-size:14px;
+    }
+
+    .cover-mini strong{
+      display:block;
+      margin-bottom:5px;
+      font-size:16px;
+      color:white;
+    }
+
+    .content{
+      padding:14mm 16mm 12mm;
+    }
+
+    h2.section-title{
+      margin:0 0 12px;
+      color:var(--navy);
+      font-size:25px;
+      border-bottom:3px solid var(--soft);
+      padding-bottom:8px;
+    }
+
+    h3{
+      margin:18px 0 8px;
+      color:var(--navy2);
+      font-size:19px;
+    }
+
+    p{margin:8px 0 12px}
+
+    .lead{
+      font-size:17px;
+      color:#263747;
+    }
+
+    .concept-box{
+      background:linear-gradient(135deg,#f5f8fc,#e9f1fa);
+      border:1px solid var(--border);
+      border-right:7px solid var(--navy);
+      border-radius:16px;
+      padding:18px 20px;
+      margin:16px 0;
+    }
+
+    .principle{
+      margin:16px 0;
+      padding:18px 20px;
+      background:#fff8eb;
+      border:1px solid #ead4a5;
+      border-right:7px solid var(--gold);
+      border-radius:16px;
+      font-size:18px;
+      font-weight:700;
+      color:#45310c;
+    }
+
+    .chips{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin:12px 0;
+    }
+
+    .chip{
+      background:#eef5fb;
+      color:#17395f;
+      border:1px solid #d5e5f4;
+      padding:8px 11px;
+      border-radius:999px;
+      font-size:14px;
+      font-weight:700;
+    }
+
+    .directions{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:14px;
+      margin-top:12px;
+    }
+
+    .direction{
+      border:1px solid var(--border);
+      border-radius:18px;
+      overflow:hidden;
+      background:#fff;
+      page-break-inside:avoid;
+    }
+
+    .direction-head{
+      display:flex;
+      gap:8px;
+      align-items:center;
+      padding:14px 16px;
+      background:var(--navy);
+      color:white;
+    }
+
+    .number{
+      width:34px;
+      height:34px;
+      min-width:34px;
+      display:grid;
+      place-items:center;
+      border-radius:50%;
+      background:#fff;
+      color:var(--navy);
+      font-weight:800;
+    }
+
+    .direction-head h3{
+      color:white;
+      margin:0;
+      font-size:18px;
+    }
+
+    .direction-body{
+      padding:14px 18px 16px;
+    }
+
+    ul{
+      margin:7px 22px 12px 0;
+      padding:0;
+    }
+
+    li{margin:5px 0}
+
+    .check-list{
+      display:grid;
+      grid-template-columns:repeat(2, minmax(0, 1fr));
+      gap:8px;
+      margin-top:10px;
+    }
+
+    .check{
+      background:#f6faf8;
+      border:1px solid #d9ece4;
+      border-radius:11px;
+      padding:8px 10px;
+      color:#174c39;
+      font-weight:700;
+      font-size:14px;
+    }
+
+    .subgrid{
+      display:grid;
+      grid-template-columns:1fr 1fr 1fr;
+      gap:8px;
+      margin-top:10px;
+    }
+
+    .subcard{
+      border:1px solid var(--border);
+      border-radius:14px;
+      padding:12px;
+      background:#fbfdff;
+    }
+
+    .subcard strong{
+      display:block;
+      color:var(--navy);
+      margin-bottom:5px;
+    }
+
+    .audiences{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:8px;
+      margin-top:12px;
+    }
+
+    .audience-card{
+      background:#f7fbff;
+      border:1px solid #d9e7f5;
+      border-radius:14px;
+      padding:13px 15px;
+      font-weight:700;
+      color:#153963;
+    }
+
+    .org-grid{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:8px;
+      margin-top:12px;
+    }
+
+    .org-card{
+      background:#f8f6ef;
+      border:1px solid #e4d7b8;
+      border-radius:14px;
+      padding:13px 15px;
+      font-weight:700;
+      color:#4c360f;
+    }
+
+    .quote{
+      font-size:20px;
+      line-height:1.45;
+      padding:18px 22px;
+      margin:16px 0;
+      border-radius:18px;
+      background:linear-gradient(135deg,#102a56,#1b4b7a);
+      color:white;
+      font-weight:800;
+    }
+
+    .scores{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:14px;
+      margin-top:15px;
+    }
+
+    .score{
+      border-radius:18px;
+      padding:16px;
+      background:#f7fbff;
+      border:1px solid #d8e7f5;
+      text-align:center;
+    }
+
+    .score strong{
+      display:block;
+      color:var(--navy);
+      font-size:15px;
+      min-height:38px;
+    }
+
+    .score span{
+      display:block;
+      margin-top:8px;
+      font-size:28px;
+      font-weight:900;
+      color:var(--green);
+    }
+
+    .distinction{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:14px;
+      margin-top:14px;
+    }
+
+    .no, .yes{
+      border-radius:16px;
+      padding:16px;
+      border:1px solid var(--border);
+      min-height:110px;
+    }
+
+    .no{
+      background:#fff5f5;
+      border-color:#f0caca;
+      color:#762828;
+    }
+
+    .yes{
+      background:#f4fbf7;
+      border-color:#cde8d8;
+      color:#1e5b42;
+    }
+
+    .final{
+      margin-top:18px;
+      padding:18px 22px;
+      border-radius:18px;
+      background:#eef5fb;
+      border-right:7px solid var(--blue);
+      font-size:17px;
+    }
+
+    .footer-note{
+      margin-top:20px;
+      font-size:13px;
+      color:var(--muted);
+      text-align:center;
+    }
+
+    @page{
+      size:A4;
+      margin:0;
+    }
+
+    @media print{
+      body{background:white}
+      .toolbar{display:none}
+      .page{
+        width:210mm;
+        min-height:297mm;
+        margin:0;
+        box-shadow:none;
+        page-break-after:always;
+      }
+      .direction, .score, .concept-box, .principle, .subcard{
+        break-inside:avoid;
+      }
+    }
+  
+    /* --- Compact professional print tuning --- */
+    body{
+      font-family: Calibri, Tahoma, Arial, sans-serif;
+    }
+
+    .page{
+      width:210mm;
+      min-height:auto;
+      margin:8px auto;
+      overflow:visible;
+    }
+
+    .cover{
+      min-height:270mm;
+      padding:24mm 22mm 18mm;
+    }
+
+    .cover h1{
+      margin:22mm 0 5mm;
+      font-size:33px;
+      line-height:1.12;
+    }
+
+    .cover h2{
+      margin:0 0 6mm;
+      font-size:21px;
+      line-height:1.25;
+    }
+
+    .slogan{
+      padding:14px 18px;
+      font-size:18px;
+      line-height:1.55;
+    }
+
+    .cover-footer{
+      gap:8px;
+      margin-top:14mm;
+    }
+
+    .cover-mini{
+      padding:11px 12px;
+      line-height:1.45;
+    }
+
+    .content{
+      padding:12mm 15mm 10mm;
+    }
+
+    h2.section-title{
+      margin:0 0 9px;
+      font-size:23px;
+      padding-bottom:6px;
+    }
+
+    h3{
+      margin:12px 0 6px;
+      font-size:18px;
+    }
+
+    p{
+      margin:5px 0 8px;
+    }
+
+    .lead{
+      font-size:16px;
+      line-height:1.55;
+    }
+
+    .concept-box,
+    .principle,
+    .quote,
+    .final{
+      margin:10px 0;
+      padding:13px 16px;
+    }
+
+    .principle{
+      font-size:16px;
+      line-height:1.55;
+    }
+
+    .quote{
+      font-size:18px;
+      line-height:1.55;
+    }
+
+    .chips{
+      gap:6px;
+      margin:8px 0;
+    }
+
+    .chip{
+      padding:6px 9px;
+      font-size:13px;
+    }
+
+    .directions{
+      gap:10px;
+    }
+
+    .direction-head{
+      padding:10px 13px;
+    }
+
+    .number{
+      width:30px;
+      height:30px;
+      min-width:30px;
+    }
+
+    .direction-head h3{
+      font-size:17px;
+    }
+
+    .direction-body{
+      padding:10px 14px 12px;
+    }
+
+    ul{
+      margin:5px 20px 8px 0;
+    }
+
+    li{
+      margin:3px 0;
+    }
+
+    .check-list{
+      gap:6px;
+      margin-top:7px;
+    }
+
+    .check{
+      padding:6px 8px;
+      font-size:13px;
+    }
+
+    .subgrid{
+      gap:8px;
+      margin-top:8px;
+    }
+
+    .subcard{
+      padding:9px;
+    }
+
+    .audiences,
+    .org-grid{
+      gap:8px;
+    }
+
+    .audience-card,
+    .org-card{
+      padding:10px 12px;
+    }
+
+    .scores{
+      gap:8px;
+      margin-top:10px;
+    }
+
+    .score{
+      padding:11px;
+    }
+
+    .score strong{
+      min-height:30px;
+      font-size:14px;
+    }
+
+    .score span{
+      font-size:24px;
+      margin-top:4px;
+    }
+
+    .distinction{
+      gap:10px;
+      margin-top:10px;
+    }
+
+    .no, .yes{
+      padding:12px;
+      min-height:auto;
+    }
+
+    .footer-note{
+      margin-top:12px;
+    }
+
+    .page:last-of-type{
+      page-break-after:auto !important;
+      break-after:auto !important;
+    }
+
+    @media print{
+      html, body{
+        width:210mm;
+        background:white;
+      }
+
+      .page{
+        width:210mm;
+        min-height:auto !important;
+        margin:0 !important;
+        box-shadow:none !important;
+        page-break-after:auto !important;
+        break-after:auto !important;
+        overflow:visible !important;
+      }
+
+      .page:not(:last-of-type){
+        page-break-after:always !important;
+        break-after:page !important;
+      }
+
+      .cover{
+        min-height:270mm !important;
+      }
+
+      .content{
+        padding:11mm 14mm 9mm !important;
+      }
+
+      .toolbar{
+        display:none !important;
+      }
+    }
+
+  
+    /* --- Final cover spacing fix --- */
+    .cover{
+      min-height:255mm !important;
+      justify-content:flex-start !important;
+      padding:20mm 22mm 16mm !important;
+    }
+
+    .badge{
+      margin-bottom:18mm !important;
+    }
+
+    .cover h1{
+      margin:0 0 6mm !important;
+      font-size:32px !important;
+      line-height:1.12 !important;
+    }
+
+    .cover h2{
+      margin:0 0 7mm !important;
+      font-size:21px !important;
+      line-height:1.25 !important;
+    }
+
+    .slogan{
+      margin:0 !important;
+      padding:13px 18px !important;
+      font-size:18px !important;
+      line-height:1.45 !important;
+    }
+
+    .cover-footer{
+      margin-top:18mm !important;
+      gap:8px !important;
+    }
+
+    @media print{
+      .cover{
+        min-height:255mm !important;
+        justify-content:flex-start !important;
+        padding:18mm 22mm 14mm !important;
+      }
+
+      .badge{
+        margin-bottom:17mm !important;
+      }
+
+      .cover-footer{
+        margin-top:16mm !important;
+      }
+    }
+
+  </style>
+</head>
+<body>
+
+<div class="toolbar">
+  <button onclick="window.print()">🖨️ הדפסה</button>
+  <button class="secondary" onclick="saveHTML()">💾 שמירת HTML</button>
+</div>
+
+<section class="page cover">
+  <div>
+    <div class="badge">תפיסה לכיוון חברתי חדש</div>
+    <h1>מרכז חברתי לטיפול בבעלי חיים</h1>
+    <h2>ככלי לשיקום, תמיכה ותעסוקה</h2>
+    <div class="slogan">
+      עזרה לאנשים דרך טיפול בבעלי החיים שלהם ויצירת תפקידים משמעותיים למשתתפי שיקום.
+    </div>
+  
+<div style="margin-top:14mm;background:rgba(255,255,255,.08);padding:14px;border-radius:14px;">
+<h3 style="color:white;margin:0 0 8px;">תפיסה כללית</h3>
+<p style="margin:0 0 10px;line-height:1.5;">מרכז חברתי לטיפול בבעלי חיים הוא כיוון חדש בתוך הארגון, המשלב סיוע זמני לבעלי חיות מחמד, טיפול בבעלי החיים, תמיכה חברתית באנשים במצבי משבר והזדמנויות חדשות לתעסוקה עבור משתתפי שיקום.</p>
+<h3 style="color:white;margin:8px 0;">ניסוח מרכזי</h3>
+<p style="margin:0;font-weight:700;line-height:1.6;">מרכז חברתי לטיפול בבעלי חיים מעניק סיוע זמני לבעלי חיות מחמד, ובו־זמנית יוצר תפקידים, אחריות והזדמנויות חדשות למשתתפי שיקום.</p>
+</div>
+
+
+  <div class="cover-footer">
+    <div class="cover-mini"><strong>שיקום</strong>תפקידים חדשים, אחריות, מיומנויות והשתתפות.</div>
+    <div class="cover-mini"><strong>תמיכה</strong>סיוע לבעלי חיות מחמד במצבי חיים מורכבים.</div>
+    <div class="cover-mini"><strong>תעסוקה</strong>משימות מעשיות ברמות מורכבות שונות.</div>
+  </div>
+</section>
+
+<section class="page">
+  <div class="content">
+    </div></section>
+
+<section class="page">
+  <div class="content">
+    <h2 class="section-title">תחומי פעילות אפשריים של הפרויקט</h2>
+
+    <div class="directions">
+
+      <div class="direction">
+        <div class="direction-head"><div class="number">1</div><h3>טיפול זמני במצבי משבר</h3></div>
+        <div class="direction-body">
+          <p><strong>עבור אנשים במצבים של:</strong></p>
+          <ul>
+            <li>אשפוז;</li>
+            <li>משבר נפשי;</li>
+            <li>טיפול רפואי;</li>
+            <li>שהייה במקלטים לאחר אלימות;</li>
+            <li>גיל מבוגר;</li>
+            <li>אובדן זמני של היכולת לטפל בבעל החיים.</li>
+          </ul>
+          <p><strong>הסיוע כולל:</strong></p>
+          <div class="check-list">
+            <div class="check">✔ אירוח זמני</div>
+            <div class="check">✔ האכלה</div>
+            <div class="check">✔ טיפול</div>
+            <div class="check">✔ מעקב</div>
+            <div class="check">✔ תמונות/וידאו לבעלים</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="direction">
+        <div class="direction-head"><div class="number">2</div><h3>תמיכה בבעלי חיות מחמד</h3></div>
+        <div class="direction-body">
+          <p><strong>סיוע ל:</strong></p>
+          <ul>
+            <li>קשישים;</li>
+            <li>אנשים עם מגבלות;</li>
+            <li>אנשים המתמודדים זמנית עם קשיים.</li>
+          </ul>
+          <p><strong>לדוגמה:</strong></p>
+          <div class="check-list">
+            <div class="check">✔ טיול עם הכלב</div>
+            <div class="check">✔ האכלה</div>
+            <div class="check">✔ עזרה בבית</div>
+            <div class="check">✔ משלוח מזון</div>
+            <div class="check">✔ ליווי</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="direction">
+        <div class="direction-head"><div class="number">3</div><h3>פנסיון / אירוח זמני לבעלי חיים</h3></div>
+        <div class="direction-body">
+          <p><strong>עבור:</strong></p>
+          <ul>
+            <li>נסיעות;</li>
+            <li>טיפול רפואי;</li>
+            <li>מצבי חירום;</li>
+            <li>היעדרות זמנית של הבעלים.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="direction">
+        <div class="direction-head"><div class="number">4</div><h3>טיפול יומי</h3></div>
+        <div class="direction-body">
+          <p>לכמה שעות או ליום שלם.</p>
+        </div>
+      </div>
+
+      <div class="direction">
+        <div class="direction-head"><div class="number">5</div><h3>טיפול בסיסי</h3></div>
+        <div class="direction-body">
+          <p><strong>שירותים:</strong></p>
+          <div class="check-list">
+            <div class="check">✔ האכלה</div>
+            <div class="check">✔ משחקים</div>
+            <div class="check">✔ מעקב</div>
+            <div class="check">✔ טיפול</div>
+            <div class="check">✔ סירוק / הברשה</div>
+            <div class="check">✔ רחצה</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="page">
+  <div class="content">
+    <h2 class="section-title">שירותי פרימיום ותעסוקת משתתפים</h2>
+
+    <div class="direction">
+      <div class="direction-head"><div class="number">6</div><h3>שירותים נוספים / שירותי פרימיום</h3></div>
+      <div class="direction-body">
+        <p><strong>לפי רצון הבעלים:</strong></p>
+
+        <div class="subgrid">
+          <div class="subcard">
+            <strong>ליווי פרימיום</strong>
+            <ul>
+              <li>מעקב וטרינרי;</li>
+              <li>בדיקות תקופתיות;</li>
+              <li>ייעוץ;</li>
+              <li>מעקב אחר מצב בעל החיים;</li>
+              <li>ליווי לווטרינר.</li>
+            </ul>
+          </div>
+
+          <div class="subcard">
+            <strong>טיפול נוסף</strong>
+            <ul>
+              <li>גרומינג / טיפוח מקצועי;</li>
+              <li>טיפול מיוחד;</li>
+              <li>טיפול שיקומי לאחר טיפול רפואי.</li>
+            </ul>
+          </div>
+
+          <div class="subcard">
+            <strong>נוחות לבעלים</strong>
+            <ul>
+              <li>מצלמות אונליין;</li>
+              <li>דיווחי תמונות;</li>
+              <li>הודעות על מצב בעל החיים.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="direction" style="margin-top:16px;">
+      <div class="direction-head"><div class="number">7</div><h3>תעסוקה שיקומית למשתתפים</h3></div>
+      <div class="direction-body">
+        <p><strong>המשתתפים יכולים לבצע משימות ברמות שונות:</strong></p>
+
+        <div class="subgrid">
+          <div class="subcard">
+            <strong>רמה התחלתית</strong>
+            <ul>
+              <li>האכלה;</li>
+              <li>טיפול;</li>
+              <li>ניקיון;</li>
+              <li>משחקים.</li>
+            </ul>
+          </div>
+
+          <div class="subcard">
+            <strong>רמה בינונית</strong>
+            <ul>
+              <li>קשר עם הבעלים;</li>
+              <li>דיווח ותיעוד;</li>
+              <li>ארגון.</li>
+            </ul>
+          </div>
+
+          <div class="subcard">
+            <strong>רמה מתקדמת</strong>
+            <ul>
+              <li>תיאום;</li>
+              <li>חניכה;</li>
+              <li>הדרכה.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h2 class="section-title" style="margin-top:24px;">למי הפרויקט מסייע</h2>
+    <div class="audiences">
+      <div class="audience-card">✔ לנשים לאחר אלימות</div>
+      <div class="audience-card">✔ לאנשים לאחר אשפוז</div>
+      <div class="audience-card">✔ למתמודדי נפש</div>
+      <div class="audience-card">✔ לקשישים</div>
+      <div class="audience-card">✔ לבעלי חיות מחמד במצבי משבר</div>
+      <div class="audience-card">✔ למשתתפי שיקום</div>
+    </div>
+  </div>
+</section>
+
+<section class="page">
+  <div class="content">
+    <h2 class="section-title">מה הארגון מקבל</h2>
+
+    <div class="org-grid">
+      <div class="org-card">✔ כיוון פעילות חדש</div>
+      <div class="org-card">✔ תפקידים נוספים למשתתפים</div>
+      <div class="org-card">✔ חיזוק המשימה החברתית</div>
+      <div class="org-card">✔ שימוש בתשתית קיימת</div>
+      <div class="org-card">✔ אפשרות לשיתופי פעולה חדשים</div>
+    </div>
+
+    <h2 class="section-title" style="margin-top:26px;">הערכת הפרויקט</h2>
+
+    <div class="scores">
+      <div class="score"><strong>חדשנות</strong><span>8/10</span></div>
+      <div class="score"><strong>ישימות ההפעלה</strong><span>8/10</span></div>
+      <div class="score"><strong>תועלת</strong><span>9/10</span></div>
+      <div class="score"><strong>סיכון לכישלון</strong><span>5/10</span></div>
+      <div class="score"><strong>יכולת הרחבה</strong><span>8/10</span></div>
+      <div class="score"><strong>התאמה לארגון</strong><span>10/10</span></div>
+    </div>
+
+    <h2 class="section-title" style="margin-top:26px;">מיצוב סופי</h2>
+
+    <div class="distinction">
+      <div class="no">
+        <h3>לא ״מרכז לבעלי חיים״</h3>
+        <p>שם כזה עלול להישמע כמו שירות רגיל או פנסיון מסחרי לבעלי חיים.</p>
+      </div>
+      <div class="yes">
+        <h3>אלא כיוון חדש של העמותה</h3>
+        <p><strong>מרכז חברתי לטיפול בבעלי חיים ככלי לשיקום, תמיכה ותעסוקה.</strong></p>
+      </div>
+    </div>
+
+    <div class="final">
+      <strong>מסקנה:</strong><br>
+      את הפרויקט כדאי להציג ככיוון חברתי אסטרטגי, ולא כשירות נפרד לטיפול בבעלי חיים. כוחו של הפרויקט הוא בחיבור בין טיפול בבעלי חיים, תמיכה באנשים במצבי משבר ויצירת תפקידים משמעותיים חדשים למשתתפי שיקום.
+    </div>
+
+    <div class="footer-note">
+      התפיסה הוכנה להצגה ראשונית ולדיון פנימי בתוך הארגון.
+    </div>
+  </div>
+</section>
+
+<script>
+function saveHTML(){
+  const html = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
+  const blob = new Blob([html], {type:"text/html;charset=utf-8"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "מרכז_חברתי_לטיפול_בבעלי_חיים_קונספט.html";
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+}
+</script>
+
+</body>
+</html>

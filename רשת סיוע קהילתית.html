@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>רשת סיוע קהילתית מהירה באמצעות משתתפי שיקום</title>
+<style>
+  :root{
+    --navy:#0b1f3a;
+    --blue:#1f5f99;
+    --teal:#0f766e;
+    --green:#15803d;
+    --orange:#f59e0b;
+    --red:#b91c1c;
+    --light:#f6f8fb;
+    --paper:#ffffff;
+    --ink:#172033;
+    --muted:#5f6b7a;
+    --border:#d8e0eb;
+    --shadow:0 14px 34px rgba(11,31,58,.14);
+  }
+
+  *{box-sizing:border-box}
+
+  body{
+    margin:0;
+    background:linear-gradient(135deg,#eef3f9 0%,#ffffff 45%,#edf7f6 100%);
+    color:var(--ink);
+    font-family: Arial, "Noto Sans Hebrew", sans-serif;
+    line-height:1.65;
+  }
+
+  .toolbar{
+    position:sticky;
+    top:0;
+    z-index:20;
+    display:flex;
+    gap:12px;
+    justify-content:center;
+    padding:12px;
+    background:rgba(255,255,255,.88);
+    backdrop-filter: blur(10px);
+    border-bottom:1px solid var(--border);
+  }
+
+  button{
+    border:0;
+    border-radius:999px;
+    padding:11px 20px;
+    font-size:15px;
+    font-weight:700;
+    cursor:pointer;
+    background:var(--navy);
+    color:white;
+    box-shadow:0 8px 18px rgba(11,31,58,.18);
+  }
+
+  button.secondary{
+    background:#ffffff;
+    color:var(--navy);
+    border:1px solid var(--border);
+  }
+
+  .page{
+    width:210mm;
+    min-height:297mm;
+    margin:18px auto;
+    background:var(--paper);
+    box-shadow:var(--shadow);
+    overflow:hidden;
+  }
+
+  .cover{
+    background:
+      radial-gradient(circle at 20% 20%, rgba(25,118,210,.35), transparent 28%),
+      radial-gradient(circle at 80% 70%, rgba(20,184,166,.28), transparent 30%),
+      linear-gradient(135deg,#071a32 0%,#0b1f3a 58%,#123c63 100%);
+    color:white;
+    padding:46px 46px 38px;
+    position:relative;
+  }
+
+  .badge{
+    display:inline-block;
+    background:rgba(255,255,255,.14);
+    border:1px solid rgba(255,255,255,.28);
+    padding:7px 14px;
+    border-radius:999px;
+    font-weight:700;
+    letter-spacing:.2px;
+    margin-bottom:24px;
+  }
+
+  h1{
+    font-size:34px;
+    line-height:1.18;
+    margin:0 0 14px;
+    max-width:720px;
+  }
+
+  .subtitle{
+    font-size:18px;
+    color:#dbeafe;
+    max-width:760px;
+    margin:0 0 28px;
+  }
+
+  .slogan{
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr;
+    gap:14px;
+    margin-top:26px;
+  }
+
+  .slogan div{
+    background:rgba(255,255,255,.12);
+    border:1px solid rgba(255,255,255,.22);
+    border-radius:18px;
+    padding:16px;
+    min-height:86px;
+  }
+
+  .slogan strong{
+    display:block;
+    font-size:20px;
+    margin-bottom:6px;
+  }
+
+  .content{
+    padding:34px 42px 46px;
+  }
+
+  h2{
+    font-size:25px;
+    margin:0 0 16px;
+    color:var(--navy);
+    border-right:6px solid var(--teal);
+    padding-right:14px;
+  }
+
+  h3{
+    font-size:19px;
+    color:var(--navy);
+    margin:0 0 10px;
+  }
+
+  .section{
+    margin-bottom:26px;
+  }
+
+  .lead{
+    background:#eef7ff;
+    border:1px solid #cce5ff;
+    border-right:7px solid var(--blue);
+    border-radius:18px;
+    padding:20px 22px;
+    font-size:17px;
+  }
+
+  .quote{
+    margin:28px 0;
+    background:linear-gradient(135deg,#fff7e6,#ffffff);
+    border:1px solid #fde3a4;
+    border-right:8px solid var(--orange);
+    border-radius:20px;
+    padding:22px 24px;
+    font-size:23px;
+    font-weight:800;
+    color:#7a4b00;
+  }
+
+  .grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:16px;
+  }
+
+  .card{
+    border:1px solid var(--border);
+    border-radius:18px;
+    padding:18px 18px 16px;
+    background:#fff;
+  }
+
+  .card.blue{border-top:6px solid var(--blue)}
+  .card.green{border-top:6px solid var(--green)}
+  .card.teal{border-top:6px solid var(--teal)}
+  .card.orange{border-top:6px solid var(--orange)}
+  .card.red{border-top:6px solid var(--red)}
+  .card.navy{border-top:6px solid var(--navy)}
+
+  ul{
+    margin:8px 0 0;
+    padding-right:20px;
+  }
+
+  li{margin:5px 0}
+
+  .pill{
+    display:inline-block;
+    padding:5px 10px;
+    border-radius:999px;
+    font-size:13px;
+    font-weight:800;
+    background:#edf7f6;
+    color:#075e59;
+    margin-bottom:10px;
+  }
+
+  .score-row{
+    display:grid;
+    grid-template-columns:1.1fr 2fr 64px;
+    align-items:center;
+    gap:12px;
+    margin:10px 0;
+  }
+
+  .bar{
+    height:12px;
+    background:#e6edf5;
+    border-radius:999px;
+    overflow:hidden;
+  }
+
+  .fill{
+    height:100%;
+    background:linear-gradient(90deg,var(--teal),var(--blue));
+    border-radius:999px;
+  }
+
+  .score{
+    font-weight:900;
+    color:var(--navy);
+  }
+
+  .decision{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+  }
+
+  .decision .yes,
+  .decision .no,
+  .decision .warn{
+    border-radius:16px;
+    padding:14px;
+    font-weight:800;
+    border:1px solid var(--border);
+  }
+
+  .yes{background:#ecfdf3;color:#14532d}
+  .no{background:#fff1f2;color:#881337}
+  .warn{background:#fffbeb;color:#7a4b00}
+
+  .footer-note{
+    margin-top:26px;
+    padding:20px;
+    background:#f3f6fb;
+    border-radius:18px;
+    color:var(--muted);
+    font-weight:700;
+  }
+
+  .page-break{page-break-before:always}
+
+  @media print{
+    @page{
+      size:A4;
+      margin:0;
+    }
+
+    body{
+      background:white;
+      -webkit-print-color-adjust:exact;
+      print-color-adjust:exact;
+    }
+
+    .toolbar{display:none}
+
+    .page{
+      width:210mm;
+      min-height:297mm;
+      margin:0;
+      box-shadow:none;
+      page-break-after:always;
+    }
+
+    .cover{
+      padding-top:38px;
+    }
+
+    .content{
+      padding:30px 38px 38px;
+    }
+
+    .card, .lead, .quote{
+      break-inside:avoid;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <button onclick="window.print()">🖨️ הדפסה</button>
+  <button class="secondary" onclick="saveHtml()">💾 שמירת HTML</button>
+</div>
+
+<main class="page">
+  <section class="cover">
+    <div class="badge">יוזמה אסטרטגית חדשה</div>
+    <h1>רשת סיוע קהילתית מהירה באמצעות משתתפי שיקום</h1>
+    <p class="subtitle">
+      מודל מקומי למתן סיוע יומיומי מהיר לתושבי שכונה, קשישים, מטופלים ואוכלוסיות פגיעות —
+      במצבים שבהם השירותים הקיימים אינם זמינים או אינם נותנים מענה מיידי.
+    </p>
+
+    <div class="slogan">
+      <div>
+        <strong>מהיר</strong>
+        מענה בתוך שעות, לא ימים.
+      </div>
+      <div>
+        <strong>קהילתי</strong>
+        מבוסס על אנשים החיים ופועלים באזור.
+      </div>
+      <div>
+        <strong>שיקומי</strong>
+        המשתתף הופך ממקבל שירות לחלק ממערך התמיכה.
+      </div>
+    </div>
+  </section>
+
+  <section class="content">
+    <div class="section">
+      <h2>הפרויקט</h2>
+      <div class="lead">
+        יצירת רשת מקומית של משתתפי שיקום, המספקים סיוע יומיומי מהיר לתושבי השכונה,
+        למטופלים, לקשישים ולאוכלוסיות פגיעות, במצבים שבהם השירותים הקיימים אינם זמינים
+        או אינם נותנים מענה מיידי.
+      </div>
+    </div>
+
+    <div class="quote">
+      “משתתפי שיקום אינם רק מקבלי עזרה — הם יכולים להפוך לחלק מתשתית התמיכה של הקהילה.”
+    </div>
+
+    <div class="section">
+      <h2>העיקרון המרכזי</h2>
+      <div class="grid">
+        <div class="card teal">
+          <h3>לא טיפול ולא עבודה סוציאלית</h3>
+          <p>
+            מדובר בשכבת סיוע יומיומית, פשוטה ומהירה, שאינה מחליפה מטפל, עובד סוציאלי או שירות מקצועי.
+          </p>
+        </div>
+        <div class="card blue">
+          <h3>המענה החסר: “צריך עכשיו”</h3>
+          <p>
+            במציאות יש מצבים קטנים אך דחופים: לחם, תרופה, מטען, מסמך, חפץ לבית חולים.
+            אלו לא תמיד מקבלים מענה מהמערכות הרגילות.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>כיווני פעילות אפשריים</h2>
+      <div class="grid">
+        <div class="card green">
+          <span class="pill">כיוון 1</span>
+          <h3>קשישים והוסטלים</h3>
+          <ul>
+            <li>קניית מוצרים בסיסיים: לחם, חלב, תה</li>
+            <li>סידורים קטנים ודחופים</li>
+            <li>הבאת מסמכים או חפצים</li>
+            <li>סיוע כאשר המטפל אינו מגיע באותו יום</li>
+          </ul>
+          <p><strong>הערכת פוטנציאל:</strong> 10/10</p>
+        </div>
+
+        <div class="card blue">
+          <span class="pill">כיוון 2</span>
+          <h3>מטופלים בבתי חולים</h3>
+          <ul>
+            <li>הבאת מטען, בגדים, משקפיים או חפצים אישיים</li>
+            <li>קניית מוצרים בסיסיים</li>
+            <li>סיוע למשפחות שאינן יכולות להגיע מיד</li>
+          </ul>
+          <p><strong>הערכת פוטנציאל:</strong> 8.5/10</p>
+        </div>
+
+        <div class="card orange">
+          <span class="pill">כיוון 3</span>
+          <h3>לאחר שחרור מבית חולים</h3>
+          <ul>
+            <li>סיוע בימים הראשונים לאחר השחרור</li>
+            <li>קניית מזון ותרופות</li>
+            <li>משימות ביתיות פשוטות ודחופות</li>
+          </ul>
+          <p><strong>הערכת פוטנציאל:</strong> 9.5/10</p>
+        </div>
+
+        <div class="card teal">
+          <span class="pill">כיוון 4</span>
+          <h3>אנשים עם חרדה, דיכאון או בידוד חברתי</h3>
+          <ul>
+            <li>קניות בסיסיות</li>
+            <li>הבאת מסמכים</li>
+            <li>סיוע במטלות שמחוץ לבית</li>
+          </ul>
+          <p><strong>הערכת פוטנציאל:</strong> 9/10</p>
+        </div>
+
+        <div class="card red">
+          <span class="pill">כיוון 5</span>
+          <h3>מחלקות פסיכיאטריות</h3>
+          <ul>
+            <li>הבאת חפצים מותרים בלבד</li>
+            <li>ביגוד ופריטי היגיינה</li>
+            <li>תיאום מול משפחות וצוותים</li>
+          </ul>
+          <p><strong>הערכת פוטנציאל:</strong> 7/10</p>
+        </div>
+
+        <div class="card navy">
+          <span class="pill">כיוון 6</span>
+          <h3>אנשים בודדים בקהילה</h3>
+          <ul>
+            <li>סיוע נקודתי במצבי קושי</li>
+            <li>מטלות יומיומיות קטנות</li>
+            <li>חיזוק תחושת הביטחון והחיבור לקהילה</li>
+          </ul>
+          <p><strong>הערכת פוטנציאל:</strong> 9/10</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<main class="page">
+  <section class="content">
+    <div class="section">
+      <h2>חוזקות מרכזיות</h2>
+      <div class="grid">
+        <div class="card green">
+          <h3>צורך ברור ומיידי</h3>
+          <p>המודל עונה על פער אמיתי: משימות קטנות שאינן מצדיקות שירות מקצועי, אך קריטיות לאדם באותו רגע.</p>
+        </div>
+        <div class="card teal">
+          <h3>שינוי תפקיד שיקומי</h3>
+          <p>המשתתף אינו נתפס רק כמי שזקוק לסיוע, אלא כמי שמסוגל להעניק סיוע לאחרים.</p>
+        </div>
+        <div class="card blue">
+          <h3>מתאים לפיילוט</h3>
+          <p>ניתן להתחיל בשכונה אחת, עם מספר קטן של משתתפים ומשימות מוגדרות.</p>
+        </div>
+        <div class="card orange">
+          <h3>פוטנציאל התרחבות</h3>
+          <p>לאחר בדיקה ראשונית ניתן להרחיב להוסטלים, בתי חולים, קשישים ואנשים החיים בבידוד.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>סיכונים ונקודות בדיקה</h2>
+      <div class="grid">
+        <div class="card red">
+          <h3>סיכון: התפזרות יתר</h3>
+          <p>אם המודל ינסה לעשות הכול מההתחלה, הוא עלול להפוך לאוסף משימות לא מנוהל.</p>
+          <p><strong>פתרון:</strong> להתחיל ב-2–3 סוגי משימות בלבד.</p>
+        </div>
+        <div class="card orange">
+          <h3>סיכון: גבולות תפקיד</h3>
+          <p>יש להגדיר בבירור: לא טיפול רפואי, לא טיפול סיעודי, לא טיפול בכספים מורכבים.</p>
+          <p><strong>פתרון:</strong> רשימת משימות מותרות ורשימת משימות אסורות.</p>
+        </div>
+        <div class="card blue">
+          <h3>סיכון: תיאום מול מוסדות</h3>
+          <p>בתי חולים ומחלקות סגורות דורשים נהלים ואישורים.</p>
+          <p><strong>פתרון:</strong> להתחיל בקהילה ובהוסטלים, ורק לאחר מכן להתרחב למוסדות.</p>
+        </div>
+        <div class="card teal">
+          <h3>סיכון: התאמת המשתתפים</h3>
+          <p>לא כל משתתף מתאים לכל משימה.</p>
+          <p><strong>פתרון:</strong> התאמה לפי יכולת, יציבות, אחריות ורמת עומס.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>הערכת הפרויקט</h2>
+
+      <div class="score-row">
+        <div>חדשנות</div>
+        <div class="bar"><div class="fill" style="width:90%"></div></div>
+        <div class="score">9/10</div>
+      </div>
+
+      <div class="score-row">
+        <div>תועלת חברתית</div>
+        <div class="bar"><div class="fill" style="width:100%"></div></div>
+        <div class="score">10/10</div>
+      </div>
+
+      <div class="score-row">
+        <div>התאמה לשיקום</div>
+        <div class="bar"><div class="fill" style="width:100%"></div></div>
+        <div class="score">10/10</div>
+      </div>
+
+      <div class="score-row">
+        <div>ישימות לפיילוט</div>
+        <div class="bar"><div class="fill" style="width:80%"></div></div>
+        <div class="score">8/10</div>
+      </div>
+
+      <div class="score-row">
+        <div>פוטנציאל פיתוח</div>
+        <div class="bar"><div class="fill" style="width:100%"></div></div>
+        <div class="score">10/10</div>
+      </div>
+
+      <div class="score-row">
+        <div>סיכון להתפזרות</div>
+        <div class="bar"><div class="fill" style="width:70%"></div></div>
+        <div class="score">7/10</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>החלטה אסטרטגית</h2>
+      <div class="decision">
+        <div class="no">לבטל את הרעיון: ❌</div>
+        <div class="warn">לשנות / לדייק: ✅</div>
+        <div class="yes">לבדוק כפיילוט: ✅</div>
+        <div class="no">להשיק מיד במלואו: ❌</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>מסקנה</h2>
+      <div class="lead">
+        מדובר ברעיון חזק שאינו מסתכם בשירות שליחויות או בעזרה נקודתית.
+        זוהי אפשרות לבניית תשתית קהילתית חדשה, שבה משתתפי שיקום מקבלים תפקיד פעיל,
+        משמעותי ותורם בתוך הקהילה.
+        <br><br>
+        ההמלצה: לפתח את הרעיון ככיוון אסטרטגי, אך להתחיל בפיילוט מצומצם ומוגדר היטב,
+        עם גבולות ברורים של תפקיד, משימות ואחריות.
+      </div>
+
+      <div class="quote">
+        רעיון נדיר — ראוי לבחינה ולהעמקה אסטרטגית נוספת.
+      </div>
+
+      <div class="footer-note">
+        ניסוח ליבה להצגה: “רשת סיוע קהילתית מהירה באמצעות משתתפי שיקום — מענה יומיומי פשוט, מהיר ואנושי במקום שבו המערכות הרגילות אינן זמינות בזמן.”
+      </div>
+    </div>
+  </section>
+</main>
+
+<script>
+function saveHtml(){
+  const htmlContent = document.documentElement.outerHTML;
+  const blob = new Blob([htmlContent], {type: "text/html;charset=utf-8"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "community_support_network_he.html";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+</script>
+
+</body>
+</html>
