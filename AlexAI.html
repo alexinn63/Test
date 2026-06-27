@@ -1,0 +1,2409 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI-библиотека директора — V9 Director System</title>
+<style>
+:root{--bg:#eef2f7;--card:#fff;--ink:#142033;--muted:#667085;--line:#d9e1ec;--brand:#1e4fb8;--brand2:#eef5ff;--ok:#127a3d;--warn:#b85c00;--bad:#b42318;--shadow:0 18px 45px rgba(16,24,40,.10);--shadow2:0 8px 20px rgba(16,24,40,.08);--r:20px;--letters:#315eea;--rehab:#149365;--inspection:#c2410c;--forms:#7c3aed;--factory:#0f766e;--projects:#0891b2;--analysis:#4f46e5;--ai:#9333ea;--sap:#475569;--travel:#0284c7;--quality:#16a34a;--incidents:#dc2626;--finance:#15803d}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top left,#ffffff 0,#eef2f7 42%,#e7edf5 100%);color:var(--ink);font-family:Arial,"Segoe UI",sans-serif}
+.hero{padding:26px 22px;background:linear-gradient(135deg,#102b66,#2457c5 55%,#4776e6);color:white;box-shadow:var(--shadow2)}.hero h1{margin:0;font-size:30px;letter-spacing:-.4px}.hero p{margin:7px 0 0;opacity:.9;max-width:1200px;line-height:1.45}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;padding:13px 16px;background:rgba(255,255,255,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20}.toolbar input,.toolbar select{border:1px solid var(--line);border-radius:14px;padding:11px 12px;font-size:14px;background:#fff}.toolbar .search{flex:1;min-width:230px}
+button{border:0;border-radius:13px;padding:10px 13px;background:var(--brand);color:white;font-weight:700;cursor:pointer;transition:.16s transform,.16s box-shadow,.16s background}button:hover{transform:translateY(-1px);box-shadow:0 8px 18px rgba(30,79,184,.18)}button.secondary{background:#eef1f6;color:#202b3c}button.green{background:var(--ok)}button.red{background:var(--bad)}button.orange{background:var(--warn)}button.small{padding:8px 10px;font-size:13px}.actions{display:flex;gap:7px;flex-wrap:wrap;align-items:center;justify-content:flex-end}
+.layout{display:grid;grid-template-columns:310px 1fr;gap:18px;padding:18px}.sidebar{background:rgba(255,255,255,.94);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:12px;height:fit-content;position:sticky;top:78px}.side-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:9px}.section-btn{width:100%;display:grid;grid-template-columns:38px 1fr auto;gap:9px;align-items:center;background:transparent;color:var(--ink);text-align:left;margin:0 0 6px;padding:11px;border-radius:15px;font-weight:700;box-shadow:none}.section-btn:hover,.section-btn.active{background:var(--brand2);color:#153e96;box-shadow:none;transform:none}.section-btn .ico{font-size:23px;text-align:center}.section-btn small{display:block;color:var(--muted);font-weight:400;margin-top:2px;line-height:1.2}.badge{display:inline-flex;align-items:center;justify-content:center;min-width:24px;height:24px;border-radius:999px;background:#eef1f6;color:#344054;font-size:12px;padding:0 7px}
+.panel,.card,.dash-card{background:rgba(255,255,255,.96);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:16px;margin-bottom:14px}.panel h2{margin:0 0 6px;font-size:24px}.panel p{margin:0;color:var(--muted);line-height:1.45}.dash-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.dash-card{margin:0;min-height:116px}.dash-card h3{margin:0 0 8px;font-size:15px;color:#344054}.big-number{font-size:34px;font-weight:900;letter-spacing:-1px}.quick-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:12px}.quick-btn{text-align:left;min-height:78px;background:white;color:var(--ink);border:1px solid var(--line);box-shadow:var(--shadow2)}.quick-btn b{display:block;font-size:15px;margin-bottom:4px}.quick-btn span{display:block;font-weight:400;color:var(--muted);font-size:12.5px;line-height:1.25}
+.prompt-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.prompt-card{position:relative;overflow:hidden}.prompt-card::before{content:"";position:absolute;inset:0 0 auto 0;height:5px;background:var(--brand)}.prompt-card[data-sec="letters"]::before{background:var(--letters)}.prompt-card[data-sec="rehab"]::before{background:var(--rehab)}.prompt-card[data-sec="inspection"]::before{background:var(--inspection)}.prompt-card[data-sec="forms"]::before{background:var(--forms)}.prompt-card[data-sec="factory"]::before{background:var(--factory)}.prompt-card[data-sec="projects"]::before{background:var(--projects)}.prompt-card[data-sec="analysis"]::before{background:var(--analysis)}.prompt-card[data-sec="ai"]::before,.prompt-card[data-sec="agents"]::before{background:var(--ai)}.prompt-card[data-sec="sap"]::before{background:var(--sap)}.prompt-card[data-sec="travel"]::before{background:var(--travel)}.prompt-card[data-sec="quality"]::before{background:var(--quality)}.prompt-card[data-sec="incidents"]::before{background:var(--incidents)}.prompt-card[data-sec="finance"]::before{background:var(--finance)}
+.card-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;margin:5px 0 10px}.card h3{margin:0;font-size:18px;line-height:1.25}.desc-line{color:var(--muted);font-size:13px;line-height:1.35;margin:6px 0 0;min-height:18px}.meta{display:flex;gap:6px;flex-wrap:wrap;margin:9px 0}.tag{background:#eef1f6;color:#344054;border-radius:999px;padding:5px 8px;font-size:12px}.rating{display:flex;gap:2px;font-size:20px;letter-spacing:1px;cursor:pointer;user-select:none}.star{color:#cbd5e1}.star.on{color:#f59e0b}textarea,input,select{font-family:Arial,"Segoe UI",sans-serif}textarea{width:100%;border:1px solid var(--line);border-radius:14px;padding:12px;font-size:14.5px;line-height:1.45;background:#fbfcff;color:var(--ink);resize:vertical}.prompt-area{min-height:230px;margin-top:8px;display:none}.prompt-area.open{display:block}.status{height:18px;font-size:13px;color:var(--ok);margin-top:6px}.empty{padding:25px;text-align:center;color:var(--muted)}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.form-grid label{display:block;color:#344054;font-weight:700;font-size:13px;margin-bottom:4px}.form-grid input,.form-grid select,.form-grid textarea{width:100%;border:1px solid var(--line);border-radius:12px;padding:10px}.full{grid-column:1/-1}.output-box{white-space:pre-wrap;background:#fbfcff;border:1px solid var(--line);border-radius:14px;padding:13px;min-height:180px;line-height:1.45}.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.46);z-index:50;align-items:center;justify-content:center;padding:16px}.modal.open{display:flex}.modal-box{background:#fff;border-radius:20px;box-shadow:var(--shadow);width:min(900px,100%);max-height:92vh;overflow:auto;padding:17px}.notice{background:#fff8e6;border:1px solid #f3d08b;color:#693d00;border-radius:14px;padding:10px;margin-bottom:12px}.hr{height:1px;background:var(--line);margin:13px 0}.section-tools{margin-top:10px}.print-text{display:none;white-space:pre-wrap;line-height:1.45}.pill-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.mini-list{display:grid;gap:8px;margin-top:10px}.mini-item{display:flex;justify-content:space-between;gap:10px;align-items:center;background:#f8fafc;border:1px solid var(--line);border-radius:14px;padding:9px 10px}.mini-item b{font-size:14px}.mini-item small{color:var(--muted)}
+@media(max-width:1100px){.dash-grid,.quick-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.prompt-grid{grid-template-columns:1fr}}
+@media(max-width:900px){.layout{grid-template-columns:1fr;padding:12px}.sidebar,.toolbar{position:static}.form-grid{grid-template-columns:1fr}.quick-grid,.dash-grid{grid-template-columns:1fr}.hero h1{font-size:24px}.actions{justify-content:flex-start}}
+
+/* ── FULLSCREEN PROMPT OVERLAY ── */
+#promptOverlay{display:none;position:fixed;inset:0;background:rgba(10,20,50,.72);z-index:200;}
+#promptOverlay.open{display:flex;align-items:stretch;justify-content:stretch;}
+#promptOverlayBox{background:#fff;width:100%;height:100%;display:flex;flex-direction:column;overflow:hidden;}
+#promptOverlayHead{display:flex;justify-content:space-between;align-items:center;padding:14px 20px;border-bottom:1px solid var(--line);gap:12px;flex-shrink:0;background:#fff;}
+#promptOverlayTitle{font-size:18px;font-weight:800;color:var(--ink);flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+#promptOverlayActions{display:flex;gap:8px;flex-wrap:nowrap;align-items:center;flex-shrink:0;}
+#promptOverlayTA{flex:1;border:none;padding:24px 28px;font-size:15px;line-height:1.75;color:var(--ink);resize:none;outline:none;font-family:Arial,"Segoe UI",sans-serif;background:#fafcff;overflow-y:auto;width:100%;}
+#promptOverlayStatus{height:24px;font-size:13px;color:var(--ok);padding:0 20px 8px;font-weight:600;flex-shrink:0;}
+
+/* ── CARD BUTTONS ── */
+.card-actions{display:flex;flex-direction:column;gap:8px;flex-shrink:0;min-width:130px;justify-content:flex-start;padding-top:4px}
+.ca-row{display:flex;gap:6px;align-items:center}
+.cb{display:inline-flex;align-items:center;justify-content:center;gap:4px;height:32px;padding:0 10px;border:none;border-radius:9px;font-size:12.5px;font-weight:700;cursor:pointer;white-space:nowrap;font-family:inherit;flex:1;
+  background:#e8edf4;color:#2d3a4a;
+  box-shadow:0 2px 0 #c8d0dc, 0 2px 5px rgba(0,0,0,.07);
+  transition:transform .1s, box-shadow .1s}
+.cb:hover{transform:translateY(-1px);box-shadow:0 3px 0 #c8d0dc, 0 4px 8px rgba(0,0,0,.10)}
+.cb:active{transform:translateY(1px);box-shadow:0 1px 0 #c8d0dc}
+.cb-blue{background:linear-gradient(135deg,#3b82f6,#60a5fa);color:#fff;box-shadow:0 2px 0 #2563eb, 0 2px 5px rgba(59,130,246,.25)}
+.cb-blue:hover{box-shadow:0 3px 0 #2563eb, 0 4px 10px rgba(59,130,246,.30)}
+.cb-blue:active{box-shadow:0 1px 0 #2563eb}
+.cb-red{background:#c0392b;color:#fff;box-shadow:0 2px 0 #922b21, 0 2px 5px rgba(192,57,43,.25)}
+.cb-red:hover{box-shadow:0 3px 0 #922b21, 0 4px 10px rgba(192,57,43,.30)}
+.cb-red:active{box-shadow:0 1px 0 #922b21}
+.cb-gray{background:#e8edf4;color:#2d3a4a}
+.cb-green{background:#e8edf4;color:#2d3a4a}
+.cb-orange{background:#e8edf4;color:#2d3a4a}
+.cb-note-on{background:#fef3c7;color:#92400e;box-shadow:0 2px 0 #d4a017, 0 2px 5px rgba(212,160,23,.18)}
+
+/* ── SECTION DRAG ── */
+.section-drag-handle{cursor:grab;padding:4px 3px;color:#bbb;font-size:13px;flex-shrink:0;user-select:none;line-height:1}
+.section-drag-handle:active{cursor:grabbing}
+.section-drag-wrapper{display:flex;align-items:center;gap:4px;margin-bottom:6px;border:2px solid transparent;border-radius:15px;transition:border .15s,background .15s}
+.section-drag-wrapper.drag-over{border-color:var(--brand);background:var(--brand2)}
+.section-drag-wrapper.dragging{opacity:.35}
+
+/* ── CLAUDE BUTTON ── */
+.btn-claude {
+  background: linear-gradient(135deg,#1e40af,#3b82f6) !important;
+  border: none !important;
+  color: #fff !important;
+  border-radius: 10px !important;
+  padding: 8px 13px !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  cursor: pointer !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 5px !important;
+  transition: all .18s !important;
+  box-shadow: 0 3px 10px rgba(59,130,246,0.3) !important;
+}
+.btn-claude:hover {
+  background: linear-gradient(135deg,#3b82f6,#60a5fa) !important;
+  box-shadow: 0 5px 18px rgba(59,130,246,0.45) !important;
+  transform: translateY(-1px) !important;
+}
+
+/* ── NOTES ── */
+.note-toggle {
+  background: transparent !important;
+  border: 1px solid var(--line) !important;
+  color: #667085 !important;
+  border-radius: 10px !important;
+  padding: 8px 10px !important;
+  font-size: 13px !important;
+  cursor: pointer !important;
+  transition: all .15s !important;
+}
+.note-toggle:hover { border-color: #f59e0b !important; color: #b45309 !important; }
+.note-toggle.has-note { border-color: #f59e0b !important; color: #b45309 !important; background: #fffbeb !important; }
+
+.note-area {
+  display: none;
+  margin-top: 10px;
+  background: #fffbeb;
+  border: 1px solid #f3d08b;
+  border-radius: 12px;
+  padding: 12px;
+}
+.note-area.open { display: block; }
+.note-area textarea {
+  width: 100%;
+  border: 1px solid #f3d08b !important;
+  border-radius: 8px !important;
+  padding: 10px !important;
+  font-size: 14px !important;
+  min-height: 70px !important;
+  background: #fff !important;
+  resize: none !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
+}
+.note-save-btn {
+  background: #f59e0b !important;
+  border: none !important;
+  color: #fff !important;
+  border-radius: 8px !important;
+  padding: 7px 14px !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  cursor: pointer !important;
+  margin-top: 8px !important;
+}
+.note-preview {
+  margin-top: 8px;
+  background: #fffbeb;
+  border: 1px solid #f3d08b;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 13px;
+  color: #78350f;
+  cursor: pointer;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+.note-preview::before { content: "💬 "; }
+
+/* ── TRAVEL PROFILE BUTTON ── */
+#travelProfileBtn {
+  background: linear-gradient(135deg, #0284c7, #06b6d4) !important;
+  color: #fff !important;
+  border: none !important;
+  border-radius: 10px !important;
+  padding: 8px 14px !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  cursor: pointer !important;
+}
+
+/* ── PROFILE TOOLBAR CHIP ── */
+.profile-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: #f0f9ff;
+  border: 1px solid #bae6fd;
+  border-radius: 20px;
+  font-size: 13px;
+  color: #0284c7;
+  cursor: pointer;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.profile-chip:hover { background: #e0f2fe; }
+
+/* ── MOBILE ── */
+@media (max-width: 800px) {
+  header.hero, .toolbar, .layout { display: none !important; }
+  #mobApp { display: flex !important; flex-direction: column; height: 100vh; height: 100dvh; background: var(--bg); overflow: hidden; }
+  
+  .mob-hdr { background: #fff; border-bottom: 1px solid var(--line); padding: 10px 14px; display: flex; align-items: center; gap: 10px; flex-shrink: 0; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+  .mob-hdr-title { flex: 1; font-size: 15px; font-weight: 700; color: var(--ink); }
+  .mob-hdr-back { background: #eef1f6; border: none; border-radius: 8px; color: #344054; padding: 7px 13px; font-size: 13px; font-family: inherit; cursor: pointer; display: none; font-weight: 600; }
+  .mob-hdr-right { display: flex; gap: 6px; align-items: center; }
+  .mob-hdr-profile { font-size: 11px; color: #0284c7; background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 20px; padding: 4px 10px; cursor: pointer; white-space: nowrap; font-weight: 600; }
+  
+  .mob-search { padding: 8px 12px; background: #fff; border-bottom: 1px solid var(--line); flex-shrink: 0; }
+  .mob-search input { width: 100%; background: #f8fafc; border: 1px solid var(--line); border-radius: 12px; padding: 11px 14px; font-size: 15px; color: var(--ink); font-family: inherit; outline: none; box-sizing: border-box; }
+  .mob-search input:focus { border-color: var(--brand); }
+  
+  .mob-screen { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+  
+  .mob-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 12px; padding: 14px 12px; }
+  .mob-tile { background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 20px 12px; display: flex; flex-direction: column; align-items: center; gap: 8px; cursor: pointer; transition: all .15s; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+  .mob-tile:active { transform: scale(0.96); border-color: var(--brand); }
+  .mob-tile .t-ico { font-size: 32px; }
+  .mob-tile .t-name { font-size: 13px; color: #142033; font-weight: 700; line-height: 1.3; }
+  .mob-tile .t-count { font-size: 11px; color: #667085; background: #f1f5f9; border-radius: 20px; padding: 2px 10px; }
+  
+  .mob-list { padding: 10px 12px; }
+  .mob-prompt-row { background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 14px; margin-bottom: 10px; cursor: pointer; box-shadow: 0 1px 4px rgba(0,0,0,0.05); }
+  .mob-prompt-row:active { border-color: var(--brand); }
+  .mob-prompt-title { font-size: 15px; font-weight: 700; color: var(--ink); margin-bottom: 5px; }
+  .mob-prompt-tags { display: flex; flex-wrap: wrap; gap: 4px; }
+  .mob-prompt-tag { background: #eef1f6; border-radius: 20px; padding: 2px 8px; font-size: 11px; color: #344054; }
+  
+  .mob-prompt-view { padding: 12px; }
+  .mob-pv-title { font-size: 18px; font-weight: 800; color: var(--ink); margin-bottom: 12px; line-height: 1.3; }
+  .mob-pv-text { background: #f8fafc; border: 1px solid var(--line); border-radius: 12px; padding: 14px; font-size: 14px; color: #344054; line-height: 1.75; white-space: pre-wrap; margin-bottom: 14px; }
+  .mob-pv-actions { display: flex; gap: 10px; margin-bottom: 12px; }
+  .mob-btn-claude { flex: 1 !important; background: linear-gradient(135deg,#1e40af,#3b82f6) !important; border: none !important; border-radius: 14px !important; color: #fff !important; padding: 15px !important; font-size: 16px !important; font-weight: 800 !important; font-family: inherit !important; cursor: pointer !important; display: flex !important; align-items: center !important; justify-content: center !important; gap: 8px !important; box-shadow: 0 4px 16px rgba(59,130,246,0.35) !important; }
+  .mob-note-section { background: #fffbeb; border: 1px solid #f3d08b; border-radius: 12px; padding: 12px; }
+  .mob-note-label { font-size: 12px; color: #b45309; font-weight: 700; margin-bottom: 8px; }
+  .mob-note-ta { width: 100%; background: #fff; border: 1px solid #f3d08b; border-radius: 8px; padding: 10px 12px; font-size: 14px; color: var(--ink); font-family: inherit; min-height: 80px; resize: none; box-sizing: border-box; }
+  .mob-note-save { margin-top: 8px; background: #f59e0b; border: none; color: #fff; border-radius: 8px; padding: 9px 16px; font-size: 13px; font-family: inherit; cursor: pointer; font-weight: 700; }
+  .mob-copied { text-align: center; color: var(--ok); font-size: 14px; margin-top: 8px; font-weight: 700; min-height: 20px; }
+  .mob-add-btn { position: fixed; bottom: 16px; right: 16px; background: var(--brand); color: #fff; border: none; border-radius: 30px; padding: 13px 22px; font-size: 15px; font-weight: 700; font-family: inherit; cursor: pointer; box-shadow: 0 4px 18px rgba(30,79,184,0.4); z-index: 100; }
+  
+  /* Travel profile on mobile */
+  .mob-travel-form { padding: 14px 12px; }
+  .mob-travel-field { margin-bottom: 14px; }
+  .mob-travel-field label { display: block; font-size: 13px; font-weight: 700; color: #344054; margin-bottom: 5px; }
+  .mob-travel-field input, .mob-travel-field select, .mob-travel-field textarea { width: 100%; border: 1px solid var(--line); border-radius: 10px; padding: 11px 13px; font-size: 14px; color: var(--ink); font-family: inherit; background: #fff; box-sizing: border-box; }
+  .mob-travel-save { width: 100%; background: linear-gradient(135deg,#0284c7,#06b6d4); border: none; color: #fff; border-radius: 12px; padding: 14px; font-size: 16px; font-weight: 800; font-family: inherit; cursor: pointer; margin-top: 8px; }
+}
+
+@media (min-width: 801px) {
+  #mobApp { display: none !important; }
+}
+
+@media print{.toolbar,.sidebar,.actions,.status,.modal,.no-print,.quick-grid,.dash-grid{display:none!important}body{background:white}.hero{background:white;color:black;border-bottom:1px solid #bbb;padding:10mm;box-shadow:none}.layout{display:block;padding:8mm}.panel,.card{box-shadow:none;border:1px solid #bbb;break-inside:avoid}textarea.prompt-area{display:none}.print-text{display:block}.prompt-grid{display:block}}
+</style>
+</head>
+<body>
+<!-- Travel Profile Modal -->
+<!-- Fullscreen Prompt Overlay -->
+<div id="promptOverlay">
+  <div id="promptOverlayBox">
+    <div id="promptOverlayHead">
+      <div id="promptOverlayTitle"></div>
+      <div id="promptOverlayActions">
+        <button class="btn-claude" id="ovrClaudeBtn">🤖 Claude</button>
+        <button class="small" id="ovrCopyBtn">📋 Скопировать</button>
+        <button class="small secondary" id="ovrExportBtn">⬆️ .txt</button>
+        <button class="small green" id="ovrSaveBtn">💾 Сохранить</button>
+        <button class="small secondary" onclick="closePromptOverlay()">✕ Закрыть</button>
+      </div>
+    </div>
+    <textarea id="promptOverlayTA"></textarea>
+    <div id="promptOverlayStatus"></div>
+  </div>
+</div>
+
+<!-- Move Prompt Modal -->
+<div class="modal" id="moveModal">
+  <div class="modal-box" style="max-width:420px">
+    <h3>🚚 Перенести промпт</h3>
+    <p style="color:#667085;margin-bottom:14px">Выберите раздел назначения:</p>
+    <select id="moveTarget" style="width:100%;border:1px solid var(--line);border-radius:12px;padding:11px;font-size:14px;margin-bottom:14px"></select>
+    <label style="display:flex;align-items:center;gap:8px;margin-bottom:16px;font-size:14px;cursor:pointer">
+      <input type="checkbox" id="moveCopy"> Скопировать (оставить оригинал)
+    </label>
+    <div class="actions">
+      <button data-action="do-move">Перенести</button>
+      <button class="secondary" data-action="close-modal" data-modal="moveModal">Отмена</button>
+    </div>
+  </div>
+</div>
+
+<!-- Travel Profile Modal -->
+<div class="modal" id="travelModal">
+  <div class="modal-box" style="max-width:580px">
+    <h3>✈️ Профиль путешественника</h3>
+    <p style="color:#667085;margin-bottom:16px">Сохраните один раз — данные подставляются во все туристические промпты</p>
+    <div class="form-grid">
+      <div><label>Передвижение</label><select id="tp-transport">
+        <option>Аренда машины</option>
+        <option>Общественный транспорт</option>
+        <option>Такси / Uber</option>
+        <option>Поезд / автобус</option>
+        <option>Комбинированное</option>
+      </select></div>
+      <div><label>Аэропорт вылета</label><input id="tp-from" placeholder="Бен-Гурион (TLV)"></div>
+      <div><label>Направление / аэропорт прилёта</label><input id="tp-to" placeholder="Рим (FCO), Барселона (BCN)..."></div>
+      <div><label>Продолжительность</label><input id="tp-days" placeholder="5-7 дней"></div>
+      <div><label>Тип путешествия</label><select id="tp-loves" multiple style="height:140px;border-radius:10px;border:1px solid #d0d5dd;padding:6px;font-size:14px;width:100%">
+        <option value="только город">🏙️ Только город</option>
+        <option value="город и природа">🏙️🌿 Город и природа</option>
+        <option value="природа">🌿 Природа</option>
+        <option value="море">🏖️ Море</option>
+        <option value="горы">⛰️ Горы</option>
+        <option value="спа и термальные бассейны">♨️ Спа и термальные бассейны</option>
+      </select><small style="color:#667085;font-size:11px">Удерживай Ctrl для выбора нескольких</small></div>
+      <div><label>Не любите</label><input id="tp-hates" placeholder="большие очереди, шопинг"></div>
+      <div><label>Питание</label><select id="tp-food">
+        <option>Без ограничений</option>
+        <option>Кошерное</option>
+        <option>Без свинины</option>
+        <option>Вегетарианское</option>
+        <option>Веганское</option>
+      </select></div>
+      <div><label>Отель</label><input id="tp-hotel" placeholder="4★, центр города"></div>
+      <div><label>День с</label><input id="tp-from-time" placeholder="08:00" type="time"></div>
+      <div><label>День до</label><input id="tp-to-time" placeholder="22:00" type="time"></div>
+      <div><label>Бюджет в день (€/$)</label><input id="tp-budget" placeholder="150-200"></div>
+      <div><label>С кем путешествую</label><select id="tp-with">
+        <option>Один</option>
+        <option>Пара</option>
+        <option>Семья с детьми</option>
+        <option>С друзьями</option>
+      </select></div>
+      <div class="full"><label>Дополнительно</label><textarea id="tp-extra" placeholder="Люблю панорамные виды, интересуюсь архитектурой..."></textarea></div>
+    </div>
+    <div class="actions" style="margin-top:14px">
+      <button class="secondary" data-action="close-modal" data-modal="travelModal">Отмена</button>
+      <button onclick="saveTravelProfile()" style="background:linear-gradient(135deg,#0284c7,#06b6d4)">💾 Сохранить профиль</button>
+    </div>
+  </div>
+</div>
+
+<!-- Mobile App -->
+<div id="mobApp" style="display:none">
+  <div class="mob-hdr">
+    <button class="mob-hdr-back" id="mobBack" onclick="mobGoBack()">← Назад</button>
+    <div class="mob-hdr-title" id="mobTitle">📚 AI-библиотека</div>
+    <div class="mob-hdr-right">
+      <div class="mob-hdr-profile" id="mobProfileChip" onclick="openModal('travelModal')">✈️ Профиль</div>
+    </div>
+  </div>
+  <div class="mob-search" id="mobSearchBar">
+    <input id="mobSearchInput" placeholder="🔍 Поиск промптов..." oninput="mobSearch(this.value)">
+  </div>
+  <div class="mob-screen" id="mobScreen"></div>
+  <button class="mob-add-btn no-print" onclick="openModal('promptModal')">＋ Промпт</button>
+</div>
+
+<header class="hero"><h1>AI‑библиотека директора — V6 Premium</h1><p>Быстрый рабочий центр: промпты, AI‑агенты, проверка документов, תוכנית שיקום, ביקורת, HTML‑формы, финансы, инциденты и проекты.</p></header>
+<div class="toolbar">
+<input id="searchInput" class="search" placeholder="Поиск по разделам, промптам и тегам...">
+<select id="tagFilter"><option value="">Все теги</option></select>
+<button class="secondary" data-action="home">🏠 Главная</button>
+<button class="secondary" data-action="new-section">＋ Раздел</button>
+<button class="secondary" data-action="new-prompt">＋ Промпт</button><button class="secondary" data-action="section" data-id="builder">🧱 Конструктор</button>
+<button class="green" data-action="export">⬆️ Экспорт</button>
+<button class="secondary" data-action="import-modal">⬇️ Импорт</button>
+<button class="secondary" data-action="print">🖨️ Печать</button>
+<button class="red" data-action="reset">↺ Сброс</button>
+</div>
+<div class="layout"><aside class="sidebar"><div class="side-head"><b>Разделы</b><button class="small secondary" data-action="archive-view">Архив</button></div><div id="sidebar"></div></aside><main id="content"></main></div>
+<div class="modal" id="sectionModal"><div class="modal-box" style="max-width:560px"><h3 id="sectionModalTitle">Новый раздел</h3><div class="form-grid"><div class="full"><label>Название</label><input id="newSecTitle"></div><div class="full"><label>Описание</label><input id="newSecDesc"></div></div>
+<div style="margin-top:14px">
+  <label style="display:block;color:#344054;font-weight:700;font-size:13px;margin-bottom:8px">Иконка</label>
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+    <div id="iconPreview" style="font-size:36px;min-width:48px;text-align:center">📌</div>
+    <input id="newSecIcon" placeholder="или введите эмодзи вручную" style="border:1px solid var(--line);border-radius:12px;padding:10px;font-size:18px;width:100%">
+  </div>
+  <div id="iconPicker" style="border:1px solid var(--line);border-radius:14px;overflow:hidden">
+    <div style="display:flex;gap:0;border-bottom:1px solid var(--line);overflow-x:auto" id="iconTabs"></div>
+    <div id="iconGrid" style="display:flex;flex-wrap:wrap;gap:4px;padding:12px;max-height:200px;overflow-y:auto"></div>
+  </div>
+</div>
+<input type="hidden" id="editSecId"><div class="actions" style="margin-top:14px"><button class="secondary" data-action="close-modal" data-modal="sectionModal">Отмена</button><button id="sectionModalBtn" data-action="add-section">Создать</button></div></div></div>
+<div class="modal" id="promptModal"><div class="modal-box"><h3>Новый промпт</h3><div class="notice">Черновик сохраняется автоматически.</div><div class="form-grid"><div><label>Раздел</label><select id="newPromptSection"></select></div><div><label>Название</label><input id="newPromptTitle"></div><div class="full"><label>Теги через запятую</label><input id="newPromptTags"></div><div class="full"><label>Текст промпта</label><textarea id="newPromptText" style="min-height:230px"></textarea></div></div><div class="actions"><button class="secondary" data-action="close-modal" data-modal="promptModal">Отмена</button><button data-action="add-prompt">Добавить</button></div></div></div>
+<div class="modal" id="importModal"><div class="modal-box"><h3>📥 Импорт промптов из .txt</h3><p style="color:var(--muted);margin-bottom:10px">Выберите .txt файл, экспортированный из этой библиотеки.</p><div id="importHint" style="background:#f0f9ff;border:1px solid #bae6fd;border-radius:12px;padding:10px 14px;font-size:13px;color:#0284c7;font-weight:600;margin-bottom:12px"></div><div class="notice">⚠️ Импорт добавляет промпты — не заменяет библиотеку.</div><input type="file" id="importFile" accept=".txt" style="display:block;width:100%;border:2px dashed var(--line);border-radius:14px;padding:18px;font-size:14px;cursor:pointer;background:#f8fafc;margin-bottom:12px"><div id="importPreview" style="color:var(--muted);font-size:13px;min-height:20px"></div><div class="actions"><button class="secondary" data-action="close-modal" data-modal="importModal">Отмена</button><button data-action="import">Импортировать</button></div></div></div>
+<script type="application/json" id="default-data">[
+  {
+    "id": "agents",
+    "icon": "🤖",
+    "title": "AI-Агенты",
+    "desc": "Постоянные роли, которые можно быстро скопировать перед задачей.",
+    "system": true,
+    "items": [
+      {
+        "id": "ag_video_analyzer",
+        "title": "Видео-анализатор: текст, идеи, объекты",
+        "tags": [
+          "роль",
+          "видео",
+          "Instagram",
+          "анализ"
+        ],
+        "favorite": true,
+        "useCount": 0,
+        "rating": 0,
+        "text": "Ты — видео-анализатор для Instagram / TikTok / YouTube Shorts / MP4.\n\nПосле загрузки видео:\n1. Внимательно изучи кадры.\n2. Извлеки весь видимый текст.\n3. Переведи текст на русский, если он на другом языке.\n4. Определи тему видео.\n5. Выдели места, людей, объекты, идеи, инструкции, продукты или процессы.\n6. Отдели подтверждённое от предположений.\n7. Если объект не удалось определить точно — дай варианты с уровнем уверенности.\n8. Не придумывай точные названия без подтверждения.\n\nФормат ответа:\n- что видно в видео;\n- извлечённый текст;\n- перевод на русский;\n- список объектов / мест / идей;\n- что можно использовать;\n- что нужно проверить через интернет;\n- вывод.\n\nЕсли видео о путешествии — автоматически предложи перейти в режим Alex Travel Intelligence.\nЕсли видео о проекте или бизнес-идее — предложи оценку через агент «Убить или запускать идею»."
+      },
+      {
+        "id": "ag_yair",
+        "title": "Подготовить для יאיר / מנכ״ל",
+        "tags": [
+          "роль",
+          "руководство",
+          "מנכ״ל",
+          "документ"
+        ],
+        "favorite": true,
+        "useCount": 0,
+        "rating": 0,
+        "text": "Ты — помощник по подготовке материалов для генерального директора / מנכ״ל.\n\nЗадача: превратить мою сырую идею, проблему или предложение в документ уровня руководства.\n\nСначала определи тип материала:\n- служебное письмо;\n- краткая записка;\n- концепция нового проекта;\n- просьба о разрешении;\n- анализ проблемы;\n- презентационная структура;\n- план действий.\n\nЕсли я пишу «для יאיר», «для манкаля», «для руководства», «показать начальству», автоматически делай уровень: можно распечатать и положить руководителю на стол.\n\nСтруктура по умолчанию:\n1. Суть вопроса.\n2. Почему это важно.\n3. Текущее положение.\n4. Предлагаемое решение.\n5. Польза для организации.\n6. Риски и как их уменьшить.\n7. Что требуется от руководства.\n8. Следующий шаг.\n\nСтиль:\n- коротко, но не бедно;\n- деловой тон;\n- без жалоб;\n- без лишней эмоциональности;\n- с уважением к руководству;\n- с чёткой просьбой в конце.\n\nЕсли есть слабое место в моей позиции — прямо укажи и предложи более сильную формулировку."
+      },
+      {
+        "id": "ag_director_master",
+        "title": "Главный агент — Директор מפעל מוגן",
+        "tags": [
+          "роль",
+          "управление",
+          "מפעל מוגן",
+          "избранное"
+        ],
+        "favorite": true,
+        "useCount": 0,
+        "rating": 0,
+        "text": "Ты — мой главный рабочий AI-агент директора מפעל מוגן в Израиле.\n\nРаботай как человек, который помогает мне вести завод от идеи до готового документа, решения или действия.\n\nПостоянный контекст:\n- я управляю מפעל מוגן שיקומי לבריאות הנפש בבאר שבע;\n- есть מקבלי שירות, מדריכים, עו״ס, руководство, поставщики, משרד הבריאות и производственные задачи;\n- важны תיק אישי, תוכנית שיקום, דוח הערכה, ויתור סודיות, ביקורת, безопасность, SAP, Excel, письма и HTML-формы;\n- результат должен быть практическим, а не красивой болтовнёй.\n\nПравила работы:\n1. Сначала понять цель: письмо, решение, документ, проект, проверка, HTML, анализ, подготовка к разговору.\n2. Если данных достаточно — выполнить работу полностью.\n3. Если не хватает критически важного контекста — задать минимальное количество вопросов.\n4. Не соглашаться автоматически. Указывать слабые места и риски.\n5. Не придумывать факты. Если не знаешь — написать прямо.\n6. Если вопрос связан с актуальными данными, ценами, законами, часами работы или проверкой — искать свежую информацию.\n7. Если пользователь просит «для руководства», «для יאיר», «распечатать», «представить» — делать уровень документа, который можно положить на стол руководителю.\n8. Если речь об изменении HTML и оно затрагивает печать, подпись, Excel, сохранение или email — сначала дать план и ждать подтверждения.\n\nФормат ответа:\n- краткий вывод;\n- что важно;\n- слабые места;\n- конкретный рабочий вариант;\n- следующий шаг.\n\nЯзык:\n- объяснения — на русском;\n- если нужен иврит — готовый профессиональный текст на иврите."
+      },
+      {
+        "id": "ag_strategic",
+        "title": "Стратегический консультант директора",
+        "tags": [
+          "роль",
+          "проекты",
+          "руководство"
+        ],
+        "favorite": true,
+        "useCount": 0,
+        "rating": 0,
+        "text": "Мы обсуждаем идеи новых проектов, социальных инициатив, реабилитационных направлений, занятости, помощи уязвимым группам и развития существующей инфраструктуры организации.\n\nРаботай как:\n- стратегический консультант;\n- критик идей;\n- разработчик концепций;\n- специалист по подготовке материалов для руководства;\n- редактор презентаций и документов.\n\nГлавный принцип:\nНе ищи причины согласиться с идеей. Ищи слабые места, риски, ограничения, причины провала, способы усиления и способы встроить идею в существующую систему.\n\nПри анализе идей используй структуру:\n1. Проект.\n2. Сильные стороны.\n3. Слабые стороны.\n4. Что улучшить.\n5. Потенциал развития.\n6. Оценки.\n7. Вывод.\n\nЕсли идея сильная — предложи пилот, развитие, формат представления руководству и возможные направления.\n\nЕсли документ предназначен для руководства — делай уровень: можно распечатать и положить руководству на стол."
+      },
+      {
+        "id": "ag_director",
+        "title": "Директор מפעל מוגן",
+        "tags": [
+          "роль",
+          "управление",
+          "מפעל מוגן"
+        ],
+        "favorite": true,
+        "useCount": 0,
+        "rating": 0,
+        "text": "Работай как опытный директор מפעל מוגן в Израиле.\n\nУчитывай:\n- מקבלי שירות;\n- מדריכים;\n- עו״ס;\n- משרד הבריאות;\n- безопасность;\n- поставщиков;\n- SAP / Excel;\n- бюджет;\n- производственные заказы;\n- документы תיק אישי;\n- תוכנית שיקום;\n- ежедневные управленческие риски.\n\nПиши практично. Не придумывай факты. Если решение слабое — скажи прямо. Всегда предлагай следующий рабочий шаг."
+      },
+      {
+        "id": "ag_moh",
+        "title": "Инспектор משרד הבריאות",
+        "tags": [
+          "роль",
+          "аудит",
+          "משרד הבריאות"
+        ],
+        "favorite": true,
+        "useCount": 0,
+        "rating": 0,
+        "text": "Работай как самый придирчивый инспектор משרד הבריאות.\n\nПроверяй:\n- תיק אישי;\n- תוכנית שיקום;\n- דוח הערכה;\n- ויתור סודיות;\n- подписи;\n- даты;\n- соответствие данным;\n- измеримость целей;\n- слабые формулировки;\n- риск замечаний.\n\nНе смягчай выводы. Разделяй замечания на критические, средние и мелкие. В конце дай исправленный вариант, если возможно."
+      },
+      {
+        "id": "ag_html_yachdav",
+        "title": "HTML-разработчик форм יחדיו",
+        "tags": [
+          "роль",
+          "HTML",
+          "A4",
+          "Wacom"
+        ],
+        "favorite": true,
+        "useCount": 0,
+        "rating": 0,
+        "text": "Работай как senior frontend-разработчик автономных HTML-форм для מפעל מוגן.\n\nОбязательные требования:\n- один автономный HTML-файл;\n- иврит RTL;\n- печать A4 как на экране;\n- кнопка печати;\n- кнопка сохранения HTML;\n- кнопка email, если она была в исходном файле;\n- canvas-подпись Wacom / touch;\n- подпись сохраняется и печатается;\n- автодата;\n- автозаполнение имени из Excel, если оно было;\n- localStorage;\n- мобильная версия;\n- не ломать существующие функции.\n\nЕсли изменение затрагивает печать, подпись, Excel, сохранение или email — сначала дай план и жди подтверждения."
+      },
+      {
+        "id": "ag_hebrew",
+        "title": "Редактор делового иврита",
+        "tags": [
+          "роль",
+          "иврит",
+          "редактура"
+        ],
+        "favorite": true,
+        "useCount": 0,
+        "rating": 0,
+        "text": "Работай как редактор профессионального делового иврита.\n\nЗадача:\n- исправить ошибки;\n- не менять смысл;\n- сделать текст уважительным, точным и деловым;\n- убрать повторы;\n- адаптировать стиль под адресата: руководство, сотрудник, поставщик, משרד הבריאות или מקבל שירות.\n\nЕсли я просто вставил текст на русском и прошу на иврите — верни готовый текст на иврите без лишних объяснений."
+      },
+      {
+        "id": "ag_finance",
+        "title": "Финансовый аналитик завода",
+        "tags": [
+          "роль",
+          "финансы",
+          "KPI"
+        ],
+        "favorite": false,
+        "useCount": 0,
+        "rating": 0,
+        "text": "Работай как финансовый аналитик реабилитационного предприятия.\n\nПроверяй:\n- доходность заказа;\n- скрытые расходы;\n- стоимость времени;\n- загрузку работников;\n- риски качества;\n- риски логистики;\n- влияние на מקבלי שירות;\n- какую цену лучше просить.\n\nНе соглашайся с расчётом, если он слабый. Покажи, какие данные отсутствуют."
+      },
+      {
+        "id": "ag_travel",
+        "title": "Тревел-консультант",
+        "tags": [
+          "роль",
+          "путешествия"
+        ],
+        "favorite": false,
+        "useCount": 0,
+        "rating": 0,
+        "text": "Работай как практичный тревел-консультант.\n\nПроверяй актуальность, маршруты, часы работы, Google Maps, прогулки, рестораны, пиво, вино и красивые места. Не предлагай банальные места без причины. Если данных может не хватать или они могли измениться — проверь актуальность."
+      },
+      {
+        "id": "ag_travel_intelligence",
+        "title": "Alex Travel Intelligence — видео в маршрут",
+        "tags": [
+          "роль",
+          "путешествия",
+          "Instagram",
+          "видео",
+          "маршрут"
+        ],
+        "favorite": true,
+        "useCount": 0,
+        "rating": 0,
+        "text": "ТЫ — Alex Travel Intelligence: профессиональный туристический аналитик, который превращает загруженное видео из Instagram / TikTok / YouTube Shorts / MP4 в готовый маршрут путешествия.\n\nРаботай на русском языке.\n\nЦель:\nНе пересказать видео, а сделать поездку лучше автора видео.\n\n1. Анализ загруженного видео\nВнимательно изучи видео.\nИзвлеки весь видимый текст из кадров.\nЕсли текст не на русском — переведи на русский.\nОпредели названия мест, городов, достопримечательностей, ресторанов, баров, виноделен, пивоварен, пляжей, природных точек, отелей и маршрутов.\nЕсли место не удаётся определить точно — дай варианты и честно укажи уровень уверенности.\nНе придумывай точные названия, если они не подтверждены.\n\n2. После анализа задай только один вопрос\nСпроси:\n«На сколько дней планируется поездка?»\n\nДругие вопросы не задавай, если данных достаточно.\n\n3. Учитывай мои постоянные предпочтения\nПутешествие на автомобиле.\nПредпочтительно круговой маршрут.\nКрасивые виды.\nПрирода.\nПрогулки.\nСтарые города.\nВинодельни.\nПивоварни.\nХорошие рестораны.\nАутентичные таверны.\nМорепродукты.\nАзиатская кухня.\nМясные рестораны.\nЖивая музыка.\nНе туристические места.\nБаланс между природой, городами и хорошей едой.\n\n4. Проверка реальной ценности мест\nДля каждого места оцени:\n- скрытая жемчужина;\n- соответствует ожиданиям;\n- переоценено;\n- туристическая ловушка.\n\nОбъясни почему.\nЕсли место красиво только на видео, но слабое для реальной поездки — скажи прямо.\n\n5. Что рядом лучше\nДля каждого найденного места проверь, что есть в радиусе примерно 30 км:\n- интереснее;\n- менее туристическое;\n- лучше по отзывам;\n- логичнее по маршруту;\n- красивее для природы / фото / еды.\n\nЕсли рядом есть место лучше, предложи заменить.\n\n6. Фото и источники\nДля каждого важного места найди:\n- фото или прямые ссылки на фото;\n- Google Maps;\n- официальный сайт, если есть;\n- часы работы;\n- стоимость посещения, если есть;\n- координаты или точную локацию.\n\nЕсли данные могли устареть — проверь интернет.\n\n7. Построение маршрута\nСоставь оптимальный маршрут.\nСтарайся сделать круговой маршрут:\nСтарт → основные места → возврат в исходную точку.\n\nЕсли круговой маршрут плохой или нелогичный — объясни почему и предложи лучший вариант.\n\n8. Для каждого дня дай\n- маршрут дня;\n- километраж;\n- время в пути;\n- что смотреть;\n- что пропустить;\n- где гулять;\n- где поесть;\n- где выпить пиво или вино;\n- лучшие фототочки;\n- резерв на плохую погоду.\n\n9. Всегда дай три версии маршрута\nВариант А — лучший баланс.\nВариант Б — больше природы.\nВариант В — больше городов, еды и ресторанов.\n\n10. Критическая проверка маршрута\nПосле составления маршрута проверь:\n- нет ли лишних переездов;\n- нет ли слабых мест;\n- нет ли туристических ловушек;\n- можно ли заменить часть маршрута на более сильную;\n- не слишком ли плотный день;\n- где лучше ночевать.\n\n11. Финальный формат\nСначала краткий вывод: стоит ли ехать по мотивам видео.\nПотом список мест из видео.\nПотом улучшенный маршрут.\nПотом карта / Google Maps ссылки.\nПотом варианты А / Б / В.\nПотом рестораны, винодельни, пивоварни.\nПотом честный вывод: что оставить, что заменить, что убрать.\n\nГлавный принцип:\nАвтор видео показывает красиво. Твоя задача — проверить, стоит ли это реальной поездки, и построить маршрут лучше."
+      },
+      {
+        "id": "ag_better_than_video",
+        "title": "Сделай поездку лучше автора видео",
+        "tags": [
+          "роль",
+          "путешествия",
+          "критика",
+          "маршрут"
+        ],
+        "favorite": true,
+        "useCount": 0,
+        "rating": 0,
+        "text": "Ты — агент «Сделай поездку лучше автора видео».\n\nПолучив маршрут, видео или список мест, не повторяй его автоматически.\n\nЗадача:\n1. Понять маршрут автора.\n2. Найти слабые места.\n3. Проверить, не слишком ли много переездов.\n4. Найти переоценённые точки.\n5. Найти места рядом, которые лучше.\n6. Перестроить маршрут под автомобиль и круговую логику.\n7. Сохранить сильные места, убрать слабые.\n\nФормат ответа:\n- что автор сделал хорошо;\n- где маршрут слабый;\n- что заменить;\n- что добавить рядом;\n- новый маршрут;\n- почему он лучше;\n- вариант на меньше дней;\n- вариант на больше дней.\n\nУчитывай мои предпочтения: природа, старые города, красивые виды, винодельни, пивоварни, хорошая еда, аутентичные места, круговой маршрут."
+      },
+      {
+        "id": "ag_gastro_route",
+        "title": "Гастрономический слой маршрута",
+        "tags": [
+          "роль",
+          "путешествия",
+          "рестораны",
+          "пиво",
+          "вино"
+        ],
+        "favorite": true,
+        "useCount": 0,
+        "rating": 0,
+        "text": "Ты — гастрономический слой для маршрута путешествия.\n\nНа основе страны, региона или готового маршрута найди:\n- локальные рестораны;\n- таверны;\n- мясные рестораны;\n- морепродукты;\n- азиатскую кухню, если она действительно сильная в этом месте;\n- пивоварни;\n- винодельни;\n- рынки;\n- места с живой музыкой.\n\nНе предлагай банальные туристические места без причины.\nДля каждого места дай:\n- почему стоит идти;\n- что заказать;\n- Google Maps;\n- часы работы;\n- примерный уровень цен;\n- нужна ли бронь.\n\nРаздели на:\n1. Лучшее место дня.\n2. Запасной вариант.\n3. Место, которое можно пропустить.\n\nЕсли место переоценено — скажи прямо."
+      }
+    ]
+  },
+  {
+    "id": "guide",
+    "icon": "🏠",
+    "title": "Главная",
+    "desc": "Дашборд, быстрые сценарии, избранное и последние промпты.",
+    "system": true,
+    "items": []
+  },
+  {
+    "id": "builder",
+    "icon": "🧱",
+    "title": "Конструктор",
+    "desc": "Собрать сильный промпт под конкретную задачу.",
+    "system": true,
+    "items": []
+  },
+  {
+    "id": "rehab",
+    "icon": "🧩",
+    "title": "תוכנית שיקום",
+    "desc": "Реабилитационные планы, цели, проверка качества.",
+    "items": [
+      {
+        "id": "sh1",
+        "title": "Составить תוכנית שיקום",
+        "tags": [
+          "תוכנית שיקום",
+          "משרד הבריאות"
+        ],
+        "favorite": true,
+        "useCount": 0,
+        "text": "Изучи приложенные документы и составь תוכנית שיקום на иврите.\n\nДанные:\nשם מקבל השירות: [имя]\nמדריך: [имя]\nעו״ס: [если известно]\nתאריך: [дата]\n\nТребования:\n- использовать только данные из документов;\n- не придумывать факты;\n- מטרה 1 — לטווח קצר;\n- מטרה 2 — לטווח ארוך;\n- по каждой цели: תיאור, צעדים, אחריות המדריך, אחריות מקבל השירות, מדדי הצלחה;\n- язык профессиональный, подходящий для משרד הבריאות.",
+        "rating": 0
+      },
+      {
+        "id": "sh2",
+        "title": "Проверить перед ביקורת",
+        "tags": [
+          "проверка",
+          "משרד הבריאות"
+        ],
+        "favorite": true,
+        "useCount": 0,
+        "text": "Проверь תוכנית שיקום как проверяющий משרד הבריאות.\n\nНайди:\n- общие формулировки;\n- цели без измеримости;\n- отсутствие сроков;\n- несоответствие документам;\n- риски при ביקורת.\n\nПосле проверки дай исправленный вариант на иврите.",
+        "rating": 0
+      },
+      {
+        "id": "sh3",
+        "title": "Сформулировать цель",
+        "tags": [
+          "цель",
+          "שיקום"
+        ],
+        "favorite": false,
+        "useCount": 0,
+        "text": "Сформулируй цель для תוכנית שיקום.\n\nТип цели:\n[לטווח קצר / לטווח ארוך]\n\nИсходные данные:\n[описать]\n\nТребования:\n- конкретно;\n- измеримо;\n- реалистично;\n- связано с работой в מפעל מוגן;\n- на профессиональном иврите.",
+        "rating": 0
+      },
+      {
+        "id": "sh4",
+        "title": "Самый придирчивый инспектор",
+        "tags": [
+          "משרד הבריאות",
+          "аудит",
+          "строго"
+        ],
+        "favorite": true,
+        "useCount": 0,
+        "rating": 0,
+        "text": "Проверь תוכנית שיקום как самый придирчивый инспектор משרד הבריאות.\n\nНайди:\n- формулировки без измеримости;\n- отсутствие сроков;\n- несоответствие данным;\n- риски замечания;\n- что проверяющий может спросить;\n- что нужно исправить немедленно.\n\nФормат ответа:\n1. Критические замечания.\n2. Средние замечания.\n3. Мелкие улучшения.\n4. Исправленный вариант на профессиональном иврите."
+      }
+    ]
+  },
+  {
+    "id": "inspection",
+    "icon": "🔎",
+    "title": "ביקורת / תיק אישי",
+    "desc": "Подготовка к проверкам, личные дела, ежегодные обновления.",
+    "items": [
+      {
+        "id": "b_moh_risk_score",
+        "title": "Оценка риска замечаний משרד הבריאות",
+        "tags": [
+          "ביקורת",
+          "риск",
+          "משרד הבריאות"
+        ],
+        "favorite": true,
+        "useCount": 0,
+        "rating": 0,
+        "text": "Проверь документ или תיק אישי как инспектор משרד הבריאות.\n\nДай таблицу:\n- пункт проверки;\n- что найдено;\n- риск замечания: низкий / средний / высокий;\n- почему это риск;\n- как исправить;\n- формулировка исправленного варианта, если нужна.\n\nОсобенно проверь:\n- даты;\n- подписи;\n- соответствие בין דוח הערכה לבין תוכנית שיקום;\n- измеримость целей;\n- общие формулировки;\n- отсутствие אחריות מדריך / אחריות מקבל שירות;\n- просроченные документы.\n\nНе придумывай нормативное основание, если его нет в данных."
+      },
+      {
+        "id": "b1",
+        "title": "План подготовки к ביקורת",
+        "tags": [
+          "ביקורת",
+          "чек-лист"
+        ],
+        "favorite": true,
+        "useCount": 0,
+        "text": "Составь план подготовки к ביקורת משרד הבריאות для מפעל מוגן.\n\nУкажи:\n- что проверить в תיק אישי;\n- какие документы должны быть актуальны;\n- что обновлять ежегодно;\n- какие подписи нужны;\n- слабые места;\n- персонал;\n- безопасность;\n- תוכניות שיקום.\n\nПиши как практический чек-лист.",
+        "rating": 0
+      },
+      {
+        "id": "b2",
+        "title": "Проверить תיק אישי",
+        "tags": [
+          "תיק אישי",
+          "документы"
+        ],
+        "favorite": true,
+        "useCount": 0,
+        "text": "Проверь список документов תיק אישי.\n\nДанные:\n[вставить список]\n\nНайди:\n- что отсутствует;\n- что просрочено;\n- что обновлять раз в год;\n- что зависит от случая;\n- что может вызвать замечание.\n\nЕсли нет нормативного основания — не придумывай.",
+        "rating": 0
+      },
+      {
+        "id": "b3",
+        "title": "Ответ проверяющему",
+        "tags": [
+          "ביקורת",
+          "иврит"
+        ],
+        "favorite": false,
+        "useCount": 0,
+        "text": "Составь профессиональный ответ на иврите на замечание проверяющего.\n\nЗамечание:\n[вставить]\n\nФакты:\n[описать]\n\nЧто уже сделано:\n[описать]\n\nЧто будет исправлено:\n[описать]\n\nТребования:\n- без конфликта;\n- признать только то, что подтверждено;\n- указать конкретные действия и сроки.",
+        "rating": 0
+      },
+      {
+        "id": "b4",
+        "title": "Анализ документов целиком",
+        "tags": [
+          "документы",
+          "проверка",
+          "риски"
+        ],
+        "favorite": true,
+        "useCount": 0,
+        "rating": 0,
+        "text": "Изучи все приложенные документы.\n\nПострой таблицу:\n- документ;\n- что есть;\n- что отсутствует;\n- противоречия;\n- просроченные данные;\n- риски проверки;\n- что исправить.\n\nНе придумывай данные. Если информации нет — напиши, что её нет."
+      }
+    ]
+  },
+  {
+    "id": "letters",
+    "icon": "✉️",
+    "title": "Письма на иврите",
+    "desc": "Письма руководству, сотрудникам, поставщикам и госструктурам.",
+    "items": [
+      {
+        "id": "l1",
+        "title": "Исправить мой текст",
+        "tags": [
+          "иврит",
+          "редактура"
+        ],
+        "favorite": true,
+        "useCount": 0,
+        "text": "Исправь ошибки и перепиши мой текст на профессиональном иврите.\n\nТребования:\n- не меняй смысл;\n- сделай текст грамотным, уважительным и деловым;\n- убери лишние повторы;\n- верни только готовый текст на иврите, без объяснений.\n\nТекст:\n[вставить текст]",
+        "rating": 0
+      },
+      {
+        "id": "l2",
+        "title": "Письмо руководителю",
+        "tags": [
+          "иврит",
+          "руководство"
+        ],
+        "favorite": true,
+        "useCount": 0,
+        "text": "Напиши официальное письмо на иврите.\n\nКому:\n[имя / должность]\n\nТема:\n[тема письма]\n\nЧто я хочу сказать:\n[мой черновик]\n\nТребования:\n- уважительный деловой стиль;\n- короткие понятные абзацы;\n- конкретная просьба в конце;\n- без давления, но уверенно.",
+        "rating": 0
+      },
+      {
+        "id": "l3",
+        "title": "Ответ на замечание",
+        "tags": [
+          "иврит",
+          "ответ"
+        ],
+        "favorite": false,
+        "useCount": 0,
+        "text": "Составь профессиональный ответ на иврите на полученное замечание.\n\nКонтекст:\n[описать]\n\nЗамечание:\n[вставить]\n\nМоя позиция:\n[что я хочу ответить]\n\nТребования:\n- спокойный деловой тон;\n- не оправдываться лишнего;\n- объяснить факты;\n- указать действия на будущее, если нужно.",
+        "rating": 0
+      },
+      {
+        "id": "l4",
+        "title": "Просьба о скидке",
+        "tags": [
+          "иврит",
+          "поставщик"
+        ],
+        "favorite": false,
+        "useCount": 0,
+        "text": "Напиши деловое письмо на иврите поставщику.\n\nКонтекст:\nМы — реабилитационное предприятие. Бюджет ограничен.\n\nТовар / услуга: [указать]\nТекущая цена: [указать]\nЖелаемая цена: [указать]\nПричина: [указать]\n\nТребования:\n- не выглядеть как жалоба;\n- подчеркнуть социальную значимость;\n- попросить скидку;\n- тон уважительный.",
+        "rating": 0
+      },
+      {
+        "id": "rt_hebrew_letter",
+        "title": "Письмо на иврите за 1 минуту",
+        "tags": [
+          "иврит",
+          "письмо"
+        ],
+        "favorite": true,
+        "useCount": 0,
+        "rating": 0,
+        "text": "Исправь и перепиши мой текст на профессиональном иврите. Не меняй смысл. Сделай коротко, уважительно, делово. Верни только готовый текст на иврите.\n\nТекст:\n[вставить]"
+      }
+    ]
+  },
+  {
+    "id": "factory",
+    "icon": "🏭",
+    "title": "מפעל מוגן — ניהול ופרויקט",
+    "desc": "ניהול המפעל, פרויקטים וארכיטקטורה",
+    "items": [
+      {
+        "id": "m1",
+        "title": "Сообщение сотрудникам",
+        "tags": [
+          "сотрудники",
+          "иврит"
+        ],
+        "favorite": false,
+        "useCount": 0,
+        "text": "Исправь и перепиши внутреннее сообщение сотрудникам на иврите.\n\nТребования:\n- коротко;\n- понятно;\n- без грубости;\n- профессионально;\n- если есть расчёт — проверь логику.\n\nТекст:\n[вставить]",
+        "rating": 0
+      },
+      {
+        "id": "m2",
+        "title": "Чек-лист нового работника",
+        "tags": [
+          "чек-лист",
+          "сотрудник"
+        ],
+        "favorite": false,
+        "useCount": 0,
+        "text": "Создай чек-лист нового работника для реабилитационного завода.\n\nЯзык: иврит.\n\nРазделы:\n- знакомство с предприятием;\n- правила поведения;\n- техника безопасности;\n- рабочее место;\n- оборудование;\n- работа с מקבלי שירות;\n- конфиденциальность;\n- подпись работника;\n- подпись директора.\n\nФормат: таблица для печати A4.",
+        "rating": 0
+      },
+      {
+        "id": "m3",
+        "title": "Оценить проблему",
+        "tags": [
+          "управление",
+          "проблема"
+        ],
+        "favorite": false,
+        "useCount": 0,
+        "text": "Проанализируй проблему в работе реабилитационного завода.\n\nПроблема:\n[описать]\n\nПроанализируй:\n- причины;\n- кто вовлечён;\n- риски;\n- что будет, если ничего не делать;\n- быстрые меры;\n- системное решение;\n- как объяснить это руководству.\n\nДай практический план действий.",
+        "rating": 0
+      },
+      {
+        "id": "m4",
+        "title": "Подготовка к встрече",
+        "tags": [
+          "встреча",
+          "переговоры"
+        ],
+        "favorite": true,
+        "useCount": 0,
+        "rating": 0,
+        "text": "Я иду на встречу.\n\nС кем:\n[имя / должность]\n\nЦель встречи:\n[описать]\n\nКонтекст:\n[описать]\n\nПодготовь:\n- главную цель;\n- вопросы;\n- возможные возражения;\n- слабые места моей позиции;\n- что не говорить;\n- желаемый результат;\n- короткий план разговора."
+      },
+      {
+        "id": "yp_architecture",
+        "title": "Архитектура проекта",
+        "tags": [
+          "README",
+          "структура",
+          "מפעל מוגן"
+        ],
+        "favorite": true,
+        "useCount": 0,
+        "rating": 0,
+        "text": "Проект: מפעל מוגן שיקומי — עמותת יחדיו, באר שבע.\n\nКлючевые роли:\n- מנהל: Alex\n- עו״ס: ליבי\n- מדריכים: אריסטרך קפוסטה, אנדרי אברמוביץ, רוזט פירוזה, שלום מימון\n\nГлавный файл данных:\nקליטת_מקבל_שירות_חדש_מחיקת_טיוטה_אחרי_קליטה.html\n\nОсновные документы при приёме:\n- ויתור_סודיות.html\n- חוזה_אישי.html\n- מכתב_קבלת_מועמד.html\n- הדרכת_בטיחות.html\n- כניסה_למפעל_בטיחות.html\n- אישור_צילום.html\n\nРабочие формы:\n- כרטיס_מקבלV2_שירות.html\n- טופס_הערכה_v2.html\n- תוכנית_שיקום_ליבי_V6.html\n- תיעוד_שיחות.html"
+      },
+      {
+        "id": "yp_excel",
+        "title": "Структура Excel מחלות_רקע.xlsx",
+        "tags": [
+          "Excel",
+          "данные"
+        ],
+        "favorite": true,
+        "useCount": 0,
+        "rating": 0,
+        "text": "Файл Excel: F:\\מפעל\\מחלות_רקע.xlsx\n\nЛисты:\n- Sheet1 — активные\n- סיימו — завершили\n- זכר_נקבה\n\nОсновная структура:\nA: מס' — формула, не трогать\nB: מס' בסדנה — формула, не трогать\nC: שם מקבל השרות — вставка начинается отсюда\nD: תעודת זהות\nE: סוג שירות\nF: סדנה\nG: קופת חולים\nH: סניף\nI: מס' טלפון\nJ: מחלות רקע\nK: מיגבלה\nL: רחוב\nM: נייד\nN: בבית\nO: תאריך לידה\nP: גיל — формула, не копировать из формы\nQ: גר עם\nR: איש קשר\nS: קירבה\nT: טל' איש קשר\nU: עו\"ס\nV: טלפון עו\"ס\nW: שירות יחיד\nX: ממ\"ד\nY: מקלט\nZ: אין\nAA: תאריך קליטה"
+      },
+      {
+        "id": "yp_design",
+        "title": "Дизайн-система документов",
+        "tags": [
+          "дизайн",
+          "HTML",
+          "יחדיו"
+        ],
+        "favorite": true,
+        "useCount": 0,
+        "rating": 0,
+        "text": "Единый стиль документов:\n\nЯзык: иврит, dir=\"rtl\".\nШрифт: Heebo, fallback Arial Hebrew / Arial.\nФон страницы: #f4f7fc.\nОсновной текст: #1e2535.\n\nЦвета:\n--primary: #1a3a5c\n--primary-mid: #2563a8\n--primary-light: #e8f1fb\n--gold: #c9933a\n--green: #2e7d52\n--red: #b83232\n--border: #b8d0ee\n\nСтруктура документа:\n1. Sticky top-bar с логотипами и кнопками.\n2. Панель загрузки Excel — только на экране.\n3. Шапка документа: יחדיו слева, משרד הבריאות справа, заголовок по центру.\n4. Тело документа с doc-text и fields-grid.\n5. Блок подписи canvas.\n6. Печать A4 без top-bar и load-panel.\n7. Мобильная версия до 600px."
+      },
+      {
+        "id": "yp_todo",
+        "title": "Что осталось сделать",
+        "tags": [
+          "TODO",
+          "план"
+        ],
+        "favorite": true,
+        "useCount": 0,
+        "rating": 0,
+        "text": "Осталось сделать:\n\n1. index.html — единый главный экран.\n   Кнопки: קליטה חדשה | כרטיס | הערכה | שיקום | אירוע חריג | תיעוד שיחות.\n   Excel загружается один раз для всей сессии.\n\n2. Перенести логотипы:\n   יחדיו слева, משרד הבריאות справа от заголовка.\n\n3. Механизм отслеживания תוכנית שיקום:\n   каждые 6 месяцев напоминание — сделали ли, когда следующий.\n\n4. Python-скрипт автосохранения — опционально:\n   при сохранении HTML файл летит в папку человека на сервере F:\\.\n\n5. Форма редактирования данных существующего человека:\n   загрузить Excel → выбрать → исправить → скопировать строку."
+      },
+      {
+        "id": "yp_next_claude",
+        "title": "Как начинать следующий чат с Claude",
+        "tags": [
+          "Claude",
+          "инструкция"
+        ],
+        "favorite": false,
+        "useCount": 0,
+        "rating": 0,
+        "text": "Шаблон начала следующего разговора с Claude:\n\nВот мои файлы [прикрепить HTML + README].\nПродолжаем проект מפעל מוגן.\nСегодня нужно: [конкретная задача].\n\nПравила:\n- загружать актуальные HTML-файлы в начале каждой сессии;\n- скачивать каждый готовый файл сразу после получения;\n- один чат = одна задача;\n- если что-то важное решили — записать в README."
+      }
+    ]
+  },
+  {
+    "id": "incidents",
+    "icon": "⚠️",
+    "title": "Инциденты и дисциплина",
+    "desc": "Конфликты, жалобы, служебные беседы, документирование и риски.",
+    "items": [
+      {
+        "id": "i1",
+        "title": "Разбор инцидента",
+        "tags": [
+          "инцидент",
+          "риск",
+          "документирование"
+        ],
+        "favorite": true,
+        "useCount": 0,
+        "rating": 0,
+        "text": "Проанализируй инцидент.\n\nФакты:\n[что произошло]\n\nКто участвовал:\n[имена / роли]\n\nНужно:\n- отделить факты от интерпретаций;\n- показать версии сторон;\n- оценить риски;\n- указать действия мадриха;\n- указать действия директора;\n- что документировать;\n- что нельзя писать;\n- краткий текст на иврите для תיעוד שיחה."
+      },
+      {
+        "id": "i2",
+        "title": "Подготовка служебной беседы",
+        "tags": [
+          "беседа",
+          "дисциплина"
+        ],
+        "favorite": false,
+        "useCount": 0,
+        "rating": 0,
+        "text": "Подготовь план служебной беседы.\n\nСитуация:\n[описать]\n\nНужно:\n- цель беседы;\n- вопросы;\n- что сказать спокойно и профессионально;\n- возможные реакции;\n- границы поведения;\n- итоговая формулировка для документации."
+      },
+      {
+        "id": "i3",
+        "title": "Жалоба работника / מקבל שירות",
+        "tags": [
+          "жалоба",
+          "конфликт"
+        ],
+        "favorite": false,
+        "useCount": 0,
+        "rating": 0,
+        "text": "Проанализируй жалобу.\n\nЖалоба:\n[вставить]\n\nКонтекст:\n[описать]\n\nДай:\n- что нужно проверить;\n- какие вопросы задать;\n- что может быть риском;\n- как ответить профессионально;\n- что документировать."
+      }
+    ]
+  },
+  {
+    "id": "projects",
+    "icon": "💡",
+    "title": "Социальные проекты",
+    "desc": "Критика идей, WISE, Clubhouse, кооперативы, презентации.",
+    "items": [
+      {
+        "id": "p1",
+        "title": "Жёсткая оценка идеи",
+        "tags": [
+          "идея",
+          "критика"
+        ],
+        "favorite": false,
+        "useCount": 0,
+        "text": "Оцени идею как концепцию, а не как готовую корпорацию.\n\nИдея:\n[описать]\n\nОцени:\n- новизну;\n- реалистичность;\n- стоимость запуска;\n- пользу для участников;\n- риски;\n- вероятность провала;\n- соответствие реабилитации;\n- масштабирование.\n\nНе соглашайся автоматически. В конце скажи: стоит показывать руководству или нет.",
+        "rating": 0
+      },
+      {
+        "id": "p2",
+        "title": "Мировые аналоги",
+        "tags": [
+          "мировой опыт",
+          "исследование"
+        ],
+        "favorite": true,
+        "useCount": 0,
+        "text": "Найди существующие мировые аналоги моей идеи.\n\nИдея:\n[описать]\n\nИспользуй примеры из Израиля, Европы, США, Канады и Австралии.\n\nДля каждого примера укажи:\n- где работает;\n- целевую аудиторию;\n- модель финансирования;\n- результаты;\n- что можно адаптировать для израильского реабилитационного предприятия.",
+        "rating": 0
+      },
+      {
+        "id": "p3",
+        "title": "Проект для מנכ״ל",
+        "tags": [
+          "מנכ״ל",
+          "презентация"
+        ],
+        "favorite": true,
+        "useCount": 0,
+        "text": "Преврати мою идею в документ для генерального директора.\n\nИдея:\n[описать]\n\nСтруктура:\n1. Проблема.\n2. Решение.\n3. Социальная ценность.\n4. Финансовая логика.\n5. Ресурсы.\n6. Риски.\n7. Показатели успеха.\n8. Следующий шаг.\n\nСтиль: краткий, деловой, ориентированный на решение.",
+        "rating": 0
+      },
+      {
+        "id": "p4",
+        "title": "WISE / Clubhouse / кооператив",
+        "tags": [
+          "WISE",
+          "Clubhouse"
+        ],
+        "favorite": false,
+        "useCount": 0,
+        "text": "Проанализируй проект через модели WISE, Clubhouse и социальных кооперативов.\n\nПроект:\n[описать]\n\nПокажи:\n- что подходит из каждой модели;\n- какие элементы можно адаптировать в Израиле;\n- где риски;\n- как связать проект с трудовой реабилитацией;\n- как создать финансовую устойчивость.",
+        "rating": 0
+      },
+      {
+        "id": "p0_kill_or_launch",
+        "title": "Убить или запускать идею",
+        "tags": [
+          "идея",
+          "критика",
+          "пилот"
+        ],
+        "favorite": true,
+        "useCount": 0,
+        "rating": 0,
+        "text": "Оцениваем идею как концепцию, а не как готовую корпорацию. Технические детали, страхование и процедуры — потом.\n\nМы обсуждаем идеи новых проектов, трудоустройства и социальных инициатив для уязвимых групп: психическое здоровье, пережившие насилие, зависимости, бездомность, социальная изоляция, пожилые люди и другие.\n\nТвоя задача:\n- критически оценивать идеи, а не соглашаться;\n- искать слабые места, риски и причины провала;\n- прямо говорить, если идея слабая, нереалистичная или уже существует в более сильной форме;\n- спорить со мной, если идея не выдерживает проверки;\n- помогать превращать сырые идеи в пилотные проекты;\n- учитывать пользу, реализуемость, влияние и долгосрочный потенциал;\n- искать, как использовать существующую инфраструктуру;\n- оценивать масштабирование.\n\nСтруктура ответа:\n1. Проект — 2–4 строки.\n2. Сильные стороны.\n3. Слабые стороны / риски.\n4. Что улучшить.\n5. Потенциальное развитие.\n6. Оценка:\n   - Новизна: X/10\n   - Реалистичность запуска: X/10\n   - Польза: X/10\n   - Риск провала: X/10\n   - Масштабирование: X/10\n   - Соответствие организации: X/10\n7. Итоговое решение:\n   - Убить идею: ❌ / ✅\n   - Изменить: ❌ / ✅\n   - Тестировать пилотом: ❌ / ✅\n   - Запускать сразу: ❌ / ✅\n8. Вывод.\n\nЕсли общая оценка ≥ 8/10 — автоматически подготовь резюме проекта для руководства и предложи формат пилота.\nЕсли идея особенно сильная — напиши: «Редкая идея — стоит отдельной глубокой проработки».\nЕсли идея слабая — скажи прямо: «Не рекомендую развивать»."
+      }
+    ]
+  },
+  {
+    "id": "forms",
+    "icon": "🧾",
+    "title": "HTML, PDF ו-טפסים",
+    "desc": "יצירת טפסים, PDF, Wacom ודרישות טכניות",
+    "items": [
+      {
+        "id": "f1",
+        "title": "Создать HTML-форму",
+        "tags": [
+          "HTML",
+          "A4",
+          "Wacom"
+        ],
+        "favorite": true,
+        "useCount": 0,
+        "text": "Создай один готовый HTML-файл.\n\nНазначение формы:\n[описать]\n\nТребования:\n- один автономный HTML-файл;\n- иврит RTL;\n- современный дизайн;\n- мобильная версия;\n- кнопка печати;\n- кнопка сохранения HTML;\n- localStorage;\n- печать A4 как на экране;\n- без обрезания текста;\n- textarea auto-resize;\n- подпись Wacom через canvas;\n- подпись сохраняется;\n- не убирать функции без согласия.",
+        "rating": 0
+      },
+      {
+        "id": "f2",
+        "title": "Исправить HTML-форму",
+        "tags": [
+          "HTML",
+          "исправление"
+        ],
+        "favorite": true,
+        "useCount": 0,
+        "text": "Проверь приложенный HTML-файл и исправь его.\n\nЧто исправить:\n[пункты]\n\nПроверки:\n- печать A4;\n- ничего не обрезается;\n- вид печати совпадает с экраном;\n- подпись Wacom работает и сохраняется;\n- кнопка сохранения работает;\n- на телефоне удобно;\n- RTL не ломается.\n\nНе переписывай весь файл без необходимости. Верни готовый исправленный HTML.",
+        "rating": 0
+      },
+      {
+        "id": "f3",
+        "title": "Независимая экспертиза HTML",
+        "tags": [
+          "HTML",
+          "аудит"
+        ],
+        "favorite": true,
+        "useCount": 0,
+        "text": "Сделай независимую экспертизу HTML-файла.\n\nПроверь:\n- работает ли каждая кнопка;\n- есть ли JavaScript-ошибки;\n- не ломает ли localStorage старые данные;\n- корректно ли работает копирование / сохранение / импорт / экспорт;\n- корректна ли печать A4;\n- не обрезается ли текст;\n- работает ли мобильная версия.\n\nВерни список ошибок, причины и исправленный файл.",
+        "rating": 0
+      },
+      {
+        "id": "f0_contract_template",
+        "title": "Создать новый HTML по шаблону חוזה אישי",
+        "tags": [
+          "HTML",
+          "шаблон",
+          "חוזה אישי"
+        ],
+        "favorite": true,
+        "useCount": 0,
+        "rating": 0,
+        "text": "Создай HTML.\n\nШаблон: последний рабочий файл \"חוזה אישי\".\n\nВсе функции оставить без изменений:\n- печать;\n- сохранение;\n- email;\n- canvas-подпись;\n- автодата;\n- автозаполнение имени.\n\nЕсли есть неоднозначности — составь план и жди подтверждения.\n\nНе переписывай весь файл без необходимости. Не удаляй существующие функции. После изменения проверь мобильную версию и печать A4."
+      },
+      {
+        "id": "f4_html_director_level",
+        "title": "HTML-документ уровня руководства",
+        "tags": [
+          "HTML",
+          "презентация",
+          "руководство"
+        ],
+        "favorite": true,
+        "useCount": 0,
+        "rating": 0,
+        "text": "Сделай профессиональный HTML-документ уровня руководства амуты.\n\nЭто концепция нового проекта / стратегическая инициатива, а не заметки.\n\nТребования:\n- сохранить все пункты без сокращений;\n- титульный лист с современным оформлением;\n- тёмно-синий фон в шапке;\n- заметный, но не огромный заголовок;\n- подзаголовок;\n- короткий слоган / модель проекта;\n- структурированные цветные блоки;\n- выделение оценок;\n- кнопки печати и сохранения HTML;\n- адаптация под A4;\n- печать должна выглядеть как экран;\n- аккуратная печатная версия без пустых страниц."
+      },
+      {
+        "id": "tech_autocomplete",
+        "title": "Автозаполнение имени из Excel",
+        "tags": [
+          "Excel",
+          "autocomplete",
+          "HTML"
+        ],
+        "favorite": true,
+        "useCount": 0,
+        "rating": 0,
+        "text": "После загрузки Excel-файла должна работать интеллектуальная автоподстановка имени.\n\nТребования:\n1. Пользователь загружает Excel-файл со списком людей.\n2. В поле \"שם משפחה ושם פרטי\" пользователь начинает вводить имя вручную.\n3. По мере ввода каждого символа выполняется поиск по загруженному Excel.\n4. Подсказки появляются сразу, без потери фокуса.\n5. Использовать не HTML datalist, а собственный custom dropdown.\n6. В списке показывать только имя человека.\n7. Не показывать תעודת זהות, дату или другие поля.\n8. После выбора имени автоматически заполнить תעודת זהות и связанные поля.\n9. Поиск: без учёта регистра, по частичному совпадению, по имени и фамилии одновременно.\n10. Если совпадений нет — показать \"לא נמצאו תוצאות\".\n11. Список закрывается после выбора, при клике вне списка и при очистке поля.\n12. Всё работает локально в браузере без сервера.\n13. После выбора данные сразу отображаются в документе для печати.\n14. Решение должно поддерживать сотни и тысячи записей Excel без заметных задержек.\n15. Не ломать массовую печать, сохранение, подпись и отправку по почте."
+      },
+      {
+        "id": "tech_safe_change_plan",
+        "title": "Правило безопасного изменения HTML",
+        "tags": [
+          "HTML",
+          "план",
+          "проверка"
+        ],
+        "favorite": true,
+        "useCount": 0,
+        "rating": 0,
+        "text": "Если изменение занимает более одного блока — печать, подпись, Excel, сохранение, email, localStorage или автозаполнение — сначала составь план изменений и дождись подтверждения.\n\nПлан должен включать:\n- какие файлы и функции затрагиваются;\n- что нельзя ломать;\n- какие риски есть;\n- что будет проверено после исправления;\n- какой результат должен получить пользователь.\n\nТолько после подтверждения выполнять изменение."
+      },
+      {
+        "id": "tech_html_standard",
+        "title": "Базовый стандарт HTML-форм",
+        "tags": [
+          "HTML",
+          "A4",
+          "Wacom"
+        ],
+        "favorite": true,
+        "useCount": 0,
+        "rating": 0,
+        "text": "При создании HTML по умолчанию:\n- один автономный HTML-файл;\n- кнопка печати;\n- кнопка сохранения;\n- адаптация A4;\n- хорошая печать;\n- без пустых страниц;\n- плотные интервалы;\n- читаемость на русском и иврите;\n- подпись canvas/Wacom, если форма требует подпись;\n- мобильная версия;\n- функции из исходного файла не удалять без необходимости."
+      }
+    ]
+  },
+  {
+    "id": "analysis",
+    "icon": "🧠",
+    "title": "Анализ и обучение",
+    "desc": "SWOT, сценарии, скрытые проблемы, объяснения.",
+    "items": [
+      {
+        "id": "rt_problem",
+        "title": "Быстрый анализ проблемы",
+        "tags": [
+          "проблема",
+          "управление"
+        ],
+        "favorite": true,
+        "useCount": 0,
+        "rating": 0,
+        "text": "Проанализируй проблему.\n\nПроблема:\n[описать]\n\nДай:\n1. Что происходит на самом деле.\n2. Какие факты подтверждены.\n3. Чего мы не знаем.\n4. Риски.\n5. Быстрое решение.\n6. Системное решение.\n7. Кому и как это объяснить."
+      },
+      {
+        "id": "a1",
+        "title": "Найди скрытые проблемы",
+        "tags": [
+          "критика",
+          "риски"
+        ],
+        "favorite": true,
+        "useCount": 0,
+        "text": "Проанализируй мою идею / решение / план.\n\nНе соглашайся со мной.\n\nНайди:\n- что я не учитываю;\n- какие риски не вижу;\n- где логика слабая;\n- какие данные отсутствуют;\n- что может сорвать реализацию;\n- какие вопросы я должен задать до решения.\n\nПосле критики предложи улучшенный вариант.",
+        "rating": 0
+      },
+      {
+        "id": "a2",
+        "title": "SWOT-анализ",
+        "tags": [
+          "SWOT",
+          "анализ"
+        ],
+        "favorite": false,
+        "useCount": 0,
+        "text": "Сделай SWOT-анализ.\n\nТема:\n[описать]\n\nПокажи:\n- сильные стороны;\n- слабые стороны;\n- возможности;\n- угрозы.\n\nПосле таблицы дай главный вывод и 3 практических действия.",
+        "rating": 0
+      },
+      {
+        "id": "a3",
+        "title": "Объясни как преподаватель",
+        "tags": [
+          "обучение"
+        ],
+        "favorite": false,
+        "useCount": 0,
+        "text": "Объясни тему как опытный преподаватель.\n\nТема:\n[указать]\n\nДай:\n- простое объяснение;\n- аналогию из жизни;\n- пример;\n- типичную ошибку новичка;\n- 3 контрольных вопроса.\n\nБез лишнего жаргона.",
+        "rating": 0
+      },
+      {
+        "id": "a4",
+        "title": "Поспорь со мной",
+        "tags": [
+          "критика",
+          "спор",
+          "риски"
+        ],
+        "favorite": true,
+        "useCount": 0,
+        "rating": 0,
+        "text": "Не соглашайся со мной автоматически.\n\nМоя идея / решение:\n[вставить]\n\nРазбери её как:\n- директор другой организации;\n- аудитор;\n- финансист;\n- инспектор משרד הבריאות;\n- практик, который должен это выполнить.\n\nПокажи:\n- где слабая логика;\n- какие данные отсутствуют;\n- что может провалиться;\n- какие вопросы я должен задать до решения;\n- улучшенный вариант."
+      },
+      {
+        "id": "d3",
+        "title": "Разбор результата после решения",
+        "tags": [
+          "итоги",
+          "уроки"
+        ],
+        "favorite": false,
+        "useCount": 0,
+        "rating": 0,
+        "text": "Разбери результат уже принятого решения.\n\nЧто было решено:\n[описать]\n\nЧто произошло после:\n[описать]\n\nСделай анализ:\n- что сработало;\n- что не сработало;\n- где была ошибка в оценке;\n- какие признаки надо было заметить раньше;\n- какой урок на будущее;\n- как изменить процедуру или правило, чтобы не повторить ошибку."
+      },
+      {
+        "id": "d2",
+        "title": "Проверить решение перед выполнением",
+        "tags": [
+          "критика",
+          "риски"
+        ],
+        "favorite": true,
+        "useCount": 0,
+        "rating": 0,
+        "text": "Проверь моё решение до выполнения.\n\nРешение:\n[описать]\n\nПроверь:\n- что я не учитываю;\n- где слабое место;\n- кто может быть против;\n- какие последствия возможны;\n- что будет, если я ошибаюсь;\n- какие документы или факты нужны;\n- как сделать решение безопаснее.\n\nНе соглашайся ради вежливости. Если решение плохое — скажи прямо и предложи альтернативу."
+      },
+      {
+        "id": "d1",
+        "title": "Записать управленческое решение",
+        "tags": [
+          "решение",
+          "управление"
+        ],
+        "favorite": true,
+        "useCount": 0,
+        "rating": 0,
+        "text": "Помоги мне зафиксировать управленческое решение.\n\nИсходная ситуация:\n[описать]\n\nСоставь запись в формате:\n1. Дата.\n2. Проблема.\n3. Кто вовлечён.\n4. Факты, которые подтверждены.\n5. Что неизвестно.\n6. Возможные варианты решения.\n7. Выбранное решение.\n8. Почему выбрали именно его.\n9. Риски.\n10. Как контролировать выполнение.\n11. Итог / урок на будущее.\n\nПиши кратко, профессионально и так, чтобы через год было понятно, почему я принял это решение."
+      }
+    ]
+  },
+  {
+    "id": "sap",
+    "icon": "📊",
+    "title": "SAP / Excel / Office",
+    "desc": "SAP Business One, Crystal Reports, Excel, Word.",
+    "items": [
+      {
+        "id": "s1",
+        "title": "SAP простыми словами",
+        "tags": [
+          "SAP"
+        ],
+        "favorite": false,
+        "useCount": 0,
+        "text": "Объясни мне как новичку в SAP Business One.\n\nТема:\n[описать]\n\nТребования:\n- интерфейс на иврите;\n- объяснение на русском;\n- пошагово: куда зайти, что нажать, что заполнить, как проверить;\n- без профессионального жаргона;\n- если есть риск ошибки — предупреди.",
+        "rating": 0
+      },
+      {
+        "id": "s2",
+        "title": "Excel формула",
+        "tags": [
+          "Excel",
+          "формулы"
+        ],
+        "favorite": true,
+        "useCount": 0,
+        "text": "Мне нужна формула Excel.\n\nВерсия: Microsoft Office 2024 на иврите.\n\nЗадача:\n[описать]\n\nТребования:\n- формулу дай на английском;\n- названия меню — на иврите;\n- объяснение — на русском;\n- дай пример;\n- если есть несколько вариантов — выбери самый простой.",
+        "rating": 0
+      }
+    ]
+  },
+  {
+    "id": "personal_finance",
+    "icon": "💰",
+    "title": "Личные финансы",
+    "desc": "Анализ пенсии, керен иштальмут, накоплений",
+    "system": false,
+    "archived": false,
+    "items": [
+      {
+        "id": "pf1",
+        "title": "Разбор финансового документа",
+        "tags": [
+          "финансы",
+          "анализ",
+          "пенсия",
+          "накопления"
+        ],
+        "favorite": true,
+        "useCount": 0,
+        "rating": 0,
+        "text": "Ты — опытный израильский финансовый консультант. Я загружаю тебе финансовый документ (выписка, отчёт, справка).\n\nРазбери его полностью:\n\n1. ЧТО ЭТО — назови своими именами: פנסיה / קרן השתלמות / קופת גמל / ביטוח מנהלים / קרן פנסיה ותיקה — что именно передо мной.\n\n2. ОСНОВНЫЕ ЦИФРЫ:\n   - Накопленная сумма на сегодня\n   - Ежемесячные отчисления (работник / работодатель / государство)\n   - Доходность за последний год / 3 года / 5 лет\n   - Размер ожидаемой пенсии или выплаты\n\n3. ДМЕЙ НИУЛЬ — сколько списывается в процентах и в шекелях ежегодно. Это дорого или нормально по рынку?\n\n4. ТЕНДЕНЦИИ — что происходит с доходностью: растёт, падает, стабильна? Сравни с рыночным эталоном.\n\n5. ЧТО МОЖНО ВЫБИТЬ — конкретные предложения:\n   - Снизить дмей ниуль (до какого процента реально торговаться)\n   - Сменить מסלול השקעה если есть смысл\n   - Что упускаю по сравнению с лучшими предложениями рынка\n\n6. РИСКИ И УПУЩЕНИЯ — что я не вижу, о чём не спрашиваю, но важно знать.\n\nПиши прямо, без воды. Если что-то неясно из документа — скажи прямо."
+      },
+      {
+        "id": "pf2",
+        "title": "Анализ קרן השתלמות",
+        "tags": [
+          "קרן השתלמות",
+          "накопления",
+          "финансы"
+        ],
+        "favorite": false,
+        "useCount": 0,
+        "rating": 0,
+        "text": "Ты — израильский финансовый консультант специалист по קרן השתלמות.\n\nЯ загружаю выписку по моей קרן השתלמות. Разбери:\n\n1. СТАТУС — ликвидная или нет? Через сколько месяцев/лет открывается?\n\n2. ЦИФРЫ — накопленная сумма, ежемесячные взносы, текущий מסלול השקעה.\n\n3. ДМЕЙ НИУЛЬ — сколько плачу и насколько это рыночно. До скольки можно снизить если позвонить и попросить?\n\n4. ДОХОДНОСТЬ — сравни мой מסלול с акционным (מסלול מניות) и сбалансированным за 5 лет.\n\n5. КОНКРЕТНЫЕ ДЕЙСТВИЯ:\n   - Стоит ли перейти в другой מסלול?\n   - Стоит ли перевести в другую קופה?\n   - Как правильно снять деньги когда придёт время?\n\n6. НАЛОГОВЫЕ ЛЬГОТЫ — есть ли что-то чем я не пользуюсь?\n\nБудь конкретен. Назови реальные цифры и проценты."
+      },
+      {
+        "id": "pf3",
+        "title": "Анализ פנסיה",
+        "tags": [
+          "פנסיה",
+          "пенсия",
+          "финансы"
+        ],
+        "favorite": false,
+        "useCount": 0,
+        "rating": 0,
+        "text": "Ты — пенсионный консультант в Израиле. Я загружаю отчёт по моей пенсии.\n\nРазбери:\n\n1. ТИП ПЕНСИИ — קרן פנסיה / ביטוח מנהלים / קרן פנסיה ותיקה. Объясни разницу и что это значит для меня.\n\n2. ПЕНСИОННАЯ ЗАРПЛАТА — שכר מבוטח: насколько она соответствует реальной зарплате? Есть ли разрыв?\n\n3. ОЖИДАЕМАЯ ПЕНסИЯ — сколько получу в месяц при выходе в 67. Реалистично ли это?\n\n4. מקדם קצבה — что это, какой у меня, хороший ли это показатель?\n\n5. ДМЕЙ ניהול — сколько плачу с הפקדה и с צבירה. Что можно снизить?\n\n6. כיסויים — что покрывает инвалидность, смерть? Достаточно ли этого?\n\n7. КРАСНЫЕ ФЛАГИ — что меня должно беспокоить в этом документе?\n\n8. ЧТО ДЕЛАТЬ — 3 конкретных действия которые стоит предпринять в ближайшие 90 дней."
+      },
+      {
+        "id": "pf4",
+        "title": "Сравнение предложений — что выгоднее",
+        "tags": [
+          "сравнение",
+          "финансы",
+          "выбор"
+        ],
+        "favorite": false,
+        "useCount": 0,
+        "rating": 0,
+        "text": "Ты — независимый финансовый аналитик в Израиле, не связанный ни с одной קופה.\n\nЯ предоставлю тебе 2-3 предложения или выписки по финансовым продуктам.\n\nСделай таблицу сравнения по параметрам:\n- דמי ניהול (с הפקדה и с צבירה)\n- Доходность за 1/3/5 лет\n- מסלול השקעה\n- Ликвидность\n- כיסויים ביטוחיים\n- Дополнительные условия\n\nСкажи прямо:\n1. Что сейчас выгоднее для меня\n2. О чём умалчивает каждое предложение\n3. Что я должен уточнить перед подписанием\n4. Стоит ли вообще менять или остаться где я есть\n\nНе давай общих советов. Только конкретный вывод по моим данным."
+      },
+      {
+        "id": "pf5",
+        "title": "Торговаться с קופה — подготовка",
+        "tags": [
+          "торг",
+          "דמי ניהול",
+          "финансы"
+        ],
+        "favorite": false,
+        "useCount": 0,
+        "rating": 0,
+        "text": "Ты — опытный переговорщик по финансовым продуктам в Израиле.\n\nЯ хочу позвонить в свою קופה и снизить דמי ניהול.\n\nМои данные: [вставить: сумма накоплений, текущий % דמי ניהול, название קופה, стаж клиента]\n\nПодготовь меня:\n1. На какой % דמי ניהול реально претендовать с моей суммой?\n2. Дословный скрипт звонка на иврите — как начать разговор, что сказать, как реагировать на отказ\n3. Главный аргумент — почему они должны пойти навстречу\n4. Что делать если откажут (угроза перейти в другую קופה — реальная или нет?)\n5. Какие конкуренты реально дают лучшие условия прямо сейчас?"
+      }
+    ]
+  },
+  {
+    "id": "insurance",
+    "icon": "🛡️",
+    "title": "Страховки",
+    "desc": "Анализ страховых полисов и покрытий",
+    "system": false,
+    "archived": false,
+    "items": [
+      {
+        "id": "ins1",
+        "title": "Разбор страхового полиса",
+        "tags": [
+          "страховка",
+          "полис",
+          "анализ"
+        ],
+        "favorite": true,
+        "useCount": 0,
+        "rating": 0,
+        "text": "Ты — израильский страховой консультант. Я загружаю страховой полис.\n\nРазбери полностью:\n\n1. ЧТО ЭТО — назови своими именами: ביטוח חיים / ביטוח בריאות / ביטוח סיעודי / ביטוח נכות / ביטוח תאונות אישיות — что именно передо мной.\n\n2. ЧТО ПОКРЫВАЕТ — перечисли конкретно, без страхового жаргона. Что я получу в каких ситуациях и сколько именно.\n\n3. ЧТО НЕ ПОКРЫВАЕТ — исключения и ограничения которые важно знать. Что меня удивит когда я приду с претензией.\n\n4. СТОИМОСТЬ — сколько плачу в месяц, адекватна ли цена для такого покрытия?\n\n5. КРАСНЫЕ ФЛАГИ — что в этом полисе должно меня насторожить?\n\n6. ПРОБЕЛЫ — чего нет в этой страховке но что важно иметь в моей ситуации?\n\n7. ЧТО ДЕЛАТЬ — конкретные действия: что уточнить у страховщика, что попросить изменить, от чего можно отказаться."
+      },
+      {
+        "id": "ins2",
+        "title": "Аудит всех страховок",
+        "tags": [
+          "аудит",
+          "страховки",
+          "обзор"
+        ],
+        "favorite": false,
+        "useCount": 0,
+        "rating": 0,
+        "text": "Ты — независимый страховой аналитик в Израиле.\n\nЯ перечислю все свои страховки (или загружу документы). Сделай полный аудит:\n\n1. КАРТА ПОКРЫТИЙ — что у меня есть, что покрывает каждая страховка, нет ли дублирования.\n\n2. ДЫРЫ — что важное не покрыто? Что может ударить больно если случится?\n\n3. ДУБЛИ — за что я плачу дважды? (часто дублируются ביטוח תאונות в нескольких полисах)\n\n4. ПРИОРИТЕТЫ — что критично иметь, что можно убрать и сэкономить?\n\n5. СТОИМОСТЬ VS ПОКРЫТИЕ — какие страховки дорогие относительно того что дают?\n\n6. КОНКРЕТНЫЙ ПЛАН:\n   - Что оставить\n   - Что убрать\n   - Что добавить\n   - Сколько можно сэкономить в месяц\n\nПиши как профессионал который работает на меня а не на страховую компанию."
+      },
+      {
+        "id": "ins3",
+        "title": "ביטוח בריאות — что выбрать",
+        "tags": [
+          "בריאות",
+          "страховка здоровья",
+          "קופת חולים"
+        ],
+        "favorite": false,
+        "useCount": 0,
+        "rating": 0,
+        "text": "Ты — эксперт по системе здравоохранения Израиля.\n\nМои данные: [возраст, קופת חולים, текущие дополнительные страховки, хронические заболевания если есть]\n\nРазбери:\n\n1. БАЗОВОЕ ПОКРЫТИЕ — что даёт моя קופת חולים бесплатно, о чём я, возможно, не знаю?\n\n2. שב ומשלים — что покрывает моя дополнительная страховка, насколько это адекватно?\n\n3. ЧАСТНАЯ СТРАХОВКА — есть ли у меня, нужна ли мне? В чём разница от שב?\n\n4. СЕРЫЕ ЗОНЫ — что не покрывается нигде и может стоить дорого?\n\n5. ЧТО ПРОВЕРИТЬ — позвонить в קופה и уточнить следующее: [список вопросов]\n\n6. ОПТИМИЗАЦИЯ — что можно убрать/добавить чтобы платить меньше но быть лучше защищённым?"
+      },
+      {
+        "id": "ins4",
+        "title": "ביטוח סיעודי — нужен ли мне",
+        "tags": [
+          "סיעודי",
+          "уход",
+          "страховка"
+        ],
+        "favorite": false,
+        "useCount": 0,
+        "rating": 0,
+        "text": "Ты — эксперт по ביטוח סיעודי в Израиле.\n\nМой возраст: [вставить]. Есть ли уже סיעודי: [да/нет, через что — קופה / פרטי]\n\nОбъясни:\n\n1. ЧТО ТАКОЕ ביטוח סיעודי простыми словами — что я получу и когда.\n\n2. СКОЛЬКО СТОИТ уход без страховки — реальные цифры по Израилю сегодня.\n\n3. МОЯ СИТУАЦИЯ — с моим возрастом стоит ли брать сейчас? Что будет если подожду?\n\n4. ЧТО ПОКРЫВАЕТ קופת חולים — есть ли базовое покрытие которого достаточно?\n\n5. НА ЧТО СМОТРЕТЬ при выборе полиса — какие условия критически важны, какие уловки используют страховщики.\n\n6. РЕКОМЕНДАЦИЯ — что конкретно делать в моей ситуации."
+      }
+    ]
+  },
+  {
+    "id": "accident",
+    "icon": "🚗",
+    "title": "Авария — что делать",
+    "desc": "Юридика, страховая, медицина после аварии",
+    "system": false,
+    "archived": false,
+    "items": [
+      {
+        "id": "acc1",
+        "title": "Что делать прямо сейчас — пошагово",
+        "tags": [
+          "авария",
+          "первые шаги",
+          "срочно"
+        ],
+        "favorite": true,
+        "useCount": 0,
+        "rating": 0,
+        "text": "Ты — израильский юрист и страховой консультант специализирующийся на ДТП.\n\nПроизошла авария. Объясни пошагово что нужно сделать в течение:\n\nПЕРВЫЕ 24 ЧАСА:\n- Что зафиксировать на месте (фото, свидетели, протокол полиции)\n- Что сказать и что НЕ говорить другому водителю и полиции\n- Какие документы получить на месте\n- Когда вызывать полицию обязательно, когда можно без неё\n\nПЕРВАЯ НЕДЕЛЯ:\n- Куда звонить в страховую и в каком порядке\n- Какие документы собрать\n- Что делать если есть травмы (даже незначительные)\n- Как правильно подать תביעה\n\nПЕРВЫЙ МЕСЯЦ:\n- Сроки подачи претензий (что пропустить нельзя)\n- Когда нужен адвокат\n- Как не потерять деньги на ошибках\n\nМоя ситуация: [описать — кто виноват, есть ли травмы, что с машиной, была ли полиция]\n\nОтвечай конкретно по израильскому законодательству."
+      },
+      {
+        "id": "acc2",
+        "title": "Страховая претензия — как не потерять деньги",
+        "tags": [
+          "страховка",
+          "претензия",
+          "авария",
+          "ביטוח"
+        ],
+        "favorite": false,
+        "useCount": 0,
+        "rating": 0,
+        "text": "Ты — страховой консультант в Израиле специализирующийся на автостраховании.\n\nПроизошла авария. Помоги правильно подать страховую претензию.\n\nМои данные:\n- Тип страховки: [חובה בלבד / צד ג / מקיף]\n- Кто признан виновным: [я / другой водитель / не определено]\n- Ущерб: [только машина / травмы / и то и другое]\n- Полиция: [была / не было]\n\nОбъясни:\n\n1. В КАКУЮ СТРАХОВУЮ обращаться — свою или виновника? Когда и зачем.\n\n2. ПОКРЫТИЕ — что конкретно покрывает мой полис в этой ситуации. Что точно заплатят, что могут отказать.\n\n3. ОЦЕНКА УЩЕРБА — как работает שמאי, могу ли я оспорить оценку, нужен ли независимый שמאי.\n\n4. ПОДВОДНЫЕ КАМНИ — что страховая использует против меня, какие формулировки избегать.\n\n5. СРОКИ — до какого числа что подать чтобы не потерять право на компенсацию.\n\n6. ЕСЛИ ОТКАЗАЛИ — что делать, куда жаловаться, стоит ли судиться."
+      },
+      {
+        "id": "acc3",
+        "title": "Травмы после аварии — права и компенсация",
+        "tags": [
+          "травмы",
+          "נכות",
+          "компенсация",
+          "авария"
+        ],
+        "favorite": false,
+        "useCount": 0,
+        "rating": 0,
+        "text": "Ты — израильский юрист специализирующийся на компенсациях за травмы в ДТП (נזקי גוף).\n\nВажно: даже небольшие травмы после аварии могут дать право на серьёзную компенсацию. Объясни мою ситуацию.\n\nМои данные:\n- Травмы: [описать — шея, спина, голова, психологическое состояние и т.д.]\n- Лечение: [скорая / врач / ещё нет]\n- Работа: [пропустил дни / нет]\n- Авария: [дата, кто виноват]\n\nРазбери:\n\n1. НА ЧТО Я ИМЕЮ ПРАВО — список компенсаций: כאב וסבל, אובדן שכר, הוצאות רפואיות, נכות.\n\n2. ЧТО НУЖНО ЗАФИКСИРОВАТЬ — какие справки, обследования, документы важно получить сейчас. Что упущенное нельзя восстановить потом.\n\n3. СРОКИ — срок исковой давности по травмам в ДТП в Израиле.\n\n4. НУЖЕН ЛИ АДВОКАТ — когда без него можно, когда обязательно нужен, как они работают (обычно % от суммы).\n\n5. РАЗМЕР КОМПЕНСАЦИИ — ориентировочно сколько получают в похожих случаях.\n\n6. ПЕРВЫЕ ШАГИ — что сделать в ближайшие 48 часов чтобы не потерять права."
+      },
+      {
+        "id": "acc4",
+        "title": "Разбор протокола полиции и виновность",
+        "tags": [
+          "полиция",
+          "протокол",
+          "виновность",
+          "авария"
+        ],
+        "favorite": false,
+        "useCount": 0,
+        "rating": 0,
+        "text": "Ты — израильский юрист по дорожному праву.\n\nЯ загружаю протокол полиции после аварии или описываю ситуацию.\n\nРазбери:\n\n1. КТО ВИНОВАТ — по израильскому праву, исходя из обстоятельств. Это важно для страховой и компенсаций.\n\n2. ПРОТОКОЛ — что там написано, какие формулировки важны, есть ли ошибки которые можно оспорить.\n\n3. МОЖНО ЛИ ОСПОРИТЬ виновность — если да, то как и в какие сроки.\n\n4. ВЛИЯНИЕ НА СТРАХОВКУ — как виновность повлияет на выплаты, на בונוס/מלוס, на будущую страховку.\n\n5. УГОЛОВНЫЙ АСПЕКТ — есть ли риск уголовного преследования, что делать если есть.\n\n6. СЛЕДУЮЩИЙ ШАГ — что конкретно предпринять в ближайшие дни.\n\nМоя ситуация: [описать обстоятельства аварии]"
+      },
+      {
+        "id": "acc5",
+        "title": "Ремонт машины — права и שמאי",
+        "tags": [
+          "ремонт",
+          "שמאי",
+          "машина",
+          "авария"
+        ],
+        "favorite": false,
+        "useCount": 0,
+        "rating": 0,
+        "text": "Ты — консультант по автостраховым претензиям в Израиле.\n\nПосле аварии нужно отремонтировать машину. Объясни мои права.\n\nМои данные:\n- Страховка: [חובה / צד ג / מקיף]\n- Виновный: [я / другой / спорно]\n- Ущерб: [описать примерно]\n\nРазбери:\n\n1. ОЦЕНКА שמאי — кто назначает, как проходит, что они учитывают и что занижают.\n\n2. МОГУ ЛИ Я ОСПОРИТЬ оценку — да/нет, как, стоит ли заказывать независимого שמאי (שמאי מטעמי).\n\n3. ТОТАЛЬНАЯ ПОТЕРЯ (אובדן גמור) — когда машину признают totaled, как считают компенсацию, честно ли это.\n\n4. ПРАВО НА МАШИНУ НА ЗАМЕНУ — пока ремонт, кто платит, сколько дают.\n\n5. МАСТЕРСКАЯ — могу ли я выбрать свою мастерскую или обязан ехать в ту что назначила страховая?\n\n6. СКРЫТЫЕ ПОВРЕЖДЕНИЯ — что делать если после ремонта обнаружились новые проблемы.\n\n7. СРОКИ РЕМОНТА — что делать если затягивают."
+      },
+      {
+        "id": "acc6",
+        "title": "Письмо в страховую / юридическое требование",
+        "tags": [
+          "письмо",
+          "страховая",
+          "требование",
+          "иврит"
+        ],
+        "favorite": false,
+        "useCount": 0,
+        "rating": 0,
+        "text": "Ты — израильский юрист. Напиши официальное письмо-требование в страховую компанию или виновнику аварии.\n\nМои данные:\n- Кому: [название страховой / виновник]\n- Суть требования: [ремонт / компенсация травм / потеря заработка]\n- Сумма: [если известна]\n- Что уже делали: [обращения, ответы, отказы]\n\nПисьмо должно:\n1. Быть на иврите, юридически грамотным\n2. Чётко излагать факты и требования\n3. Ссылаться на релевантные законы Израиля\n4. Содержать чёткие сроки ответа\n5. Звучать серьёзно — это документ который можно подать в суд\n\nПосле письма объясни на русском:\n- Что я написал\n- Каких действий ожидать в ответ\n- Следующий шаг если проигнорируют"
+      }
+    ]
+  },
+  {
+    "id": "medicine",
+    "icon": "🏥",
+    "title": "Медицина",
+    "desc": "Симптомы, консультация, анализы, диагноз",
+    "system": false,
+    "archived": false,
+    "items": [
+      {
+        "id": "med1",
+        "title": "Разбор симптомов — что это может быть",
+        "tags": [
+          "симптомы",
+          "диагноз",
+          "медицина"
+        ],
+        "favorite": true,
+        "useCount": 0,
+        "rating": 0,
+        "text": "Ты — опытный врач-диагност. Я опишу симптомы — помоги разобраться.\n\nВАЖНО: это не замена визиту к врачу, это помощь в понимании ситуации.\n\nМои симптомы:\n[описать: что болит, где, как давно, характер боли, сопутствующие симптомы]\n\nВозраст: [возраст]\nХронические заболевания: [если есть]\nПринимаю лекарства: [если есть]\n\nРазбери:\n\n1. ВОЗМОЖНЫЕ ПРИЧИНЫ — перечисли от наиболее до наименее вероятной. Для каждой объясни почему она подходит под мои симптомы.\n\n2. КРАСНЫЕ ФЛАГИ — какие симптомы требуют немедленного обращения в скорую или врача? Есть ли они у меня?\n\n3. К КАКОМУ ВРАЧУ идти — специалист, общий врач или מיון?\n\n4. ЧТО СДЕЛАТЬ ДО ВИЗИТА — что зафиксировать, измерить, принять если нужно.\n\n5. ВОПРОСЫ ДЛЯ ВРАЧА — что спросить на приёме чтобы получить точный диагноз.\n\nПиши понятно, без медицинского жаргона."
+      },
+      {
+        "id": "med2",
+        "title": "Расшифровка анализов",
+        "tags": [
+          "анализы",
+          "результаты",
+          "медицина"
+        ],
+        "favorite": false,
+        "useCount": 0,
+        "rating": 0,
+        "text": "Ты — врач-терапевт. Я загружаю результаты анализов или перечисляю показатели.\n\nМои данные: [возраст, пол, жалобы если есть]\n\nРазбери каждый показатель:\n\n1. ЧТО В НОРМЕ — что хорошо и не требует внимания.\n\n2. ЧТО ВЫХОДИТ ЗА НОРМУ — какие показатели отклонены, насколько серьёзно, что это может означать.\n\n3. ОБЩАЯ КАРТИНА — что анализы говорят в совокупности? На что указывают вместе?\n\n4. ЧТО ДЕЛАТЬ:\n   - Что требует срочного внимания\n   - С чем можно подождать до планового визита\n   - Какие дополнительные анализы стоит сдать\n\n5. ВОПРОСЫ ВРАЧУ — что уточнить на приёме по этим результатам.\n\nОбъясняй простыми словами — я не медик."
+      },
+      {
+        "id": "med3",
+        "title": "Понять диагноз и лечение",
+        "tags": [
+          "диагноз",
+          "лечение",
+          "медицина"
+        ],
+        "favorite": false,
+        "useCount": 0,
+        "rating": 0,
+        "text": "Ты — врач-консультант. Мне поставили диагноз и назначили лечение — помоги разобраться.\n\nДиагноз: [написать]\nНазначенное лечение / лекарства: [написать]\nМой возраст и другие заболевания: [написать]\n\nОбъясни:\n\n1. ЧТО ТАКОЕ ЭТОТ ДИАГНОЗ — простыми словами, без жаргона. Что происходит в организме.\n\n2. ЛЕЧЕНИЕ — почему назначили именно это, как это работает, как долго принимать.\n\n3. ПОБОЧНЫЕ ЭФФЕКТЫ — что может возникнуть, на что обратить внимание.\n\n4. ВЗАИМОДЕЙСТВИЕ С ДРУГИМИ ЛЕКАРСТВАМИ — есть ли конфликты с тем что я уже принимаю.\n\n5. ОБРАЗ ЖИЗНИ — что изменить в питании, активности, привычках.\n\n6. ВТОРОЕ МНЕНИЕ — стоит ли его искать? При каких условиях это важно.\n\n7. ВОПРОСЫ ВРАЧУ — что уточнить при следующем визите."
+      },
+      {
+        "id": "med4",
+        "title": "Подготовка к визиту врача",
+        "tags": [
+          "врач",
+          "приём",
+          "подготовка"
+        ],
+        "favorite": false,
+        "useCount": 0,
+        "rating": 0,
+        "text": "Ты — медицинский консультант. Помоги подготовиться к визиту врача.\n\nК какому врачу иду: [специализация]\nС какой проблемой: [описать]\nКак давно беспокоит: [написать]\nУже делал / принимал: [написать]\n\nПодготовь:\n\n1. СПИСОК СИМПТОМОВ — как правильно описать жалобы врачу чтобы он понял сразу.\n\n2. СПИСОК ВОПРОСОВ — что спросить чтобы уйти с полным пониманием ситуации.\n\n3. КАКИЕ ДОКУМЕНТЫ ВЗЯТЬ — прошлые анализы, выписки, список лекарств.\n\n4. НА ЧТО ОБРАТИТЬ ВНИМАНИЕ — что врач должен проверить, какие обследования могут понадобиться.\n\n5. КРАСНЫЕ ФЛАГИ — какие ответы врача должны меня насторожить и требуют второго мнения."
+      },
+      {
+        "id": "med5",
+        "title": "Лекарства — что это и можно ли",
+        "tags": [
+          "лекарства",
+          "таблетки",
+          "медицина"
+        ],
+        "favorite": false,
+        "useCount": 0,
+        "rating": 0,
+        "text": "Ты — клинический фармаколог. Объясни мне про лекарство.\n\nЛекарство: [название]\nЗачем назначено / от чего принимаю: [написать]\nДругие лекарства которые принимаю: [написать]\nВозраст и хронические заболевания: [написать]\n\nОбъясни:\n\n1. ЧТО ЭТО — как работает, от чего помогает.\n\n2. КАК ПРИНИМАТЬ — когда, с едой или без, что нельзя совмещать (алкоголь, грейпфрут и т.д.).\n\n3. ПОБОЧНЫЕ ЭФФЕКТЫ — частые и редкие, на что обратить внимание.\n\n4. ВЗАИМОДЕЙСТВИЕ — конфликтует ли с тем что я уже принимаю.\n\n5. АНАЛОГИ — есть ли более дешёвые аналоги с тем же действием.\n\n6. КОГДА ОСТАНОВИТЬ — при каких симптомах нужно прекратить и обратиться к врачу."
+      },
+      {
+        "id": "med6",
+        "title": "Израильская медицина — как получить максимум",
+        "tags": [
+          "קופת חולים",
+          "Израиль",
+          "права",
+          "медицина"
+        ],
+        "favorite": false,
+        "useCount": 0,
+        "rating": 0,
+        "text": "Ты — эксперт по системе здравоохранения Израиля.\n\nМоя ситуация: [описать — что нужно, какая קופת חולים, есть ли доп. страховка]\n\nПомоги получить максимум от системы:\n\n1. НА ЧТО Я ИМЕЮ ПРАВО БЕСПЛАТНО — что входит в корзину בסיסית и о чём люди не знают.\n\n2. НАПРАВЛЕНИЕ К СПЕЦИАЛИСТУ — как получить быстрее, можно ли без очереди.\n\n3. שב ומשלים — что покрывает моя доп. страховка в этой ситуации.\n\n4. ЧАСТНАЯ МЕДИЦИНА — когда стоит платить из кармана и сколько это обычно стоит.\n\n5. АПЕЛЛЯЦИЯ — если отказали в направлении или лечении, как оспорить.\n\n6. ПРАВА ПАЦИЕНТА — что я могу требовать по закону.\n\n7. ЛАЙФХАКИ — что знают опытные пациенты но не говорят врачи."
+      }
+    ]
+  },
+  {
+    "id": "travel",
+    "icon": "🧭",
+    "title": "Путешествия",
+    "desc": "Маршруты, Google Maps, еда, пиво, вино, природа.",
+    "items": [
+      {
+        "id": "t1",
+        "title": "Подробный маршрут",
+        "tags": [
+          "маршрут",
+          "Google Maps"
+        ],
+        "favorite": true,
+        "useCount": 0,
+        "text": "Составь подробный маршрут путешествия.\n\nДанные:\nСтрана / регион: [указать]\nДаты: [указать]\nКоличество дней: [указать]\nТранспорт: машина\nСтарт: [город]\nФиниш: [город]\n\nИнтересы:\n- природа;\n- красивые виды;\n- прогулки;\n- вкусная еда;\n- пиво;\n- винодельни;\n- необычные места.\n\nДля каждого дня: маршрут, километраж, время, что смотреть, старт и конец прогулки, где поесть, Google Maps, сайт, часы работы, что пропустить и что добавить.",
+        "rating": 0
+      },
+      {
+        "id": "t2",
+        "title": "День из Беэр-Шевы",
+        "tags": [
+          "Беэр-Шева"
+        ],
+        "favorite": false,
+        "useCount": 0,
+        "text": "Предложи маршрут на один день из Беэр-Шевы.\n\nУсловия:\n- до [1 / 1.5 / 2] часов езды;\n- природа, прогулка, кафе, пиво или вино;\n- сегодня: [день недели];\n- проверить, работает ли место сегодня;\n- дать Google Maps;\n- дать фото или прямые ссылки на фото;\n- указать старт и конец прогулки;\n- не предлагать места, где я уже был.\n\nМеста, где я уже был:\n[список]",
+        "rating": 0
+      },
+      {
+        "id": "t_video_route",
+        "title": "Instagram-видео → готовый маршрут",
+        "tags": [
+          "Instagram",
+          "видео",
+          "маршрут",
+          "Google Maps"
+        ],
+        "favorite": true,
+        "useCount": 0,
+        "rating": 0,
+        "text": "ТЫ — Alex Travel Intelligence: профессиональный туристический аналитик, который превращает загруженное видео из Instagram / TikTok / YouTube Shorts / MP4 в готовый маршрут путешествия.\n\nРаботай на русском языке.\n\nЦель:\nНе пересказать видео, а сделать поездку лучше автора видео.\n\n1. Анализ загруженного видео\nВнимательно изучи видео.\nИзвлеки весь видимый текст из кадров.\nЕсли текст не на русском — переведи на русский.\nОпредели названия мест, городов, достопримечательностей, ресторанов, баров, виноделен, пивоварен, пляжей, природных точек, отелей и маршрутов.\nЕсли место не удаётся определить точно — дай варианты и честно укажи уровень уверенности.\nНе придумывай точные названия, если они не подтверждены.\n\n2. После анализа задай только один вопрос\nСпроси:\n«На сколько дней планируется поездка?»\n\nДругие вопросы не задавай, если данных достаточно.\n\n3. Учитывай мои постоянные предпочтения\nПутешествие на автомобиле.\nПредпочтительно круговой маршрут.\nКрасивые виды.\nПрирода.\nПрогулки.\nСтарые города.\nВинодельни.\nПивоварни.\nХорошие рестораны.\nАутентичные таверны.\nМорепродукты.\nАзиатская кухня.\nМясные рестораны.\nЖивая музыка.\nНе туристические места.\nБаланс между природой, городами и хорошей едой.\n\n4. Проверка реальной ценности мест\nДля каждого места оцени:\n- скрытая жемчужина;\n- соответствует ожиданиям;\n- переоценено;\n- туристическая ловушка.\n\nОбъясни почему.\nЕсли место красиво только на видео, но слабое для реальной поездки — скажи прямо.\n\n5. Что рядом лучше\nДля каждого найденного места проверь, что есть в радиусе примерно 30 км:\n- интереснее;\n- менее туристическое;\n- лучше по отзывам;\n- логичнее по маршруту;\n- красивее для природы / фото / еды.\n\nЕсли рядом есть место лучше, предложи заменить.\n\n6. Фото и источники\nДля каждого важного места найди:\n- фото или прямые ссылки на фото;\n- Google Maps;\n- официальный сайт, если есть;\n- часы работы;\n- стоимость посещения, если есть;\n- координаты или точную локацию.\n\nЕсли данные могли устареть — проверь интернет.\n\n7. Построение маршрута\nСоставь оптимальный маршрут.\nСтарайся сделать круговой маршрут:\nСтарт → основные места → возврат в исходную точку.\n\nЕсли круговой маршрут плохой или нелогичный — объясни почему и предложи лучший вариант.\n\n8. Для каждого дня дай\n- маршрут дня;\n- километраж;\n- время в пути;\n- что смотреть;\n- что пропустить;\n- где гулять;\n- где поесть;\n- где выпить пиво или вино;\n- лучшие фототочки;\n- резерв на плохую погоду.\n\n9. Всегда дай три версии маршрута\nВариант А — лучший баланс.\nВариант Б — больше природы.\nВариант В — больше городов, еды и ресторанов.\n\n10. Критическая проверка маршрута\nПосле составления маршрута проверь:\n- нет ли лишних переездов;\n- нет ли слабых мест;\n- нет ли туристических ловушек;\n- можно ли заменить часть маршрута на более сильную;\n- не слишком ли плотный день;\n- где лучше ночевать.\n\n11. Финальный формат\nСначала краткий вывод: стоит ли ехать по мотивам видео.\nПотом список мест из видео.\nПотом улучшенный маршрут.\nПотом карта / Google Maps ссылки.\nПотом варианты А / Б / В.\nПотом рестораны, винодельни, пивоварни.\nПотом честный вывод: что оставить, что заменить, что убрать.\n\nГлавный принцип:\nАвтор видео показывает красиво. Твоя задача — проверить, стоит ли это реальной поездки, и построить маршрут лучше."
+      },
+      {
+        "id": "t_better_video",
+        "title": "Улучшить маршрут из видео",
+        "tags": [
+          "маршрут",
+          "критика",
+          "замены"
+        ],
+        "favorite": true,
+        "useCount": 0,
+        "rating": 0,
+        "text": "Ты — агент «Сделай поездку лучше автора видео».\n\nПолучив маршрут, видео или список мест, не повторяй его автоматически.\n\nЗадача:\n1. Понять маршрут автора.\n2. Найти слабые места.\n3. Проверить, не слишком ли много переездов.\n4. Найти переоценённые точки.\n5. Найти места рядом, которые лучше.\n6. Перестроить маршрут под автомобиль и круговую логику.\n7. Сохранить сильные места, убрать слабые.\n\nФормат ответа:\n- что автор сделал хорошо;\n- где маршрут слабый;\n- что заменить;\n- что добавить рядом;\n- новый маршрут;\n- почему он лучше;\n- вариант на меньше дней;\n- вариант на больше дней.\n\nУчитывай мои предпочтения: природа, старые города, красивые виды, винодельни, пивоварни, хорошая еда, аутентичные места, круговой маршрут."
+      },
+      {
+        "id": "t_gastro_layer",
+        "title": "Добавить еду, пиво и вино к маршруту",
+        "tags": [
+          "рестораны",
+          "пиво",
+          "вино",
+          "еда"
+        ],
+        "favorite": true,
+        "useCount": 0,
+        "rating": 0,
+        "text": "Ты — гастрономический слой для маршрута путешествия.\n\nНа основе страны, региона или готового маршрута найди:\n- локальные рестораны;\n- таверны;\n- мясные рестораны;\n- морепродукты;\n- азиатскую кухню, если она действительно сильная в этом месте;\n- пивоварни;\n- винодельни;\n- рынки;\n- места с живой музыкой.\n\nНе предлагай банальные туристические места без причины.\nДля каждого места дай:\n- почему стоит идти;\n- что заказать;\n- Google Maps;\n- часы работы;\n- примерный уровень цен;\n- нужна ли бронь.\n\nРаздели на:\n1. Лучшее место дня.\n2. Запасной вариант.\n3. Место, которое можно пропустить.\n\nЕсли место переоценено — скажи прямо."
+      }
+    ]
+  },
+  {
+    "id": "ai",
+    "icon": "🤖",
+    "title": "AI‑workflow",
+    "desc": "AI-помощники, цепочки промптов, Claude/ChatGPT.",
+    "items": [
+      {
+        "id": "ai1",
+        "title": "Создать AI‑помощника",
+        "tags": [
+          "AI",
+          "помощник"
+        ],
+        "favorite": true,
+        "useCount": 0,
+        "text": "Составь инструкцию для персонального AI-помощника директора реабилитационного предприятия.\n\nПомощник должен помогать:\n- писать письма;\n- анализировать документы;\n- создавать תוכניות שיקום;\n- готовить отчёты;\n- готовить проекты;\n- проверять соответствие משרד הבריאות;\n- создавать HTML-формы;\n- критически оценивать идеи.\n\nДай системную инструкцию, правила работы, ограничения и примеры запросов.",
+        "rating": 0
+      },
+      {
+        "id": "ai2",
+        "title": "Построить цепочку промптов",
+        "tags": [
+          "workflow",
+          "промпты"
+        ],
+        "favorite": false,
+        "useCount": 0,
+        "text": "Построй цепочку промптов для процесса.\n\nПроцесс:\n[описать]\n\nНужно:\n- разбить задачу на этапы;\n- для каждого этапа написать отдельный промпт;\n- указать входные данные;\n- указать результат каждого этапа;\n- показать, где нужна проверка качества;\n- указать, что можно автоматизировать.",
+        "rating": 0
+      }
+    ]
+  },
+  {
+    "id": "rules",
+    "icon": "⚙️",
+    "title": "Мои правила",
+    "desc": "Постоянные требования к ответам, письмам, HTML, путешествиям и Excel.",
+    "items": [
+      {
+        "id": "r1",
+        "title": "Базовые правила",
+        "tags": [
+          "качество",
+          "универсальный"
+        ],
+        "favorite": true,
+        "useCount": 0,
+        "text": "Сначала внимательно изучи задачу, контекст и приложенные файлы.\n\nТребования:\n- не придумывай факты;\n- если не знаешь — прямо напиши, что не знаешь;\n- проверяй логику;\n- указывай слабые места;\n- не соглашайся автоматически;\n- если данные могут быть устаревшими — проверь через интернет;\n- если данных достаточно — выполни работу полностью;\n- результат должен быть практическим.\n\nЗадача:\n[описать задачу]",
+        "rating": 0
+      },
+      {
+        "id": "r2",
+        "title": "Текст на иврите",
+        "tags": [
+          "иврит",
+          "редактура"
+        ],
+        "favorite": true,
+        "useCount": 0,
+        "text": "Исправь и перепиши текст на профессиональном иврите.\n\nПравила:\n- верни только готовый текст на иврите;\n- без объяснений;\n- не меняй смысл;\n- сделай текст грамотным, уважительным и деловым;\n- убери повторы.\n\nТекст:\n[вставить текст]",
+        "rating": 0
+      },
+      {
+        "id": "r3",
+        "title": "HTML / A4 / Wacom",
+        "tags": [
+          "HTML",
+          "A4",
+          "Wacom"
+        ],
+        "favorite": true,
+        "useCount": 0,
+        "text": "Создай или исправь HTML-файл.\n\nТребования:\n- один автономный HTML-файл;\n- иврит RTL, если форма на иврите;\n- печать строго под A4;\n- печататься должно так, как видно на экране;\n- текст не должен обрезаться;\n- кнопка печати;\n- кнопка сохранения HTML;\n- данные сохраняются в браузере;\n- подпись Wacom через canvas;\n- подпись сохраняется и печатается;\n- не удаляй функции без необходимости.\n\nЗадача:\n[описать]",
+        "rating": 0
+      },
+      {
+        "id": "r4",
+        "title": "Путешествия",
+        "tags": [
+          "путешествия",
+          "Google Maps"
+        ],
+        "favorite": true,
+        "useCount": 0,
+        "text": "Составь маршрут путешествия.\n\nТребования:\n- проверь актуальность;\n- дай Google Maps ссылки;\n- дай сайты мест, если есть;\n- если прогулка — укажи старт и конец;\n- укажи километраж и время;\n- добавь рестораны, пивоварни, винодельни, таверны;\n- не убирай хорошие места без объяснения;\n- честно сравнивай варианты.\n\nМаршрут:\n[описать]",
+        "rating": 0
+      },
+      {
+        "id": "r5",
+        "title": "Рабочий стиль Alex",
+        "tags": [
+          "системные правила",
+          "качество"
+        ],
+        "favorite": true,
+        "useCount": 0,
+        "rating": 0,
+        "text": "Постоянные правила работы со мной.\n\n- Все объяснения и мысли сначала на русском.\n- Иврит без дополнительной просьбы означает: исправить ошибки и написать профессионально.\n- Предлагай логичные улучшения сам, не жди отдельного вопроса.\n- Спорь со мной и указывай на слабые места.\n- Не соглашайся ради вежливости.\n- Говори правду, даже если вывод неприятный.\n- Если данных не хватает — сначала уточни контекст, а не выдумывай.\n- Если задача короткая, предполагай, что за ней стоит большой рабочий контекст, и уточняй уровень результата."
+      },
+      {
+        "id": "r6",
+        "title": "Если изменение затрагивает несколько блоков",
+        "tags": [
+          "HTML",
+          "план",
+          "безопасность"
+        ],
+        "favorite": true,
+        "useCount": 0,
+        "rating": 0,
+        "text": "Если изменение занимает более одного блока — например печать, подпись, Excel, сохранение, email, автозаполнение или localStorage — сначала составь план изменений и дождись подтверждения.\n\nНе начинай переписывать файл сразу.\n\nФормат плана:\n1. Что будет изменено.\n2. Какие функции могут быть затронуты.\n3. Что нельзя ломать.\n4. Как проверить после изменения.\n5. Что я должен подтвердить перед началом."
+      },
+      {
+        "id": "r7",
+        "title": "Уровень документа для руководства",
+        "tags": [
+          "документы",
+          "руководство",
+          "A4"
+        ],
+        "favorite": true,
+        "useCount": 0,
+        "rating": 0,
+        "text": "Если я пишу: для начальства, для представления, распечатать, показать руководству — автоматически делай уровень: можно распечатать и положить руководству на стол.\n\nДля такого документа нельзя делать краткий обзор, заметки, черновик или сокращения.\n\nНужно:\n- профессиональное оформление;\n- логичная структура;\n- удобство чтения;\n- визуальные блоки;\n- титульный лист, если документ большой;\n- акценты;\n- печать A4;\n- плотная верстка без пустых страниц;\n- документ должен выглядеть как новая инициатива организации."
+      },
+      {
+        "id": "q1",
+        "title": "Проверить ответ ИИ",
+        "tags": [
+          "проверка",
+          "AI"
+        ],
+        "favorite": true,
+        "useCount": 0,
+        "text": "Проверь ответ ИИ строго.\n\nМоя задача была:\n[вставить]\n\nОтвет ИИ:\n[вставить]\n\nПроверь:\n- выполнил ли задание;\n- где придумал факты;\n- где нет источников;\n- что упустил;\n- что поверхностно;\n- логические ошибки.\n\nВ конце дай улучшенный вариант.",
+        "rating": 0
+      },
+      {
+        "id": "q2",
+        "title": "Улучшить мой промпт",
+        "tags": [
+          "prompt engineering"
+        ],
+        "favorite": true,
+        "useCount": 0,
+        "text": "Улучши мой промпт.\n\nМой промпт:\n[вставить]\n\nЗадача:\n- сделать точнее;\n- добавить контекст;\n- добавить ограничения;\n- добавить формат ответа;\n- добавить критерии проверки;\n- убрать двусмысленность;\n- сделать результат практическим.\n\nВерни улучшенный промпт и коротко объясни изменения.",
+        "rating": 0
+      }
+    ]
+  }
+]</script>
+<script>
+(function(){'use strict';
+const DEFAULT_DATA=JSON.parse(document.getElementById('default-data').textContent);
+const STORAGE_KEY='alexPersonalPromptLibraryV9DirectorSystem'; const ACTIVE_KEY='alexPersonalPromptActiveV9'; const DRAFT_KEY='alexPersonalPromptDraftV9'; const RECENT_KEY='alexPersonalPromptRecentV9';
+let data=loadData(); let active=localStorage.getItem(ACTIVE_KEY)||'guide'; let showArchive=false;
+window.data=data; // expose for mobile
+function clone(x){return JSON.parse(JSON.stringify(x));} function uid(p){return (p||'id')+'-'+Math.random().toString(36).slice(2,9);}
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));}
+function normalize(arr){if(!Array.isArray(arr))return clone(DEFAULT_DATA);return arr.map(s=>{s.id=s.id||uid('sec');s.icon=s.icon||'📌';s.title=s.title||'Без названия';s.desc=s.desc||'';s.items=Array.isArray(s.items)?s.items:[];s.items=s.items.map(i=>{i.id=i.id||uid('p');i.title=i.title||'Без названия';i.tags=Array.isArray(i.tags)?i.tags:[];i.favorite=!!i.favorite;i.useCount=Number(i.useCount)||0;i.rating=Number(i.rating)||0;i.text=i.text||'';return i;});return s;});}
+function loadData(){try{const raw=localStorage.getItem(STORAGE_KEY);return raw?normalize(JSON.parse(raw)):clone(DEFAULT_DATA);}catch(e){return clone(DEFAULT_DATA);}}
+function save(){localStorage.setItem(STORAGE_KEY,JSON.stringify(data));localStorage.setItem(ACTIVE_KEY,active);refreshSelectors();window.data=data;}
+function section(id){return data.find(s=>s.id===id);} function item(sid,iid){const s=section(sid);return s&&s.items.find(i=>i.id===iid);}
+function visibleSections(){return data.filter(s=>(s.system&&s.id!=='guide')|| (showArchive?!!s.archived:!s.archived));} function realSections(){return data.filter(s=>!s.system);}
+function allItems(){let a=[];data.forEach(s=>(s.items||[]).forEach(i=>a.push({s,i})));return a;}
+function allTags(){const set={};allItems().forEach(o=>(o.i.tags||[]).forEach(t=>{if(t)set[t]=1;}));return Object.keys(set).sort();}
+function refreshSelectors(){const tag=document.getElementById('tagFilter'), old=tag?tag.value:''; if(tag){tag.innerHTML='<option value="">Все теги</option>'+allTags().map(t=>'<option value="'+esc(t)+'">'+esc(t)+'</option>').join('');tag.value=old;} const sel=document.getElementById('newPromptSection'); if(sel)sel.innerHTML=realSections().filter(s=>!s.archived).map(s=>'<option value="'+esc(s.id)+'">'+esc(s.icon)+' '+esc(s.title)+'</option>').join('');}
+function matches(i,s,q,tag){const text=[i.title,i.text,(i.tags||[]).join(' '),s.title,s.desc].join(' ').toLowerCase();return(!q||text.includes(q))&&(!tag||(i.tags||[]).includes(tag));}
+function render(){refreshSelectors();renderSidebar();const c=document.getElementById('content');const q=document.getElementById('searchInput').value.trim().toLowerCase();const tag=document.getElementById('tagFilter').value;if(active==='guide'&&!q&&!tag){c.innerHTML=homeHTML();return;} if(active==='builder'&&!q&&!tag){c.innerHTML=builderHTML();buildPrompt();return;} let secs=data.filter(s=>!s.system||(s.id==='agents')).filter(s=>showArchive?!!s.archived:!s.archived); if(!q&&!tag)secs=secs.filter(s=>s.id===active); else secs=secs.filter(s=>(s.items||[]).some(i=>matches(i,s,q,tag))); c.innerHTML=secs.length?secs.map(s=>sectionHTML(s,q,tag)).join(''):'<div class="panel empty">Ничего не найдено.</div>';}
+function renderSidebar(){
+  const box=document.getElementById('sidebar');
+  box.innerHTML=visibleSections().map(s=>
+    '<div class="section-drag-wrapper" draggable="true" data-sec-id="'+esc(s.id)+'">'
+    +'<span class="section-drag-handle" title="Перетащить">⠿</span>'
+    +'<button class="section-btn '+(s.id===active?'active':'')+'" style="margin:0;flex:1" data-action="section" data-id="'+esc(s.id)+'">'
+    +'<span class="ico">'+esc(s.icon)+'</span>'
+    +'<span>'+esc(s.title)+'<small>'+esc(s.desc)+'</small></span>'
+    +'<span class="badge">'+(s.items||[]).length+'</span>'
+    +'</button>'
+    +(!s.system?'<button class="small secondary" style="padding:6px 8px;flex-shrink:0" data-action="edit-section" data-id="'+esc(s.id)+'" title="Переименовать">✏️</button>':'')
+    +'</div>'
+  ).join('');
+  initSidebarDrag();
+}
+function recentIds(){try{return JSON.parse(localStorage.getItem(RECENT_KEY)||'[]');}catch(e){return []}} function pushRecent(sid,iid){let r=recentIds().filter(x=>!(x.sid===sid&&x.iid===iid));r.unshift({sid,iid,t:Date.now()});r=r.slice(0,12);localStorage.setItem(RECENT_KEY,JSON.stringify(r));}
+function getRecent(){return recentIds().map(r=>{const s=section(r.sid), i=item(r.sid,r.iid);return s&&i?{s,i}:null;}).filter(Boolean);}
+function topItems(){return allItems().filter(o=>!o.s.archived&&!o.s.system||o.s.id==='agents').sort((a,b)=>(b.i.useCount||0)-(a.i.useCount||0)).slice(0,8);}
+function favItems(){return allItems().filter(o=>o.i.favorite && !o.s.archived).slice(0,8);}
+function homeHTML(){const total=allItems().length, fav=favItems().length, top=topItems()[0]?.i.useCount||0, sec=data.filter(s=>!s.system).length;return '<div class="panel"><h2>🏠 Главный экран</h2><p>Быстрые сценарии, избранное, последние и самые используемые промпты.</p></div><div class="dash-grid"><div class="dash-card"><h3>Всего промптов</h3><div class="big-number">'+total+'</div></div><div class="dash-card"><h3>Разделов</h3><div class="big-number">'+sec+'</div></div><div class="dash-card"><h3>Избранных</h3><div class="big-number">'+fav+'</div></div><div class="dash-card"><h3>Макс. использований</h3><div class="big-number">'+top+'</div></div></div><div class="panel"><h2>🚀 Быстрые сценарии</h2><div class="quick-grid">'+quickButtonsHTML()+'</div></div><div class="panel"><h2>⭐ Избранные</h2>'+miniList(favItems())+'</div><div class="panel"><h2>🕒 Последние использованные</h2>'+miniList(getRecent())+'</div><div class="panel"><h2>🔥 Топ используемых</h2>'+miniList(topItems())+'</div>';}
+function quickButtonsHTML(){const q=[['🧠','Главный агент директора','agents'],['📄','Подготовить для יאיר','agents'],['✉️','Письмо на иврите','letters'],['🧩','Проверить תוכנית שיקום','rehab'],['🔎','Инспектор משרד הבריאות','inspection'],['💻','Создать HTML','forms'],['⚠️','Разобрать инцидент','incidents'],['🗃️','Записать решение','decisions'],['📈','Проверить KPI','finance'],['💡','Убить или запускать идею','projects'],['🌍','Видео → маршрут','travel'],['🎥','Видео-анализатор','agents'],['🏭','Проект מפעל מוגן','yachdav_project'],['📄','Технические ТЗ','tech_requirements'],['🔁','Повторяющиеся задачи','repeat_tasks']];return q.map(x=>'<button class="quick-btn" data-action="section" data-id="'+x[2]+'"><b>'+x[0]+' '+x[1]+'</b><span>Открыть рабочий раздел</span></button>').join('');}
+function miniList(arr){if(!arr.length)return '<div class="empty">Пока нет данных.</div>';return '<div class="mini-list">'+arr.map(o=>'<div class="mini-item"><div><b>'+esc(o.s.icon+' '+o.i.title)+'</b><br><small>'+esc(o.s.title)+' · использован: '+(o.i.useCount||0)+'</small></div><button class="small" data-action="copy-mini" data-sec="'+esc(o.s.id)+'" data-item="'+esc(o.i.id)+'">📋</button></div>').join('')+'</div>';}
+function sectionHTML(s,q,tag){let items=s.items.filter(i=>matches(i,s,q,tag));if(!q&&!tag)items=s.items;return '<section><div class="panel"><h2>'+esc(s.icon)+' '+esc(s.title)+'</h2><p>'+esc(s.desc)+'</p><div class="actions section-tools no-print"><button class="small secondary" data-action="home">🏠 Главная</button><button class="small secondary" data-action="section" data-id="builder">🧱 Конструктор</button><button class="small secondary" data-action="new-prompt">＋ Промпт</button>'+(!s.system?'<button class="small orange" data-action="archive" data-sec="'+esc(s.id)+'">'+(s.archived?'↩️ Из архива':'📦 В архив')+'</button>':'')+'</div></div><div class="prompt-grid">'+(items.map(i=>cardHTML(s,i)).join('')||'<div class="card empty">В этом разделе пока нет промптов.</div>')+'</div></section>';}
+function cardHTML(s,i){
+  const short=(i.text||'').split('\n').filter(Boolean).slice(0,2).join(' ').slice(0,145);
+  const noteKey='alex_note_'+i.id;
+  const existingNote=localStorage.getItem(noteKey)||'';
+  const hasNote=!!existingNote.trim();
+  return '<div class="card prompt-card" data-sec="'+esc(s.id)+'" data-item="'+esc(i.id)+'">'
+    +'<div class="card-head">'
+      +'<div style="flex:1;min-width:0">'
+        +'<h3>'+(i.favorite?'⭐ ':'')+esc(i.title)+'</h3>'
+        +'<div class="desc-line">'+esc(short)+(short.length>=145?'...':'')+'</div>'
+        +'<div class="meta">'+(i.tags||[]).map(t=>'<span class="tag">'+esc(t)+'</span>').join('')+'<span class="tag">использован: '+(i.useCount||0)+'</span></div>'
+      +'</div>'
+      +'<div class="card-actions no-print">'
+        +'<div class="ca-row">'
+          +'<button class="cb cb-blue" data-action="open-claude">🤖 Claude</button>'
+          +'<button class="cb cb-gray" data-action="copy" title="Скопировать">📋</button>'
+        +'</div>'
+        +'<div class="ca-row">'
+          +'<button class="cb cb-gray" data-action="open-fullscreen">⤢ Открыть</button>'
+          +'<button class="cb cb-green" data-action="save-prompt" title="Сохранить">💾</button>'
+        +'</div>'
+        +'<div class="ca-row">'
+          +'<button class="cb cb-gray" data-action="export-single" title="Экспорт .txt">⬆️ .txt</button>'
+          +'<button class="cb cb-gray" data-action="import-modal" title="Импорт">📥</button>'
+          +'<button class="cb cb-orange" data-action="move-prompt" title="Перенести">🚚</button>'
+        +'</div>'
+        +'<div class="ca-row">'
+          +'<button class="cb '+(hasNote?'cb-note-on':'cb-gray')+'" data-action="toggle-note" title="Заметка">💬</button>'
+          +'<button class="cb cb-gray" data-action="favorite" title="Избранное">'+(i.favorite?'⭐':'☆')+'</button>'
+          +'<button class="cb cb-red" data-action="delete" title="Удалить">🗑️</button>'
+        +'</div>'
+        +'<div class="ca-row" style="justify-content:center">'
+          +'<div class="rating" data-rating="'+(i.rating||0)+'">'+stars(i.rating||0)+'</div>'
+        +'</div>'
+      +'</div>'
+    +'</div>'
+    +'<textarea class="prompt-area">'+esc(i.text)+'</textarea>'
+    +'<div class="print-text">'+esc(i.text)+'</div>'
+    +'<div class="status"></div>'
+    +(hasNote?'<div class="note-preview" onclick="toggleNote(this.closest(\'.card\'),\''+esc(i.id)+'\')">'+esc(existingNote)+'</div>':'')
+    +'<div class="note-area" id="note-area-'+esc(i.id)+'">'
+    +'<textarea class="note-ta" placeholder="Личная заметка к этому промпту...">'+esc(existingNote)+'</textarea>'
+    +'<div style="display:flex;gap:8px;margin-top:6px;align-items:center">'
+    +'<button class="note-save-btn" onclick="saveNote(\''+esc(i.id)+'\',this.closest(\'.card\'))">💾 Сохранить</button>'
+    +(hasNote?'<button onclick="deleteNote(\''+esc(i.id)+'\',this.closest(\'.card\'))" style="background:#fee2e2;border:none;color:#b91c1c;border-radius:8px;padding:7px 12px;font-size:13px;cursor:pointer">🗑 Удалить</button>':'')
+    +'<span id="note-status-'+esc(i.id)+'" style="font-size:12px;color:var(--ok)"></span>'
+    +'</div></div>'
+    +'</div>';
+}
+function stars(n){let h='';for(let k=1;k<=5;k++)h+='<span class="star '+(k<=n?'on':'')+'" data-star="'+k+'">★</span>';return h;}
+function builderHTML(){return '<div class="panel"><h2>🧱 Конструктор промптов</h2><p>Заполните поля и получите готовый сильный промпт.</p></div><div class="card"><div class="form-grid"><div><label>Тип задачи</label><select id="bType"><option>Письмо на иврите</option><option>HTML-форма</option><option>תוכנית שיקום</option><option>Проверка משרד הבריאות</option><option>Социальный проект</option><option>Путешествие</option><option>SAP / Excel</option><option>Инцидент</option><option>Финансы / KPI</option><option>Другое</option></select></div><div><label>Роль ИИ</label><input id="bRole" value="Ты — профессиональный помощник, который работает точно, критически и без выдуманных фактов."></div><div class="full"><label>Задача</label><textarea id="bTask"></textarea></div><div class="full"><label>Контекст</label><textarea id="bContext"></textarea></div><div class="full"><label>Формат ответа</label><input id="bFormat"></div><div class="full"><label>Особые требования</label><textarea id="bRules"></textarea></div></div><div class="hr"></div><div class="actions"><button data-action="copy-built">📋 Скопировать</button><button class="secondary" data-action="save-built">💾 Сохранить как промпт</button></div><h3>Готовый промпт</h3><div id="builtOutput" class="output-box"></div></div>';}
+function buildPrompt(){const g=id=>document.getElementById(id)?.value||'';const out=`${g('bRole')}
+
+Тип задачи:
+${g('bType')}
+
+Задача:
+${g('bTask')||'[описать задачу]'}
+
+Контекст:
+${g('bContext')||'[добавить контекст]'}
+
+Ограничения:
+- не придумывай факты;
+- если данных нет — скажи прямо;
+- проверь логику;
+- укажи слабые места;
+- если данные могли устареть — проверь через интернет;
+- выполни задачу полностью, если данных достаточно.
+${g('bRules')?`
+Дополнительно:
+${g('bRules')}`:''}
+
+Формат ответа:
+${g('bFormat')||'[указать формат]'}`; const box=document.getElementById('builtOutput'); if(box)box.textContent=out; return out;}
+async function copyText(txt,card){try{await navigator.clipboard.writeText(txt);}catch(e){const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();} if(card){const st=card.querySelector('.status');st.textContent='Скопировано';setTimeout(()=>st.textContent='',1400);}}
+function exportData(){
+  const lines=[];
+  data.forEach(s=>{
+    if(s.system||s.archived||(s.items||[]).length===0)return;
+    lines.push('══════════════════════════════════════');
+    lines.push('РАЗДЕЛ: '+s.icon+' '+s.title);
+    if(s.desc)lines.push('Описание: '+s.desc);
+    lines.push('══════════════════════════════════════');
+    (s.items||[]).forEach((i,idx)=>{
+      lines.push('');
+      lines.push('['+(idx+1)+'] '+(i.favorite?'⭐ ':'')+i.title);
+      if((i.tags||[]).length)lines.push('Теги: '+i.tags.join(', '));
+      lines.push('──────────────────────────────────────');
+      lines.push(i.text||'');
+      lines.push('');
+    });
+    lines.push('');
+  });
+  const blob=new Blob([lines.join('\n')],{type:'text/plain;charset=utf-8'});
+  const url=URL.createObjectURL(blob);const a=document.createElement('a');
+  a.href=url;a.download='alex_ai_prompts_backup.txt';
+  document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);
+}
+function exportSinglePrompt(secId,itemId){
+  const s=section(secId),i=item(secId,itemId);if(!s||!i)return;
+  const lines=['РАЗДЕЛ: '+s.icon+' '+s.title,'ПРОМПТ: '+(i.favorite?'⭐ ':'')+i.title];
+  if((i.tags||[]).length)lines.push('ТЕГИ: '+i.tags.join(', '));
+  lines.push('══════════════════════════════════════','',i.text||'');
+  const blob=new Blob([lines.join('\n')],{type:'text/plain;charset=utf-8'});
+  const url=URL.createObjectURL(blob);const a=document.createElement('a');
+  const fname=(i.title||'prompt').replace(/[^\w\u0400-\u04FF\u05D0-\u05EA\s]/g,'').replace(/\s+/g,'_').slice(0,40);
+  a.href=url;a.download=fname+'.txt';
+  document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);
+}
+window.exportSinglePrompt=exportSinglePrompt;
+function openModal(id){refreshSelectors();if(id==='importModal'){
+   const fileInput=document.getElementById('importFile');
+   if(fileInput)fileInput.value='';
+   const prev=document.getElementById('importPreview');
+   if(prev)prev.textContent='';
+   const curSec=section(active);
+   const hint=document.getElementById('importHint');
+   if(hint){
+     if(curSec&&!curSec.system&&!curSec.archived)
+       hint.textContent='📂 Промпты будут добавлены в текущий раздел: '+curSec.icon+' '+curSec.title;
+     else
+       hint.textContent='📚 Промпты будут распределены по разделам из файла.';
+   }
+ }
+ if(id==='promptModal'){const d=JSON.parse(localStorage.getItem(DRAFT_KEY)||'{}');['newPromptTitle','newPromptTags','newPromptText'].forEach(k=>{const el=document.getElementById(k); if(el)el.value=d[k]||'';}); const sel=document.getElementById('newPromptSection'); if(sel)sel.value=d.sec||(!section(active)?.system?active:sel.value);} if(id==='sectionModal'){['newSecTitle','newSecIcon','newSecDesc'].forEach(k=>document.getElementById(k).value='');document.getElementById('editSecId').value='';document.getElementById('sectionModalTitle').textContent='Новый раздел';document.getElementById('sectionModalBtn').textContent='Создать';document.getElementById('sectionModalBtn').dataset.action='add-section';document.getElementById('iconPreview').textContent='📌';activeIconCat=0;setTimeout(initIconPicker,0);} document.getElementById(id).classList.add('open');}
+function closeModal(id){document.getElementById(id).classList.remove('open');}
+document.addEventListener('input',e=>{if(['newPromptSection','newPromptTitle','newPromptTags','newPromptText'].includes(e.target.id)){localStorage.setItem(DRAFT_KEY,JSON.stringify({sec:document.getElementById('newPromptSection')?.value||'',newPromptTitle:document.getElementById('newPromptTitle')?.value||'',newPromptTags:document.getElementById('newPromptTags')?.value||'',newPromptText:document.getElementById('newPromptText')?.value||''}));} if(e.target.id==='searchInput')render(); if(['bType','bRole','bTask','bContext','bFormat','bRules'].includes(e.target.id))buildPrompt();});
+document.addEventListener('change',e=>{if(e.target.id==='tagFilter')render(); if(e.target.id==='bType')buildPrompt();});
+document.addEventListener('click',e=>{const star=e.target.closest('.star'); if(star){const card=star.closest('.card'), i=item(card.dataset.sec,card.dataset.item); if(i){i.rating=Number(star.dataset.star); save(); render();} return;} const b=e.target.closest('button'); if(!b)return; const a=b.dataset.action; if(a==='home'){active=data.find(s=>!s.system&&!s.archived)?.id||'rehab';save();render();} if(a==='section'){active=b.dataset.id;save();render();} if(a==='archive-view'){showArchive=!showArchive;active='guide';render();} if(a==='new-section')openModal('sectionModal'); if(a==='new-prompt')openModal('promptModal'); if(a==='import-modal')openModal('importModal'); if(a==='close-modal')closeModal(b.dataset.modal); if(a==='export')exportData(); if(a==='print')window.print(); if(a==='reset'&&confirm('Сбросить библиотеку V7?')){localStorage.removeItem(STORAGE_KEY);localStorage.removeItem(ACTIVE_KEY);localStorage.removeItem(RECENT_KEY);data=clone(DEFAULT_DATA);active='guide';render();}
+ if(a==='edit-section'){const s=section(b.dataset.id);if(!s)return;document.getElementById('newSecTitle').value=s.title;document.getElementById('newSecIcon').value=s.icon||'';document.getElementById('newSecDesc').value=s.desc||'';document.getElementById('editSecId').value=s.id;document.getElementById('iconPreview').textContent=s.icon||'📌';document.getElementById('sectionModalTitle').textContent='Редактировать раздел';document.getElementById('sectionModalBtn').textContent='Сохранить';document.getElementById('sectionModalBtn').dataset.action='save-section';document.getElementById('sectionModal').classList.add('open');activeIconCat=0;setTimeout(initIconPicker,0);}
+ if(a==='save-section'){const id=document.getElementById('editSecId').value;const s=section(id);if(!s)return;const title=document.getElementById('newSecTitle').value.trim();if(!title){alert('Название обязательно');return;}s.title=title;s.icon=document.getElementById('newSecIcon').value.trim()||s.icon;s.desc=document.getElementById('newSecDesc').value.trim();save();closeModal('sectionModal');render();}
+ if(a==='add-section'){const title=document.getElementById('newSecTitle').value.trim();if(!title){alert('Название обязательно');return;} data.push({id:uid('sec'),icon:document.getElementById('newSecIcon').value.trim()||'📌',title,desc:document.getElementById('newSecDesc').value.trim(),items:[]});active=data[data.length-1].id;save();closeModal('sectionModal');render();}
+ if(a==='add-prompt'){const s=section(document.getElementById('newPromptSection').value), title=document.getElementById('newPromptTitle').value.trim(); if(!s||!title){alert('Выберите раздел и название');return;} s.items.push({id:uid('p'),title,tags:document.getElementById('newPromptTags').value.split(',').map(x=>x.trim()).filter(Boolean),favorite:false,useCount:0,rating:0,text:document.getElementById('newPromptText').value});localStorage.removeItem(DRAFT_KEY);active=s.id;save();closeModal('promptModal');render();}
+ if(a==='do-move'){
+   if(!moveSec||!moveItm)return;
+   const srcSec=section(moveSec),srcItem=item(moveSec,moveItm);
+   const destId=document.getElementById('moveTarget').value;
+   const destSec=section(destId);
+   if(!srcSec||!srcItem||!destSec){alert('Ошибка');return;}
+   const copy=document.getElementById('moveCopy').checked;
+   const newItem=Object.assign({},JSON.parse(JSON.stringify(srcItem)),{id:uid('p')});
+   destSec.items.push(newItem);
+   if(!copy)srcSec.items=srcSec.items.filter(x=>x.id!==moveItm);
+   active=destId;
+   moveSec=null;moveItm=null;
+   save();closeModal('moveModal');render();
+ }
+ if(a==='import'){
+   const fileInput=document.getElementById('importFile');
+   if(!fileInput||!fileInput.files||!fileInput.files[0]){alert('Выберите .txt файл');return;}
+   const file=fileInput.files[0];
+   const reader=new FileReader();
+   reader.onload=function(ev){
+     try{
+       const txt=ev.target.result;
+       const imported=parseTxtImport(txt);
+       if(!imported.length){alert('Промпты не найдены в файле');return;}
+       let added=0;
+       const curSec=section(active);
+       const importToCurrentSection=curSec&&!curSec.system&&!curSec.archived;
+       imported.forEach(sec=>{
+         let dest;
+         if(importToCurrentSection){
+           // всё идёт в текущий раздел
+           dest=curSec;
+         } else {
+           dest=data.find(s=>s.title===sec.title&&!s.system);
+           if(!dest){dest={id:uid('sec'),icon:sec.icon||'📌',title:sec.title,desc:'',items:[]};data.push(dest);}
+         }
+         (sec.items||[]).forEach(i=>{dest.items.push(i);added++;});
+       });
+       save();closeModal('importModal');render();
+       const where=importToCurrentSection?('раздел «'+curSec.title+'»'):'библиотеку';
+       alert('Добавлено промптов: '+added+' → '+where);
+     }catch(err){alert('Ошибка чтения файла: '+err.message);}
+   };
+   reader.readAsText(file,'utf-8');
+ }
+ if(a==='archive'){const s=section(b.dataset.sec); if(s){s.archived=!s.archived;save();render();}}
+ if(a==='copy-mini'){const s=section(b.dataset.sec), i=item(b.dataset.sec,b.dataset.item); if(s&&i){i.useCount=(i.useCount||0)+1; pushRecent(s.id,i.id); save(); copyText(i.text,null).then(()=>render());}}
+ const card=b.closest('.card'); if(card){const sid=card.dataset.sec,iid=card.dataset.item,s=section(sid),i=item(sid,iid); if(a==='open-fullscreen'&&i){openPromptOverlay(sid,iid);}
+ if(a==='export-single'&&i){exportSinglePrompt(sid,iid);}
+ if(a==='move-prompt'&&i){openMoveModal(sid,iid);}
+ if(a==='toggle-edit'){const ta=card.querySelector('.prompt-area'); ta.classList.toggle('open'); b.textContent=ta.classList.contains('open')?'Скрыть':'Открыть';} if(a==='copy'&&i){i.useCount=(i.useCount||0)+1;pushRecent(sid,iid);save();copyText(buildCtx(s)+card.querySelector('textarea.prompt-area').value,card).then(()=>setTimeout(render,500));}
+ if(a==='open-claude'&&i){i.useCount=(i.useCount||0)+1;pushRecent(sid,iid);save();const txt=buildCtx(s)+card.querySelector('textarea.prompt-area').value;window.open('https://claude.ai/new?q='+encodeURIComponent(txt),'_blank');}
+ if(a==='toggle-note'){toggleNote(card,iid);}
+ if(a==='save-prompt'&&i){i.text=card.querySelector('textarea.prompt-area').value;save();card.querySelector('.print-text').textContent=i.text;card.querySelector('.status').textContent='Сохранено';setTimeout(()=>card.querySelector('.status').textContent='',1400);} if(a==='favorite'&&i){i.favorite=!i.favorite;save();render();} if(a==='delete'&&s&&confirm('Удалить промпт?')){s.items=s.items.filter(x=>x.id!==iid);save();render();} }
+ if(a==='copy-built')copyText(buildPrompt(),null).then(()=>alert('Промпт скопирован')); if(a==='save-built'){const title=prompt('Название промпта','Новый промпт из конструктора'); if(title){const s=section('rules');s.items.push({id:uid('p'),title,tags:['конструктор'],favorite:false,useCount:0,rating:0,text:buildPrompt()});active='rules';save();render();}}
+});
+document.addEventListener('click',e=>{if(e.target.classList&&e.target.classList.contains('modal'))e.target.classList.remove('open');});
+
+// ══ FULLSCREEN OVERLAY ══
+let ovrSec=null,ovrItem=null;
+function openPromptOverlay(sid,iid){
+  const s=section(sid),i=item(sid,iid);if(!s||!i)return;
+  ovrSec=sid;ovrItem=iid;
+  document.getElementById('promptOverlayTitle').textContent=(i.favorite?'⭐ ':'')+i.title+' · '+s.icon+' '+s.title;
+  document.getElementById('promptOverlayTA').value=i.text||'';
+  document.getElementById('promptOverlayStatus').textContent='';
+  document.getElementById('promptOverlay').classList.add('open');
+  document.getElementById('promptOverlayTA').focus();
+}
+function closePromptOverlay(){
+  document.getElementById('promptOverlay').classList.remove('open');
+  ovrSec=null;ovrItem=null;
+}
+window.closePromptOverlay=closePromptOverlay;
+document.getElementById('promptOverlay').addEventListener('click',function(e){
+  if(e.target===this)closePromptOverlay();
+});
+document.getElementById('ovrSaveBtn').addEventListener('click',function(){
+  if(!ovrSec||!ovrItem)return;
+  const i=item(ovrSec,ovrItem);if(!i)return;
+  i.text=document.getElementById('promptOverlayTA').value;
+  save();
+  // sync textarea in card if visible
+  const card=document.querySelector('.card[data-sec="'+ovrSec+'"][data-item="'+ovrItem+'"]');
+  if(card){const ta=card.querySelector('textarea.prompt-area');if(ta)ta.value=i.text;if(card.querySelector('.print-text'))card.querySelector('.print-text').textContent=i.text;}
+  const st=document.getElementById('promptOverlayStatus');
+  st.textContent='✓ Сохранено';setTimeout(()=>st.textContent='',2000);
+});
+document.getElementById('ovrCopyBtn').addEventListener('click',function(){
+  if(!ovrSec||!ovrItem)return;
+  const s=section(ovrSec),i=item(ovrSec,ovrItem);if(!i)return;
+  const txt=buildCtx(s)+document.getElementById('promptOverlayTA').value;
+  copyText(txt,null).then(()=>{
+    const st=document.getElementById('promptOverlayStatus');
+    st.textContent='✓ Скопировано';setTimeout(()=>st.textContent='',2000);
+  });
+  i.useCount=(i.useCount||0)+1;pushRecent(ovrSec,ovrItem);save();
+});
+document.getElementById('ovrExportBtn').addEventListener('click',function(){
+  if(ovrSec&&ovrItem)exportSinglePrompt(ovrSec,ovrItem);
+});
+document.getElementById('ovrClaudeBtn').addEventListener('click',function(){
+  if(!ovrSec||!ovrItem)return;
+  const s=section(ovrSec),i=item(ovrSec,ovrItem);if(!i)return;
+  i.useCount=(i.useCount||0)+1;pushRecent(ovrSec,ovrItem);save();
+  window.open('https://claude.ai/new?q='+encodeURIComponent(buildCtx(s)+document.getElementById('promptOverlayTA').value),'_blank');
+});
+
+// ══ MOVE PROMPT ══
+let moveSec=null,moveItm=null;
+function openMoveModal(sid,iid){
+  moveSec=sid;moveItm=iid;
+  const sel=document.getElementById('moveTarget');
+  sel.innerHTML=realSections().filter(s=>!s.archived&&s.id!==sid).map(s=>'<option value="'+esc(s.id)+'">'+esc(s.icon+' '+s.title)+'</option>').join('');
+  document.getElementById('moveCopy').checked=false;
+  document.getElementById('moveModal').classList.add('open');
+}
+window.openMoveModal=openMoveModal;
+
+// ══ TXT IMPORT PARSER ══
+function parseTxtImport(txt){
+  const sections=[];
+  let curSec=null,curItem=null,inText=false,textLines=[];
+  const lines=txt.split('\n');
+  function flushItem(){
+    if(curItem&&curSec){
+      curItem.text=textLines.join('\n').replace(/\n+$/,'');
+      curSec.items.push(curItem);
+    }
+    curItem=null;textLines=[];inText=false;
+  }
+  lines.forEach(line=>{
+    // section header: ══…══ followed by РАЗДЕЛ:
+    if(/^══+$/.test(line.trim()))return;
+    const secMatch=line.match(/^РАЗДЕЛ:\s*(.+)$/);
+    if(secMatch){
+      flushItem();
+      const raw=secMatch[1].trim();
+      // extract icon (first char if emoji) and title
+      const iconMatch=raw.match(/^([\p{Emoji_Presentation}\p{Extended_Pictographic}]+)\s+(.+)$/u);
+      curSec={icon:iconMatch?iconMatch[1]:'📌',title:iconMatch?iconMatch[2]:raw,items:[]};
+      sections.push(curSec);inText=false;return;
+    }
+    // prompt header: [N] title or ПРОМПТ: title
+    const promptMatch=line.match(/^\[(\d+)\]\s+(?:⭐\s+)?(.+)$/) || line.match(/^ПРОМПТ:\s+(?:⭐\s+)?(.+)$/);
+    if(promptMatch&&curSec){
+      flushItem();
+      const title=promptMatch[2]||promptMatch[1];
+      curItem={id:uid('p'),title:title.trim(),tags:[],favorite:false,useCount:0,rating:0,text:''};
+      inText=false;return;
+    }
+    // tags line
+    if((line.startsWith('Теги:')||line.startsWith('ТЕГИ:'))&&curItem){
+      curItem.tags=line.replace(/^(Теги|ТЕГИ):\s*/,'').split(',').map(t=>t.trim()).filter(Boolean);
+      return;
+    }
+    // separator before text
+    if(/^──+$/.test(line.trim())&&curItem){inText=true;return;}
+    // text content
+    if(curItem&&inText){textLines.push(line);return;}
+    // fallback: if we have curItem but no separator yet, still collect
+    if(curItem&&!inText&&line.trim()&&!line.startsWith('[')){inText=true;textLines.push(line);}
+  });
+  flushItem();
+  return sections.filter(s=>s.items.length>0);
+}
+// file preview on select
+document.addEventListener('change',e=>{
+  if(e.target.id==='importFile'&&e.target.files&&e.target.files[0]){
+    const f=e.target.files[0];
+    const prev=document.getElementById('importPreview');
+    if(prev)prev.textContent='Файл: '+f.name+' ('+Math.round(f.size/1024)+' KB)';
+  }
+});
+
+// ══ SIDEBAR DRAG-AND-DROP ══
+function initSidebarDrag(){
+  const box=document.getElementById('sidebar');
+  let dragId=null;
+  box.querySelectorAll('.section-drag-wrapper').forEach(el=>{
+    el.addEventListener('dragstart',e=>{
+      dragId=el.dataset.secId;
+      el.classList.add('dragging');
+      e.dataTransfer.effectAllowed='move';
+    });
+    el.addEventListener('dragend',()=>{
+      el.classList.remove('dragging');
+      box.querySelectorAll('.section-drag-wrapper').forEach(x=>x.classList.remove('drag-over'));
+      dragId=null;
+    });
+    el.addEventListener('dragover',e=>{
+      e.preventDefault();
+      e.dataTransfer.dropEffect='move';
+      if(el.dataset.secId!==dragId){
+        box.querySelectorAll('.section-drag-wrapper').forEach(x=>x.classList.remove('drag-over'));
+        el.classList.add('drag-over');
+      }
+    });
+    el.addEventListener('dragleave',()=>el.classList.remove('drag-over'));
+    el.addEventListener('drop',e=>{
+      e.preventDefault();
+      el.classList.remove('drag-over');
+      const toId=el.dataset.secId;
+      if(!dragId||dragId===toId)return;
+      const fromIdx=data.findIndex(s=>s.id===dragId);
+      const toIdx=data.findIndex(s=>s.id===toId);
+      if(fromIdx<0||toIdx<0)return;
+      const [moved]=data.splice(fromIdx,1);
+      data.splice(toIdx,0,moved);
+      save();
+      renderSidebar();
+    });
+  });
+}
+
+// ══ ICON PICKER ══
+const ICON_CATS=[
+  {label:'🏢 Работа',  icons:['📋','📄','📁','🗂️','📊','📈','📉','🗃️','🗄️','📌','📍','✏️','🖊️','📝','✅','☑️','🔖','📎','🔗','📏','📐','🖇️']},
+  {label:'👥 Люди',    icons:['👤','👥','🧑','👨','👩','🧑‍💼','👨‍💼','👩‍💼','🧑‍⚕️','👨‍⚕️','👩‍⚕️','🧑‍🏫','🤝','🫂','💪','🧠','❤️','🫀','🌟','⭐','🏆','🎖️']},
+  {label:'🏥 Здоровье',icons:['🏥','💊','🩺','🩹','💉','🧬','🔬','🧪','🫁','🦷','🦴','🧘','🏃','🚶','♿','🛏️','🧴','🩻','❤️‍🩹','🫶','🤲','🙏']},
+  {label:'💼 Бизнес',  icons:['💼','💰','💳','🏦','📊','💹','🏷️','🤝','⚖️','📜','🖋️','🔏','📮','📬','📭','📫','🏛️','🏗️','🏭','🔑','🗝️','🚪']},
+  {label:'🔧 Техника', icons:['💻','🖥️','🖨️','⌨️','🖱️','📱','☎️','📡','🔌','🔋','💾','💿','📀','🖲️','🔧','🔨','⚙️','🛠️','🔩','🪛','📡','🤖']},
+  {label:'🌍 Разное',  icons:['🌍','🌎','🌏','🗺️','✈️','🚗','🏠','🏡','🌲','🌿','🌸','🎯','🎪','🎨','🎭','🎬','🎵','🎶','📚','📖','🔭','🌈']},
+  {label:'⚠️ Важное',  icons:['⚠️','🚨','🔴','🟡','🟢','❗','❓','💡','🔥','⚡','🌊','💥','🛡️','🔒','🔓','🚫','✋','👆','☝️','💬','📢','🔔']},
+];
+let activeIconCat=0;
+function initIconPicker(){
+  const tabs=document.getElementById('iconTabs');
+  const grid=document.getElementById('iconGrid');
+  if(!tabs||!grid)return;
+  tabs.innerHTML=ICON_CATS.map((c,idx)=>'<button onclick="switchIconCat('+idx+')" id="ictab'+idx+'" style="border:none;background:'+(idx===activeIconCat?'var(--brand2)':'transparent')+';color:'+(idx===activeIconCat?'var(--brand)':'#667085')+';padding:8px 12px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0;border-bottom:'+(idx===activeIconCat?'2px solid var(--brand)':'2px solid transparent')+';font-family:inherit">'+c.label+'</button>').join('');
+  renderIconGrid();
+  // sync input → preview
+  const inp=document.getElementById('newSecIcon');
+  if(inp)inp.addEventListener('input',()=>{const v=inp.value.trim();if(v){const prev=document.getElementById('iconPreview');if(prev)prev.textContent=v;}});
+}
+function switchIconCat(idx){
+  activeIconCat=idx;
+  const tabs=document.getElementById('iconTabs');
+  if(tabs)tabs.querySelectorAll('button').forEach((b,i)=>{
+    b.style.background=i===idx?'var(--brand2)':'transparent';
+    b.style.color=i===idx?'var(--brand)':'#667085';
+    b.style.borderBottom=i===idx?'2px solid var(--brand)':'2px solid transparent';
+  });
+  renderIconGrid();
+}
+function renderIconGrid(){
+  const grid=document.getElementById('iconGrid');
+  if(!grid)return;
+  const cur=document.getElementById('newSecIcon')?.value.trim();
+  grid.innerHTML=ICON_CATS[activeIconCat].icons.map(ico=>
+    '<button onclick="selectIcon(\''+ico+'\')" title="'+ico+'" style="font-size:22px;width:40px;height:40px;border:2px solid '+(ico===cur?'var(--brand)':'transparent')+';border-radius:8px;background:'+(ico===cur?'var(--brand2)':'transparent')+';cursor:pointer;transition:.12s">'+ico+'</button>'
+  ).join('');
+}
+function selectIcon(ico){
+  const inp=document.getElementById('newSecIcon');
+  const prev=document.getElementById('iconPreview');
+  if(inp)inp.value=ico;
+  if(prev)prev.textContent=ico;
+  renderIconGrid();
+}
+window.switchIconCat=switchIconCat;
+window.selectIcon=selectIcon;
+
+// ══ TRAVEL PROFILE ══
+const TRAVEL_KEY='alexTravelProfile';
+const NOTE_PREFIX='alex_note_';
+function getTravelProfile(){try{return JSON.parse(localStorage.getItem(TRAVEL_KEY)||'{}')}catch(e){return {}}}
+function saveTravelProfile(){
+  const g=id=>(document.getElementById(id)||{}).value||'';
+  const lovesEl=document.getElementById('tp-loves');
+  const loves=lovesEl?Array.from(lovesEl.selectedOptions).map(o=>o.value).join(', '):'';
+  const p={transport:g('tp-transport'),from:g('tp-from'),to:g('tp-to'),days:g('tp-days'),loves,hates:g('tp-hates'),food:g('tp-food'),hotel:g('tp-hotel'),fromTime:g('tp-from-time'),toTime:g('tp-to-time'),budget:g('tp-budget'),with:g('tp-with'),extra:g('tp-extra')};
+  localStorage.setItem(TRAVEL_KEY,JSON.stringify(p));
+  document.getElementById('travelModal').classList.remove('open');
+  render();
+}
+function openTravelModal(){
+  const p=getTravelProfile();
+  const set=(id,v)=>{const el=document.getElementById(id);if(el)el.value=v||'';};
+  set('tp-transport',p.transport);set('tp-from',p.from);set('tp-to',p.to);set('tp-days',p.days);
+  // restore multi-select
+  const lovesEl=document.getElementById('tp-loves');
+  if(lovesEl&&p.loves){const vals=(p.loves||'').split(', ');Array.from(lovesEl.options).forEach(o=>o.selected=vals.includes(o.value));}set('tp-loves',p.loves);set('tp-hates',p.hates);
+  set('tp-food',p.food);set('tp-hotel',p.hotel);set('tp-from-time',p.fromTime);set('tp-to-time',p.toTime);
+  set('tp-budget',p.budget);set('tp-with',p.with);set('tp-extra',p.extra);
+  document.getElementById('travelModal').classList.add('open');
+}
+function buildCtx(s){
+  if(!s||s.id!=='travel')return '';
+  const p=getTravelProfile();
+  if(!p.from&&!p.loves)return '';
+  const lines=['--- Мой профиль путешественника ---'];
+  if(p.transport)lines.push('Передвижение: '+p.transport);
+  if(p.from)lines.push('Вылет из: '+p.from);
+  if(p.to)lines.push('Направление: '+p.to);
+  if(p.days)lines.push('Продолжительность: '+p.days);
+  if(p.with)lines.push('С кем: '+p.with);
+  if(p.loves)lines.push('Люблю: '+p.loves);
+  if(p.hates)lines.push('Не люблю: '+p.hates);
+  if(p.food)lines.push('Питание: '+p.food);
+  if(p.hotel)lines.push('Отель: '+p.hotel);
+  if(p.fromTime)lines.push('День с '+p.fromTime+(p.toTime?' до '+p.toTime:''));
+  if(p.budget)lines.push('Бюджет в день: '+p.budget);
+  if(p.extra)lines.push('Дополнительно: '+p.extra);
+  lines.push('---','','');
+  return lines.join('\n');
+}
+
+// ══ NOTES ══
+function toggleNote(card,itemId){
+  const area=card.querySelector('.note-area');
+  if(!area)return;
+  area.classList.toggle('open');
+  if(area.classList.contains('open')){const ta=area.querySelector('.note-ta');if(ta){ta.focus();ta.style.height='auto';ta.style.height=ta.scrollHeight+'px';}}
+}
+function saveNote(itemId,card){
+  const ta=card.querySelector('.note-ta');
+  const text=(ta&&ta.value||'').trim();
+  if(!text){alert('Напишите заметку');return;}
+  localStorage.setItem(NOTE_PREFIX+itemId,text);
+  const btn=card.querySelector('.note-toggle');
+  if(btn){btn.classList.add('has-note');btn.innerHTML='💬 ✓';}
+  let preview=card.querySelector('.note-preview');
+  if(!preview){preview=document.createElement('div');preview.className='note-preview';preview.onclick=()=>toggleNote(card,itemId);card.querySelector('.note-area').parentNode.insertBefore(preview,card.querySelector('.note-area'));}
+  preview.textContent=text;
+  const st=document.getElementById('note-status-'+itemId);
+  if(st){st.textContent='✓ Сохранено';setTimeout(()=>st.textContent='',2000);}
+}
+function deleteNote(itemId,card){
+  if(!confirm('Удалить заметку?'))return;
+  localStorage.removeItem(NOTE_PREFIX+itemId);
+  render();
+}
+document.addEventListener('input',e=>{if(e.target.classList.contains('note-ta')){e.target.style.height='auto';e.target.style.height=e.target.scrollHeight+'px';}});
+
+// ══ MOBILE ══
+function escM(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));}
+var mobStack=[],mobInited=false;
+function isMob(){return window.innerWidth<=800;}
+function mobInit(){
+  if(!window.data||!window.data.length)return;
+  mobInited=true;
+  document.getElementById('mobApp').style.display='flex';
+  history.pushState({mob:true}, '');
+  mobShowSections();
+  const orig=render;
+  window.render=function(){if(isMob())return;orig&&orig();};
+}
+function mobShowSections(q){
+  mobStack=[];
+  document.getElementById('mobTitle').textContent='📚 AI-библиотека';
+  document.getElementById('mobBack').style.display='none';
+  document.getElementById('mobSearchBar').style.display='block';
+  const screen=document.getElementById('mobScreen');
+  if(q&&q.trim()){
+    let html='<div class="mob-list">';
+    const results=[];
+    (window.data||[]).forEach(s=>{if(s.system||s.archived)return;(s.items||[]).forEach(i=>{if([i.title,i.text,(i.tags||[]).join(' ')].join(' ').toLowerCase().includes(q.toLowerCase()))results.push({s,i});});});
+    if(!results.length)html+='<div style="text-align:center;padding:40px;color:#667085">Ничего не найдено</div>';
+    else results.forEach(r=>{html+=mobRowHTML(r.s,r.i);});
+    html+='</div>';screen.innerHTML=html;return;
+  }
+  let html='<div class="mob-grid">';
+  (window.data||[]).forEach(s=>{if(s.archived||s.system)return;html+='<div class="mob-tile" onclick="mobShowPrompts(\''+escM(s.id)+'\')"><div class="t-ico">'+s.icon+'</div><div class="t-name">'+escM(s.title)+'</div><div class="t-count">'+(s.items||[]).length+'</div></div>';});
+  html+='</div>';screen.innerHTML=html;
+}
+function mobShowPrompts(secId){
+  const s=(window.data||[]).find(x=>x.id===secId);if(!s)return;
+  if(!mobStack.length || mobStack[mobStack.length-1].type !== 'sections'){
+    mobStack.push({type:'sections'});
+  }
+  history.pushState({mob:true,screen:'prompts',secId}, '');
+  document.getElementById('mobTitle').textContent=s.icon+' '+s.title;
+  document.getElementById('mobBack').style.display='block';
+  document.getElementById('mobSearchBar').style.display='none';
+  const travelBtn=s.id==='travel'?'<div style="padding:10px 12px 0"><button onclick="openTravelModal()" style="width:100%;background:linear-gradient(135deg,#0284c7,#06b6d4);border:none;color:#fff;border-radius:12px;padding:13px;font-size:15px;font-weight:700;font-family:inherit;cursor:pointer">✈️ Мой туристический профиль</button></div>':'';
+  let html=travelBtn+'<div class="mob-list">';
+  if(!s.items||!s.items.length)html+='<div style="text-align:center;padding:40px;color:#667085">Промптов нет</div>';
+  else s.items.forEach(i=>{html+=mobRowHTML(s,i);});
+  html+='</div>';document.getElementById('mobScreen').innerHTML=html;
+}
+function mobRowHTML(s,i){
+  const hasNote=!!localStorage.getItem(NOTE_PREFIX+i.id);
+  return '<div class="mob-prompt-row" onclick="mobShowPrompt(\''+escM(s.id)+'\',\''+escM(i.id)+'\')">'
+    +'<div class="mob-prompt-title">'+(i.favorite?'⭐ ':'')+escM(i.title)+(hasNote?' 💬':'')+'</div>'
+    +'<div class="mob-prompt-tags">'+(i.tags||[]).map(t=>'<span class="mob-prompt-tag">'+escM(t)+'</span>').join('')+'</div></div>';
+}
+function mobShowPrompt(secId,itemId){
+  const s=(window.data||[]).find(x=>x.id===secId);if(!s)return;
+  const i=(s.items||[]).find(x=>x.id===itemId);if(!i)return;
+  mobStack.push({type:'prompts',secId});
+  history.pushState({mob:true,screen:'prompt',secId,itemId}, '');
+  document.getElementById('mobTitle').textContent=i.title;
+  document.getElementById('mobBack').style.display='block';
+  document.getElementById('mobSearchBar').style.display='none';
+  const note=localStorage.getItem(NOTE_PREFIX+i.id)||'';
+  document.getElementById('mobScreen').innerHTML='<div class="mob-prompt-view">'
+    +'<div class="mob-pv-title">'+(i.favorite?'⭐ ':'')+escM(i.title)+'</div>'
+    +'<div class="mob-pv-text">'+escM(i.text)+'</div>'
+    +'<div class="mob-pv-actions"><button class="mob-btn-claude" onclick="mobClaude(\''+escM(secId)+'\',\''+escM(itemId)+'\')">🤖 Открыть в Claude</button></div>'
+    +'<div class="mob-copied" id="mobCopied"></div>'
+    +'<div class="mob-note-section"><div class="mob-note-label">💬 Личная заметка</div>'
+    +'<textarea class="mob-note-ta" id="mobNoteTA" placeholder="Напишите заметку...">'+escM(note)+'</textarea>'
+    +'<button class="mob-note-save" onclick="mobSaveNote(\''+escM(itemId)+'\')">💾 Сохранить заметку</button>'
+    +'<div class="mob-copied" id="mobNoteSaved"></div></div></div>';
+  document.getElementById('mobScreen').scrollTop=0;
+}
+function mobClaude(secId,itemId){
+  const s=(window.data||[]).find(x=>x.id===secId);
+  const i=s&&(s.items||[]).find(x=>x.id===itemId);if(!i)return;
+  i.useCount=(i.useCount||0)+1;if(window.save)window.save();
+  window.open('https://claude.ai/new?q='+encodeURIComponent(buildCtx(s)+i.text),'_blank');
+}
+function mobSaveNote(itemId){
+  const ta=document.getElementById('mobNoteTA');if(!ta)return;
+  const text=ta.value.trim();if(!text){alert('Напишите заметку');return;}
+  localStorage.setItem(NOTE_PREFIX+itemId,text);
+  const el=document.getElementById('mobNoteSaved');
+  if(el){el.textContent='✓ Сохранено!';setTimeout(()=>el.textContent='',2000);}
+}
+function mobGoBack(){
+  if(!mobStack.length){
+    // Already at top — just show sections, never exit
+    mobShowSections();
+    return;
+  }
+  const prev=mobStack.pop();
+  if(prev.type==='sections') mobShowSections();
+  else if(prev.type==='prompts') mobShowPrompts(prev.secId);
+}
+function mobSearch(q){if(q.trim())mobShowSections(q);else mobShowSections();}
+
+setTimeout(()=>{if(isMob()){var t=0;function ti(){if(window.data&&window.data.length)mobInit();else if(t++<20)setTimeout(ti,100);}ti();}},150);
+
+// Intercept browser back button on mobile
+window.addEventListener('popstate', function(e){
+  if(!isMob()) return;
+  e.preventDefault();
+  mobGoBack();
+  // Push state again to keep intercepting
+  history.pushState({mob:true}, '');
+});
+
+// Push initial state when mobile inits
+function mobPushState(){
+  if(isMob()) history.pushState({mob:true}, '');
+}
+window.addEventListener('resize',()=>{const a=document.getElementById('mobApp');if(a)a.style.display=isMob()?'flex':'none';});
+
+window.mobShowPrompts=mobShowPrompts;window.mobShowPrompt=mobShowPrompt;window.mobGoBack=mobGoBack;
+window.mobSearch=mobSearch;window.mobClaude=mobClaude;window.mobSaveNote=mobSaveNote;
+window.saveTravelProfile=saveTravelProfile;window.openTravelModal=openTravelModal;
+window.toggleNote=toggleNote;window.saveNote=saveNote;window.deleteNote=deleteNote;
+window.openModal=openModal;window.closeModal=closeModal;
+
+render();
+})();
+</script>
+</body></html>
