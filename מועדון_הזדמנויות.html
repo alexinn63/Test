@@ -1,0 +1,593 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>מועדון הזדמנויות — מרכז המשך שיקום חברתי</title>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:  #0f2742;
+    --navy2: #14395f;
+    --teal:  #0b7a75;
+    --teal2: #e4f4f3;
+    --gold:  #c9a84c;
+    --gold2: #fff8e5;
+    --ink:   #1c2b3a;
+    --muted: #5b6b7a;
+    --line:  #d8e4ee;
+    --bg:    #eaf0f7;
+    --card:  #ffffff;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Rubik', Arial, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.6;
+    font-size: 16px;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* ── TOOLBAR ── */
+  .toolbar {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: var(--navy);
+    padding: 12px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    box-shadow: 0 4px 16px rgba(0,0,0,.22);
+  }
+
+  .toolbar button {
+    border: 0;
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-size: 15px;
+    font-weight: 700;
+    font-family: 'Rubik', Arial, sans-serif;
+    cursor: pointer;
+    transition: opacity .15s;
+  }
+  .toolbar button:hover { opacity: .85; }
+  .btn-print { background: var(--gold); color: var(--navy); }
+  .btn-back  { background: rgba(255,255,255,.12); color: #fff; font-weight: 400; font-size: 14px; }
+
+  /* ── WRAP ── */
+  .wrap {
+    max-width: 900px;
+    margin: 28px auto;
+    padding: 0 20px 60px;
+  }
+
+  /* ── PAGE CARD ── */
+  .page {
+    background: var(--card);
+    border-radius: 24px;
+    box-shadow: 0 16px 48px rgba(15,39,66,.14), 0 2px 8px rgba(15,39,66,.06);
+    overflow: hidden;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy2) 55%, #0f4a44 100%);
+    padding: 44px 48px 38px;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: "";
+    position: absolute;
+    top: -60px; left: -60px;
+    width: 220px; height: 220px;
+    background: radial-gradient(circle, rgba(201,168,76,.22) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-badge {
+    display: inline-block;
+    background: rgba(201,168,76,.18);
+    border: 1px solid rgba(201,168,76,.4);
+    color: var(--gold);
+    border-radius: 999px;
+    padding: 5px 14px;
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 18px;
+    letter-spacing: .3px;
+  }
+
+  .hero h1 {
+    font-size: 30px;
+    font-weight: 800;
+    line-height: 1.25;
+    margin-bottom: 10px;
+    letter-spacing: -.3px;
+  }
+
+  .hero .sub {
+    font-size: 17px;
+    color: rgba(255,255,255,.72);
+    font-weight: 300;
+    margin-bottom: 26px;
+  }
+
+  .model-flow {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .flow-pill {
+    background: rgba(255,255,255,.13);
+    border: 1px solid rgba(255,255,255,.25);
+    border-radius: 999px;
+    padding: 7px 14px;
+    font-weight: 700;
+    font-size: 14px;
+  }
+
+  .flow-pill.good {
+    background: rgba(201,168,76,.2);
+    border-color: rgba(201,168,76,.4);
+    color: #fff3cc;
+  }
+
+  .flow-arrow {
+    color: var(--gold);
+    font-weight: 900;
+    font-size: 18px;
+    opacity: .8;
+  }
+
+  /* ── CONTENT ── */
+  .content {
+    padding: 40px 48px 48px;
+  }
+
+  .section {
+    margin-bottom: 36px;
+  }
+
+  /* ── HEADINGS ── */
+  h2 {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--teal2);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  h2 .h2-accent {
+    width: 6px;
+    height: 24px;
+    border-radius: 4px;
+    background: linear-gradient(180deg, var(--teal), var(--gold));
+    flex-shrink: 0;
+    display: inline-block;
+  }
+
+  h3 {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--teal);
+    margin-bottom: 10px;
+  }
+
+  p { margin-bottom: 12px; font-size: 15px; }
+
+  /* ── LEAD TEXT ── */
+  .lead {
+    font-size: 16px;
+    color: #263445;
+    line-height: 1.7;
+  }
+
+  /* ── CONCEPT BOX ── */
+  .concept-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-top: 6px;
+  }
+
+  .concept-bad, .concept-good {
+    border-radius: 16px;
+    padding: 18px 20px;
+    font-weight: 700;
+    font-size: 15px;
+    line-height: 1.55;
+  }
+
+  .concept-bad {
+    background: #fff5f5;
+    border: 1px solid #ffd2cf;
+    color: #7a1f1a;
+  }
+
+  .concept-good {
+    background: #f0fff6;
+    border: 1px solid #b9f0cc;
+    color: #145a2e;
+  }
+
+  /* ── ACTIVITY GRID ── */
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+
+  .activity-card {
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 18px 20px;
+    background: #f8fbff;
+    border-top: 3px solid var(--teal);
+  }
+
+  .activity-card ul {
+    padding-right: 18px;
+    margin-top: 8px;
+  }
+
+  .activity-card li {
+    font-size: 14px;
+    margin: 5px 0;
+    color: var(--ink);
+  }
+
+  /* ── CHECKLIST ── */
+  .checklist {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px 24px;
+    margin-top: 6px;
+  }
+
+  .checklist li {
+    font-size: 15px;
+    padding-right: 26px;
+    position: relative;
+    line-height: 1.5;
+  }
+
+  .checklist li::before {
+    content: "✓";
+    position: absolute;
+    right: 0;
+    color: var(--teal);
+    font-weight: 900;
+  }
+
+  /* ── QUOTE ── */
+  .quote {
+    border-right: 5px solid var(--teal);
+    background: var(--teal2);
+    padding: 18px 22px;
+    border-radius: 14px;
+    font-size: 17px;
+    font-weight: 700;
+    color: #0a3e3b;
+    line-height: 1.55;
+    margin: 12px 0;
+  }
+
+  /* ── SCORES TABLE ── */
+  .scores-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    margin-top: 12px;
+    font-size: 15px;
+  }
+
+  .scores-table th {
+    background: var(--navy);
+    color: #fff;
+    font-weight: 700;
+    padding: 13px 16px;
+    text-align: right;
+  }
+
+  .scores-table td {
+    padding: 13px 16px;
+    border-bottom: 1px solid var(--line);
+    text-align: right;
+    vertical-align: top;
+  }
+
+  .scores-table tr:last-child td { border-bottom: 0; }
+  .scores-table tr:nth-child(even) td { background: #f7fbff; }
+
+  .score-val {
+    font-weight: 800;
+    color: var(--teal);
+    font-size: 17px;
+    white-space: nowrap;
+  }
+
+  /* ── FINAL SCORE ── */
+  .final-score {
+    text-align: center;
+    margin: 18px 0;
+    padding: 28px 20px;
+    border-radius: 20px;
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy2) 50%, #0f4a44 100%);
+    color: #fff;
+  }
+
+  .final-score .label { font-size: 15px; opacity: .75; margin-bottom: 6px; }
+  .final-score .num   { font-size: 52px; font-weight: 800; color: var(--gold); line-height: 1; }
+  .final-score .sub   { font-size: 14px; opacity: .65; margin-top: 8px; font-weight: 300; }
+
+  /* ── DECISION ── */
+  .decision {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 12px;
+  }
+
+  .decision-item {
+    border-radius: 14px;
+    padding: 14px 16px;
+    font-weight: 700;
+    font-size: 15px;
+    border: 1px solid var(--line);
+    background: #f8fbff;
+  }
+
+  .decision-item.yes { background: #f0fff6; border-color: #b9f0cc; color: #145a2e; }
+  .decision-item.no  { background: #fff5f5; border-color: #ffd2cf; color: #7a1f1a; }
+
+  /* ── FOOTER ── */
+  .doc-footer {
+    padding: 18px 48px;
+    background: #f4f8fc;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 300;
+    text-align: center;
+  }
+
+  /* ── PRINT ── */
+  @page { size: A4; margin: 14mm; }
+
+  @media print {
+    body { background: #fff; font-size: 14px; }
+    .toolbar { display: none; }
+    .wrap { margin: 0; padding: 0; max-width: none; }
+    .page { box-shadow: none; border-radius: 0; }
+    .hero { border-radius: 0; padding: 28px 32px; }
+    .hero h1 { font-size: 24px; }
+    .content { padding: 28px 32px; }
+    h2 { font-size: 19px; }
+    .section { margin-bottom: 24px; break-inside: avoid; }
+    .activity-card, .concept-bad, .concept-good, .final-score { break-inside: avoid; }
+    .grid-2 { gap: 10px; }
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 700px) {
+    .hero { padding: 28px 24px; }
+    .hero h1 { font-size: 23px; }
+    .content { padding: 28px 22px; }
+    .concept-row, .grid-2, .decision, .checklist { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <button class="btn-back" onclick="history.back()">← חזרה</button>
+  <button class="btn-print" onclick="window.print()">הדפסה / שמירה כ-PDF</button>
+</div>
+
+<div class="wrap">
+  <article class="page">
+
+    <!-- HERO -->
+    <header class="hero">
+      <div class="hero-badge">הצעה לפרויקט פיילוט · מפעל מוגן שיקומי</div>
+      <h1>מועדון הזדמנויות</h1>
+      <p class="sub">מרכז המשך שיקום חברתי והתפתחות לאחר יום העבודה</p>
+      <div class="model-flow">
+        <span class="flow-pill">עבודה</span>
+        <span class="flow-arrow">→</span>
+        <span class="flow-pill">חזרה הביתה</span>
+        <span class="flow-arrow">→</span>
+        <span class="flow-pill">בידוד</span>
+        <span class="flow-arrow" style="margin: 0 4px; opacity:.4">|</span>
+        <span class="flow-pill good">עבודה</span>
+        <span class="flow-arrow">→</span>
+        <span class="flow-pill good">קהילה</span>
+        <span class="flow-arrow">→</span>
+        <span class="flow-pill good">התפתחות</span>
+        <span class="flow-arrow">→</span>
+        <span class="flow-pill good">עצמאות</span>
+      </div>
+    </header>
+
+    <section class="content">
+
+      <!-- תיאור -->
+      <div class="section">
+        <h2><span class="h2-accent"></span>תיאור הפרויקט</h2>
+        <p class="lead">שימוש במרחב הקיים של המפעל המוגן השיקומי לאחר סיום יום העבודה, לצורך יצירת סביבה של התפתחות, למידה, תקשורת חברתית ופעילות משמעותית.</p>
+        <p>לאחר סיום העבודה, המשתתפים יוכלו לבחור להישאר באופן רצוני במרחב בטוח ומוכר, שבו יוצעו פעילויות בתחומים שונים: פיתוח מיומנויות, יצירה, למידה, פעילויות חברתיות והשתתפות בקהילה.</p>
+        <p>מטרת הפרויקט אינה רק פנאי, אלא צמצום בידוד חברתי, חיזוק עצמאות, פיתוח כישורים ושיפור איכות החיים.</p>
+      </div>
+
+      <!-- רעיון מרכזי -->
+      <div class="section">
+        <h2><span class="h2-accent"></span>הרעיון המרכזי</h2>
+        <div class="concept-row">
+          <div class="concept-bad">עבודה → חזרה הביתה → בידוד</div>
+          <div class="concept-good">עבודה → השתתפות → התפתחות → רכישת מיומנויות → קשרים חברתיים → חיזוק עצמאות</div>
+        </div>
+      </div>
+
+      <!-- תחומי פעילות -->
+      <div class="section">
+        <h2><span class="h2-accent"></span>תחומי הפעילות</h2>
+        <div class="grid-2">
+
+          <div class="activity-card">
+            <h3>1. פעילויות חברתיות ופנאי</h3>
+            <p style="font-size:13px;color:var(--muted);margin-bottom:4px"><strong>מטרה:</strong> יצירת מרחב בטוח לתקשורת וחיזוק קשרים חברתיים.</p>
+            <ul><li>שחמט</li><li>שש-בש</li><li>דמקה</li><li>דומינו</li><li>טניס שולחן</li><li>חידונים ומשחקי שולחן</li></ul>
+          </div>
+
+          <div class="activity-card">
+            <h3>2. פיתוח מיומנויות דיגיטליות</h3>
+            <p style="font-size:13px;color:var(--muted);margin-bottom:4px"><strong>מטרה:</strong> חיזוק עצמאות והתמודדות עם החיים המודרניים.</p>
+            <ul><li>אוריינות מחשבים</li><li>שימוש בבינה מלאכותית (AI)</li><li>Canva ועיצוב גרפי בסיסי</li><li>סמארטפונים ו-Excel</li><li>שירותים ממשלתיים דיגיטליים</li><li>קניות באינטרנט</li><li>התנהלות פיננסית בסיסית</li></ul>
+          </div>
+
+          <div class="activity-card">
+            <h3>3. תחומי יצירה</h3>
+            <p style="font-size:13px;color:var(--muted);margin-bottom:4px"><strong>מטרה:</strong> ביטוי עצמי, פיתוח תחומי עניין וחיזוק ביטחון עצמי.</p>
+            <ul><li>ציור ועבודות יצירה</li><li>אוריגמי</li><li>צילום ועריכת וידאו</li><li>גרפיקה</li><li>קסמים</li></ul>
+          </div>
+
+          <div class="activity-card">
+            <h3>4. מיומנויות לחיים</h3>
+            <p style="font-size:13px;color:var(--muted);margin-bottom:4px"><strong>מטרה:</strong> חיזוק עצמאות והכנה להתמודדות יומיומית.</p>
+            <ul><li>ניהול תקציב ובריאות</li><li>יחסים בין-אישיים</li><li>הכנה לראיונות עבודה</li><li>כישורי חיים</li><li>עצמאות בחיי היומיום</li></ul>
+          </div>
+
+          <div class="activity-card">
+            <h3>5. משתתפים כמובילי פעילויות</h3>
+            <p style="font-size:13px;color:var(--muted);margin-bottom:4px">המשתתפים משתפים ידע וניסיון אישי — מעבר מתפקיד של מקבל שירות לאדם תורם ומשפיע.</p>
+            <ul><li>העברת סדנאות קצרות</li><li>לימוד מיומנויות</li><li>מפגשים בנושאים אישיים</li><li>שיתוף ניסיון חיים</li></ul>
+          </div>
+
+          <div class="activity-card">
+            <h3>6. פורמט "אורח מומחה"</h3>
+            <p style="font-size:13px;color:var(--muted);margin-bottom:4px">מפגשים תקופתיים עם אנשי מקצוע ואנשים בעלי ניסיון.</p>
+            <ul><li>יצירה וטכנולוגיה</li><li>צילום ומשחקים</li><li>כישורים מעשיים</li><li>ניסיון מקצועי</li></ul>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- השפעות -->
+      <div class="section">
+        <h2><span class="h2-accent"></span>השפעות צפויות</h2>
+        <ul class="checklist">
+          <li>צמצום בידוד חברתי</li>
+          <li>חיזוק קשרים חברתיים</li>
+          <li>פיתוח מיומנויות חדשות</li>
+          <li>חיזוק עצמאות</li>
+          <li>הגברת מעורבות המשתתפים</li>
+          <li>חיזוק תחושת שייכות</li>
+          <li>הרחבת אפשרויות להתפתחות אישית</li>
+          <li>שיפור ביטחון עצמי</li>
+        </ul>
+      </div>
+
+      <!-- ייחודיות -->
+      <div class="section">
+        <h2><span class="h2-accent"></span>ייחודיות הפרויקט</h2>
+        <p>הפרויקט משלב מספר מרכיבים יחד ויוצר סביבת שיקום והתפתחות מתמשכת גם לאחר שעות העבודה:</p>
+        <ul class="checklist">
+          <li>שיקום תעסוקתי</li>
+          <li>למידה ופיתוח מיומנויות</li>
+          <li>תמיכה חברתית</li>
+          <li>יצירה וביטוי עצמי</li>
+          <li>השתתפות פעילה של המשתתפים</li>
+          <li>שימוש בתשתיות קיימות</li>
+        </ul>
+      </div>
+
+      <!-- הפעלה -->
+      <div class="section">
+        <h2><span class="h2-accent"></span>אופן ההפעלה המומלץ</h2>
+        <div class="activity-card" style="border-top-color:var(--gold)">
+          <h3>שלב ראשון: פיילוט מוגבל בזמן</h3>
+          <p>הפעלה מספר ימים בשבוע, עם הערכת השתתפות, ביקוש, התאמת הפעילויות לצרכים והשפעה על המשתתפים.</p>
+        </div>
+      </div>
+
+      <!-- סיכום -->
+      <div class="section">
+        <h2><span class="h2-accent"></span>סיכום</h2>
+        <p>הפרויקט מציע שימוש במשאבים ובתשתיות הקיימות לצורך יצירת מסגרת נוספת של למידה, התפתחות ותמיכה לאחר שעות העבודה.</p>
+        <div class="quote">לאפשר למשתתפים להמשיך להתפתח, לרכוש מיומנויות, לחזק קשרים חברתיים ולהישאר פעילים בתוך קהילה תומכת.</div>
+      </div>
+
+      <!-- הערכה -->
+      <div class="section">
+        <h2><span class="h2-accent"></span>הערכת הפרויקט</h2>
+        <table class="scores-table">
+          <thead>
+            <tr><th>תחום</th><th>ציון</th><th>הסבר קצר</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>חדשנות</td><td class="score-val">7/10</td><td>שילוב בין שיקום, פיתוח מיומנויות והשתתפות פעילה יוצר מודל רחב יותר מהמקובל.</td></tr>
+            <tr><td>היתכנות ליישום</td><td class="score-val">9/10</td><td>ניתן להפעיל על בסיס התשתית הקיימת ללא השקעות ראשוניות גבוהות.</td></tr>
+            <tr><td>תועלת</td><td class="score-val">10/10</td><td>פוטנציאל גבוה להפחתת בידוד חברתי, חיזוק מיומנויות והעצמת תהליך השיקום.</td></tr>
+            <tr><td>סיכון לכישלון</td><td class="score-val">5/10</td><td>הסיכון המרכזי: מעורבות נמוכה או הפיכת הפעילות לפנאי בלבד ללא התפתחות.</td></tr>
+            <tr><td>פוטנציאל להרחבה</td><td class="score-val">8/10</td><td>בהצלחת הפיילוט ניתן להתאים ולהרחיב את המודל לארגונים נוספים.</td></tr>
+            <tr><td>התאמה לארגון</td><td class="score-val">10/10</td><td>הפרויקט תואם ישירות את מטרות השיקום החברתי והתעסוקתי של הארגון.</td></tr>
+          </tbody>
+        </table>
+
+        <div class="final-score">
+          <div class="label">הערכה כללית של הפרויקט</div>
+          <div class="num">8.8 / 10</div>
+          <div class="sub">פוטנציאל יישום גבוה — ראוי לפיילוט מוגבל והערכת תוצאות</div>
+        </div>
+      </div>
+
+      <!-- החלטה -->
+      <div class="section">
+        <h2><span class="h2-accent"></span>החלטה מסכמת</h2>
+        <div class="decision">
+          <div class="decision-item no">לבטל את הרעיון ❌</div>
+          <div class="decision-item yes">לשנות ולשפר ✅</div>
+          <div class="decision-item yes">לבחון בפיילוט ✅</div>
+          <div class="decision-item no">להפעיל באופן מלא מיד ❌</div>
+        </div>
+      </div>
+
+      <!-- מסקנה -->
+      <div class="section">
+        <h2><span class="h2-accent"></span>מסקנה</h2>
+        <p>לפרויקט פוטנציאל גבוה בזכות שילוב של שיקום, פיתוח מיומנויות, תמיכה חברתית והשתתפות פעילה של המשתתפים.</p>
+        <div class="quote">לשמור על מיקוד בהתפתחות, עצמאות והשתתפות — ולא להפוך את הפעילות למסגרת פנאי בלבד.</div>
+        <p style="margin-top:14px"><strong>השלב הבא המומלץ:</strong> הפעלת פיילוט מוגבל והערכת תוצאות, השתתפות והשפעה.</p>
+      </div>
+
+    </section>
+
+    <footer class="doc-footer">
+      עמותת יחדיו · באר שבע · הנגב · 2026 — מועדון הזדמנויות
+    </footer>
+
+  </article>
+</div>
+
+</body>
+</html>
