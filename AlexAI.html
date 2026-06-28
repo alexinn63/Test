@@ -22,7 +22,7 @@ button{border:0;border-radius:13px;padding:10px 13px;background:var(--brand);col
 #promptOverlay.open{display:flex;align-items:stretch;justify-content:stretch;}
 #promptOverlayBox{background:#fff;width:100%;height:100%;display:flex;flex-direction:column;overflow:hidden;}
 #promptOverlayHead{display:flex;justify-content:space-between;align-items:center;padding:14px 20px;border-bottom:1px solid var(--line);gap:12px;flex-shrink:0;background:#fff;}
-#promptOverlayTitle{font-size:18px;font-weight:800;color:var(--ink);flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+#promptOverlayTitle{font-size:18px;font-weight:800;color:var(--ink);flex:1;border:none;outline:none;background:transparent;font-family:inherit;padding:4px 6px;border-radius:8px;min-width:0;cursor:text;}#promptOverlayTitle:hover{background:#f0f4fa;}#promptOverlayTitle:focus{background:#e8f0fb;box-shadow:0 0 0 2px var(--brand,#2563eb)44;}
 #promptOverlayActions{display:flex;gap:8px;flex-wrap:nowrap;align-items:center;flex-shrink:0;}
 #promptOverlayTA{flex:1;border:none;padding:24px 28px;font-size:15px;line-height:1.75;color:var(--ink);resize:none;outline:none;font-family:Arial,"Segoe UI",sans-serif;background:#fafcff;overflow-y:auto;width:100%;}
 #promptOverlayStatus{height:24px;font-size:13px;color:var(--ok);padding:0 20px 8px;font-weight:600;flex-shrink:0;}
@@ -229,7 +229,7 @@ button{border:0;border-radius:13px;padding:10px 13px;background:var(--brand);col
 <div id="promptOverlay">
   <div id="promptOverlayBox">
     <div id="promptOverlayHead">
-      <div id="promptOverlayTitle"></div>
+      <input id="promptOverlayTitle" type="text" title="Нажмите для редактирования названия" />
       <div id="promptOverlayActions">
         <button class="btn-claude" id="ovrClaudeBtn">🤖 Claude</button>
         <button class="small" id="ovrCopyBtn">📋 Скопировать</button>
@@ -2010,7 +2010,7 @@ let ovrSec=null,ovrItem=null;
 function openPromptOverlay(sid,iid){
   const s=section(sid),i=item(sid,iid);if(!s||!i)return;
   ovrSec=sid;ovrItem=iid;
-  document.getElementById('promptOverlayTitle').textContent=(i.favorite?'⭐ ':'')+i.title+' · '+s.icon+' '+s.title;
+  document.getElementById('promptOverlayTitle').value=(i.favorite?'⭐ ':'')+i.title;
   document.getElementById('promptOverlayTA').value=i.text||'';
   document.getElementById('promptOverlayStatus').textContent='';
   document.getElementById('promptOverlay').classList.add('open');
@@ -2028,10 +2028,17 @@ document.getElementById('ovrSaveBtn').addEventListener('click',function(){
   if(!ovrSec||!ovrItem)return;
   const i=item(ovrSec,ovrItem);if(!i)return;
   i.text=document.getElementById('promptOverlayTA').value;
+  // сохраняем новое название (убираем возможный префикс ⭐)
+  const newTitle=document.getElementById('promptOverlayTitle').value.replace(/^⭐\s*/,'').trim();
+  if(newTitle) i.title=newTitle;
   save();
   // sync textarea in card if visible
   const card=document.querySelector('.card[data-sec="'+ovrSec+'"][data-item="'+ovrItem+'"]');
-  if(card){const ta=card.querySelector('textarea.prompt-area');if(ta)ta.value=i.text;if(card.querySelector('.print-text'))card.querySelector('.print-text').textContent=i.text;}
+  if(card){
+    const ta=card.querySelector('textarea.prompt-area');if(ta)ta.value=i.text;
+    if(card.querySelector('.print-text'))card.querySelector('.print-text').textContent=i.text;
+    const h3=card.querySelector('h3');if(h3)h3.textContent=i.title;
+  }
   const st=document.getElementById('promptOverlayStatus');
   st.textContent='✓ Сохранено';setTimeout(()=>st.textContent='',2000);
 });
@@ -2060,7 +2067,7 @@ let moveSec=null,moveItm=null;
 function openMoveModal(sid,iid){
   moveSec=sid;moveItm=iid;
   const sel=document.getElementById('moveTarget');
-  sel.innerHTML=realSections().filter(s=>!s.archived&&s.id!==sid).map(s=>'<option value="'+esc(s.id)+'">'+esc(s.icon+' '+s.title)+'</option>').join('');
+  sel.innerHTML=data.filter(s=>!s.archived&&s.id!==sid&&s.id!=='guide'&&s.id!=='builder').map(s=>'<option value="'+esc(s.id)+'">'+esc(s.icon+' '+s.title)+'</option>').join('');
   document.getElementById('moveCopy').checked=false;
   document.getElementById('moveModal').classList.add('open');
 }
